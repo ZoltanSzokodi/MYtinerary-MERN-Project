@@ -13,7 +13,7 @@ import { withStyles } from '@material-ui/core/styles'
 
 const styles = {
   root: {
-    backgroundImage: 'linear-gradient(to bottom, #ffffff 50%, #f2f1fb 75%, #e4e4f8 85%)',
+    backgroundImage: 'linear-gradient(to bottom, #ffffff 50%, #f2f1fb 75%)',
     minHeight: '102vh',
     overflow: 'hidden'
   },

@@ -1,6 +1,8 @@
 import React, { useEffect, useReducer } from 'react'
 import axios from 'axios'
 
+import Loader from '../components/Loader'
+
 const initialState = {
   loading: true,
   cities: [],
@@ -52,11 +54,11 @@ const Cities = () => {
 
   return (
     <div>
-      <h1>CITIES</h1>
-      {state.loading ? 'fetching data...' : state.cities.map(city => (
+      <Loader />
+      {/* {state.loading ? <Loader /> : state.cities.map(city => (
         <h4 key={city._id}>{city.name}</h4>
       ))}
-      {state.error && state.error}
+      {state.error && state.error} */}
     </div>
   )
 }
