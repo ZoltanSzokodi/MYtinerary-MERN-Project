@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`landing component snapshot with Enzyme 1`] = `
+<Landing
+  classes={
+    Object {
+      "itineraryLogo": "Landing-itineraryLogo-2",
+      "root": "Landing-root-1",
+      "startBrowsing": "Landing-startBrowsing-4",
+    }
+  }
+/>
+`;
