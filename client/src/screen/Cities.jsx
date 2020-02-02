@@ -35,30 +35,33 @@ const Cities = () => {
     axios.get('http://localhost:5000/cities/all')
       .then(res => {
         console.log(res.data)
-        dispatch(
-          {
-            type: 'FETCH_SUCCESS',
-            payload: res.data
-          }
-        )
+        setTimeout(() => {
+          dispatch(
+            {
+              type: 'FETCH_SUCCESS',
+              payload: res.data
+            }
+          )
+        }, 1000)
       })
       .catch(err => {
-        dispatch(
-          {
-            type: 'FETCH_FAILED',
-            payload: err.message
-          }
-        )
+        setTimeout(() => {
+          dispatch(
+            {
+              type: 'FETCH_FAILED',
+              payload: err.message
+            }
+          )
+        }, 1000)
       })
   }, [])
 
   return (
     <div>
-      <Loader />
-      {/* {state.loading ? <Loader /> : state.cities.map(city => (
+      {state.loading ? <Loader /> : state.cities.map(city => (
         <h4 key={city._id}>{city.name}</h4>
       ))}
-      {state.error && state.error} */}
+      {state.error && state.error}
     </div>
   )
 }
