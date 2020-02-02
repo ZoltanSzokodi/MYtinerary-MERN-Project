@@ -26,7 +26,7 @@ router.post('/',
         res.send(city)
       })
       .catch(err => {
-        res.status(500).send('Server erroe')
+        res.status(500).send('Server error')
       })
   });
 
