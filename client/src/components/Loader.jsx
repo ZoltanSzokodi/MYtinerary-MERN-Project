@@ -42,7 +42,7 @@ const styles = {
       backgroundColor: 'transparent',
       top: '10%',
       left: '10%',
-      boxShadow: '5px -8px 0 rgba(255,100,100,0.8), 8px 5px 0 rgba(100,255,100,0.8),-3px 8px 0 rgba(100,100,255,0.8), -8px -5px 0 rgba(240, 240, 120, 0.9)',
+      boxShadow: '5px -8px 0 rgba(235,6,117,0.8), 8px 5px 0 rgba(26,170,172,0.8),-3px 8px 0 rgba(18,119,189,0.8), -8px -5px 0 rgba(255,203,49,0.9)',
     },
     // '&:after': {
     //   content: "''",
@@ -62,7 +62,7 @@ const Loader = ({ classes }) => {
   return (
     <Grow in timeout={500}>
       <div className={classes.container}>
-        <h2>Loading</h2>
+        <h2>L o a d i n g</h2>
         <div className={`${classes.loader} ${classes.loader9}`}></div>
       </div>
     </Grow>

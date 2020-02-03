@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { fade, makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -12,6 +12,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormGroup from '@material-ui/core/FormGroup'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
+
+import { citiesContext } from '../context/CitiesContext'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,11 +62,13 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const MenuAppBar = ({ handleFilter }) => {
-  const classes = useStyles();
+const MenuAppBar = () => {
+  const classes = useStyles()
 
-  const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const { handleFilter } = useContext(citiesContext)
+
+  const [auth, setAuth] = useState(true);
+  const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const handleChange = event => {

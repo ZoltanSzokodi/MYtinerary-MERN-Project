@@ -15,6 +15,9 @@ const useStyles = makeStyles({
   media: {
     height: '300px',
   },
+  typographyRoot: {
+    textTransform: 'capitalize'
+  }
 })
 
 function CityCard({ name, country, img }) {
@@ -29,7 +32,7 @@ function CityCard({ name, country, img }) {
           title="Contemplative Reptile"
         /> */}
         <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography gutterBottom variant="h5" component="h2" classes={{ root: classes.typographyRoot }}>
             {name} - {country}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
