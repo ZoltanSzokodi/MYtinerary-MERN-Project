@@ -1,8 +1,17 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import axios from 'axios'
+import Grid from '@material-ui/core/Grid'
+import { makeStyles } from '@material-ui/core/styles';
 
 import Loader from '../components/Loader'
 import MenuAppBar from '../components/MenuAppBar'
+import CityCard from '../components/CityCard'
+
+const useStyles = makeStyles({
+  root: {
+
+  }
+})
 
 /*
 ----------------- IMPORTANT -----------------
@@ -39,6 +48,8 @@ const reducer = (data, action) => {
 }
 
 const Cities = () => {
+  const classes = useStyles()
+
   const [data, dispatch] = useReducer(reducer, initialData)
   const [cities, setCities] = useState([])
 
@@ -100,12 +111,28 @@ const Cities = () => {
   }
 
   return (
-    <div>
+    <Grid container>
       {data.loading && <Loader />}
       {!data.loading && <MenuAppBar handleFilter={handleFilter} />}
-      {!data.loading && cities.map(city => <h4 key={city._id}>{city.name}</h4>)}
+      {!data.loading && (
+        // <ul>
+        //   {cities.map(city => <li key={city._id}>{city.name}</li>)}
+        // </ul>
+        <Grid item container spacing={2}>
+          {cities.map(city => (
+            <Grid item key={city._id}>
+              <CityCard
+                key={city._id}
+                name={city.name}
+                country={city.country}
+                img={city.img}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      )}
       {data.error && data.error}
-    </div>
+    </Grid>
   )
 }
 
