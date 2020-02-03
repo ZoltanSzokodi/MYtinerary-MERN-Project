@@ -13,7 +13,9 @@ const App = () => {
       <Container maxWidth={'sm'} disableGutters>
         <BrowserRouter>
           <Switch>
-            <Route exact path='/' component={Landing} />
+            <Route exact path='/'>
+              <Landing />
+            </Route>
             <Route exact path='/cities' component={Cities} />
           </Switch>
         </BrowserRouter>

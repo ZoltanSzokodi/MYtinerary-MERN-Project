@@ -1,17 +1,10 @@
 import React, { useEffect, useReducer, useState } from 'react'
 import axios from 'axios'
 import Grid from '@material-ui/core/Grid'
-import { makeStyles } from '@material-ui/core/styles';
 
 import Loader from '../components/Loader'
 import MenuAppBar from '../components/MenuAppBar'
 import CityCard from '../components/CityCard'
-
-const useStyles = makeStyles({
-  root: {
-
-  }
-})
 
 /*
 ----------------- IMPORTANT -----------------
@@ -48,7 +41,6 @@ const reducer = (data, action) => {
 }
 
 const Cities = () => {
-  const classes = useStyles()
 
   const [data, dispatch] = useReducer(reducer, initialData)
   const [cities, setCities] = useState([])
@@ -83,14 +75,6 @@ const Cities = () => {
     fetchCities()
   }, [])
 
-  // const handleFilter = event => {
-  //   const allCities = [...data.cities]
-  //   const filteredCities = allCities.filter(city => (
-  //     city.name.indexOf(event.target.value.toLowerCase()) !== -1
-  //   ))
-  //   setCities(filteredCities)
-  // }
-
   const handleFilter = event => {
     let allCities = []
     let filteredCities = []
@@ -115,12 +99,9 @@ const Cities = () => {
       {data.loading && <Loader />}
       {!data.loading && <MenuAppBar handleFilter={handleFilter} />}
       {!data.loading && (
-        // <ul>
-        //   {cities.map(city => <li key={city._id}>{city.name}</li>)}
-        // </ul>
         <Grid item container spacing={2}>
           {cities.map(city => (
-            <Grid item key={city._id}>
+            <Grid item container justify='center' key={city._id}>
               <CityCard
                 key={city._id}
                 name={city.name}
