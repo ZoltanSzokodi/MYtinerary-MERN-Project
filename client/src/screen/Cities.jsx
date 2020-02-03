@@ -43,9 +43,11 @@ const Cities = () => {
   const [cities, setCities] = useState([])
 
   useEffect(() => {
-    axios.get('http://localhost:5000/cities/all')
-      .then(res => {
+    const fetchCities = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/cities/all')
         console.log(res.data)
+
         setTimeout(() => {
           setCities(res.data)
           dispatch(
@@ -55,8 +57,8 @@ const Cities = () => {
             }
           )
         }, 1000)
-      })
-      .catch(err => {
+      }
+      catch (err) {
         setTimeout(() => {
           dispatch(
             {
@@ -65,14 +67,35 @@ const Cities = () => {
             }
           )
         }, 1000)
-      })
+      }
+    }
+    fetchCities()
   }, [])
 
+  // const handleFilter = event => {
+  //   const allCities = [...data.cities]
+  //   const filteredCities = allCities.filter(city => (
+  //     city.name.indexOf(event.target.value.toLowerCase()) !== -1
+  //   ))
+  //   setCities(filteredCities)
+  // }
+
   const handleFilter = event => {
-    const allCities = [...data.cities]
-    const filteredCities = allCities.filter(city => (
-      city.name.indexOf(event.target.value.toLowerCase()) !== -1
-    ))
+    let allCities = []
+    let filteredCities = []
+
+    if (event.target.value !== '') {
+      allCities = [...data.cities]
+      filteredCities = allCities.filter(city => {
+        const lc = city.name.toLowerCase()
+        const filter = event.target.value.toLowerCase()
+
+        return lc.includes(filter)
+      })
+    }
+    else {
+      filteredCities = [...data.cities]
+    }
     setCities(filteredCities)
   }
 
