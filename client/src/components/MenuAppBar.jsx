@@ -1,17 +1,16 @@
-import React, { useContext, useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { fade, makeStyles } from '@material-ui/core/styles'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import InputBase from '@material-ui/core/InputBase'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
-import AccountCircle from '@material-ui/icons/AccountCircle'
-import Switch from '@material-ui/core/Switch'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormGroup from '@material-ui/core/FormGroup'
-import MenuItem from '@material-ui/core/MenuItem'
+import InputBase from '@material-ui/core/InputBase'
 import Menu from '@material-ui/core/Menu'
+import AccountCircle from '@material-ui/icons/AccountCircle'
+import MenuItem from '@material-ui/core/MenuItem'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import useScrollTrigger from '@material-ui/core/useScrollTrigger'
+import Slide from '@material-ui/core/Slide'
 
 import { citiesContext } from '../context/CitiesContext'
 
@@ -62,59 +61,61 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const MenuAppBar = () => {
+const HideOnScroll = props => {
+  const { children, window } = props
+  const trigger = useScrollTrigger({ target: window ? window() : undefined })
+
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  )
+}
+
+const MenuAppbar = props => {
   const classes = useStyles()
 
   const { handleFilter } = useContext(citiesContext)
 
-  const [auth, setAuth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const handleChange = event => {
-    setAuth(event.target.checked);
-  };
-
   const handleMenu = event => {
     setAnchorEl(event.currentTarget);
-  };
+  }
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
+  }
 
   return (
-    <div className={classes.root}>
-      <FormGroup>
-        <FormControlLabel
-          control={<Switch checked={auth} onChange={handleChange} aria-label="login switch" />}
-          label={auth ? 'Logout' : 'Login'}
-        />
-      </FormGroup>
-      <AppBar position="static">
-        <Toolbar
-          classes={{
-            root: classes.toolBarRoot
-          }}
-        >
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
+    <React.Fragment>
+
+      <HideOnScroll {...props}>
+        <AppBar>
+          <Toolbar
+            classes={{
+              root: classes.toolBarRoot
+            }}
+          >
+            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+              <MenuIcon />
+            </IconButton>
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder="Search…"
+                onChange={handleFilter}
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+              />
             </div>
-            <InputBase
-              placeholder="Search…"
-              onChange={handleFilter}
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
-          {auth && (
+
             <div>
               <IconButton
                 aria-label="account of current user"
@@ -144,11 +145,12 @@ const MenuAppBar = () => {
                 <MenuItem onClick={handleClose}>My account</MenuItem>
               </Menu>
             </div>
-          )}
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+          </Toolbar>
+        </AppBar>
+      </HideOnScroll>
+      <Toolbar />
+    </React.Fragment>
+  )
 }
 
-export default MenuAppBar
+export default MenuAppbar

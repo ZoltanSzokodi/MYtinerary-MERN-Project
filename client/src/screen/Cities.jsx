@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Grow from '@material-ui/core/Grow';
 import Loader from '../components/Loader'
-import MenuAppBar from '../components/MenuAppBar'
+import MenuAppbar from '../components/MenuAppbar'
 import CityCard from '../components/CityCard'
 
 const useStyles = makeStyles(theme => ({
@@ -29,7 +29,7 @@ const Cities = () => {
     <Grid container classes={{ root: classes.outerGridRoot }}>
       {state.loading && <Loader />}
       {state.error && state.error}
-      {!state.loading && <MenuAppBar />}
+      {!state.loading && <MenuAppbar />}
       {!state.loading && (
         <Grow in timeout={500}>
           <Grid
