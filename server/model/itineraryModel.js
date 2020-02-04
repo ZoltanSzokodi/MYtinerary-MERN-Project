@@ -17,7 +17,7 @@ const itinerarySchema = new mongoose.Schema({
     type: Number
   },
   duration: {
-    type: String,
+    type: Number,
     require: true
   },
   price: {

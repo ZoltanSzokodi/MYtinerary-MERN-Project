@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const cityModel = require('../model/cityModel');
+const itineraryModel = require('../model/itineraryModel')
 
 // get all cities
 router.get('/all',
@@ -38,15 +39,13 @@ router.post('/',
     }
   });
 
+// get a specific city
 router.get('/:name',
   async (req, res) => {
     try {
-      const cityRequested = req.params.name;
-      const city = await cityModel.findOne({ name: cityRequested })
-      if (!city) {
-        return res.status(404).send('City not found')
-      }
-      res.send(city)
+      const itineraryRequested = req.params.name;
+      const itinerary = await itineraryModel.find({ name: itineraryRequested })
+      res.send(itinerary)
     }
     catch (err) {
       console.log(err);

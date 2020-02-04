@@ -1,66 +1,44 @@
-import React, { createContext, useState, useReducer, useEffect } from 'react'
+import React, { createContext, useState, useReducer, useCallback } from 'react'
+import { ajaxReducer } from './reducers'
 import axios from 'axios'
 
 export const citiesContext = createContext()
 
-const initialState = {
-  loading: true,
-  cities: [],
-  error: ''
-}
-
-const citiesReducer = (state, action) => {
-  switch (action.type) {
-    case 'FETCH_SUCCESS':
-      return {
-        loading: false,
-        cities: action.payload,
-        error: ''
-      }
-    case 'FETCH_FAILED':
-      return {
-        loading: false,
-        cities: [],
-        error: `Fetch failed - ${action.payload}`
-      }
-    default:
-      return state
-  }
-}
-
 const CitiesContext = ({ children }) => {
-  const [state, dispatch] = useReducer(citiesReducer, initialState)
+  const initialState = {
+    loading: true,
+    data: [],
+    error: ''
+  }
+  const [state, dispatch] = useReducer(ajaxReducer, initialState)
   const [filteredCities, setFilteredCities] = useState([])
 
   // --------------- GET ALL CITIES FROM DB ----------------
-  useEffect(() => {
-    const fetchCities = async () => {
-      try {
-        const res = await axios.get('http://localhost:5000/cities/all')
-        console.log(res.data)
+  const fetchCities = useCallback(async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/cities/all')
+      console.log(res.data)
 
-        setTimeout(() => {
-          setFilteredCities(res.data)
-          dispatch(
-            {
-              type: 'FETCH_SUCCESS',
-              payload: res.data
-            }
-          )
-        }, 800)
-      }
-      catch (err) {
-        setTimeout(() => {
-          dispatch(
-            {
-              type: 'FETCH_FAILED',
-              payload: err.message
-            }
-          )
-        }, 800)
-      }
+      setTimeout(() => {
+        setFilteredCities(res.data)
+        dispatch(
+          {
+            type: 'FETCH_SUCCESS',
+            payload: res.data
+          }
+        )
+      }, 800)
     }
-    fetchCities()
+    catch (err) {
+      setTimeout(() => {
+        dispatch(
+          {
+            type: 'FETCH_FAILED',
+            payload: err.message
+          }
+        )
+      }, 800)
+    }
   }, [])
 
   // --------------- HANDLE SEARCH FILTER ----------------
@@ -69,7 +47,7 @@ const CitiesContext = ({ children }) => {
     let filtered = []
 
     if (event.target.value !== '') {
-      allCities = [...state.cities]
+      allCities = [...state.data]
       filtered = allCities.filter(city => {
         const lc = city.name.toLowerCase()
         const filter = event.target.value.toLowerCase()
@@ -78,13 +56,13 @@ const CitiesContext = ({ children }) => {
       })
     }
     else {
-      filtered = [...state.cities]
+      filtered = [...state.data]
     }
     setFilteredCities(filtered)
   }
 
   return (
-    <citiesContext.Provider value={{ filteredCities, state, handleFilter }}>
+    <citiesContext.Provider value={{ state, fetchCities, filteredCities, handleFilter }}>
       {children}
     </citiesContext.Provider >
   )

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { citiesContext } from '../context/CitiesContext'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
@@ -19,7 +19,11 @@ const useStyles = makeStyles(theme => ({
 
 const Cities = () => {
   const classes = useStyles();
-  const { filteredCities, state } = useContext(citiesContext)
+  const { state, fetchCities, filteredCities } = useContext(citiesContext)
+
+  useEffect(() => {
+    fetchCities()
+  }, [fetchCities])
 
   return (
     <Grid container classes={{ root: classes.outerGridRoot }}>

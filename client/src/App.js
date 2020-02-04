@@ -4,8 +4,11 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import Container from '@material-ui/core/Container'
 
 import CitiesContext from './context/CitiesContext'
+import ItineraryContext from './context/ItineraryContext'
+
 import Landing from './screen/Landing'
 import Cities from './screen/Cities'
+import Itinerary from './screen/Itinerary'
 
 const App = () => {
   return (
@@ -17,11 +20,12 @@ const App = () => {
             <Route exact path='/'>
               <Landing />
             </Route>
-            <Route exact path='/cities'>
-              <CitiesContext>
-                <Cities />
-              </CitiesContext>
-            </Route>
+            <CitiesContext>
+              <Route exact path='/cities' component={Cities} />
+              <ItineraryContext>
+                <Route exact path='/cities/:id' component={Itinerary} />
+              </ItineraryContext>
+            </CitiesContext>
           </Switch>
         </BrowserRouter>
       </Container>
