@@ -10,7 +10,7 @@ router.get('/all',
       res.send(allCities)
     }
     catch (err) {
-      console.log(err)
+      console.log(err);
     }
   });
 
@@ -18,9 +18,9 @@ router.get('/all',
 router.post('/',
   async (req, res) => {
     try {
-      const existingCity = await cityModel.findOne({ name: req.body.name })
+      const city = await cityModel.findOne({ name: req.body.name })
 
-      if (existingCity) {
+      if (city) {
         return res.status(403).send('This city already exists')
       }
       let newCity = new cityModel(
@@ -37,5 +37,21 @@ router.post('/',
       res.status(500).send("Server error");
     }
   });
+
+router.get('/:name',
+  async (req, res) => {
+    try {
+      const cityRequested = req.params.name;
+      const city = await cityModel.findOne({ name: cityRequested })
+      if (!city) {
+        return res.status(404).send('City not found')
+      }
+      res.send(city)
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+);
 
 module.exports = router;
