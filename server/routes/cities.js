@@ -26,7 +26,8 @@ router.get('/',
 router.post('/',
   async (req, res, next) => {
     try {
-      const city = await cityModel.findOne({ name: req.body.name });
+      const city = await cityModel
+        .findOne({ name: req.body.name });
 
       if (city) {
         const error = new Error('This city already exists');
@@ -34,14 +35,15 @@ router.post('/',
         next(error);
       }
 
-      let newCity = new cityModel({
-        name: req.body.name,
-        country: req.body.country,
-        description: req.body.description,
-        img: req.body.img
-      });
+      // let newCity = new cityModel({
+      //   name: req.body.name,
+      //   country: req.body.country,
+      //   description: req.body.description,
+      //   img: req.body.img
+      // });
+      let newCity = await cityModel.create(req.body);
 
-      newCity = await newCity.save();
+      // newCity = await newCity.save();
       const response = {
         message: 'City successfuly added!',
         createdCity: newCity
@@ -55,7 +57,7 @@ router.post('/',
     }
   });
 
-// DELETE a city
+// DELETE a city ------------------------------------
 router.delete('/',
   async (req, res, next) => {
     try {
@@ -81,7 +83,7 @@ router.delete('/',
     }
   });
 
-// UPDATE a city
+// UPDATE a city -----------------------------------
 router.patch('/',
   async (req, res, next) => {
     try {
