@@ -3,18 +3,19 @@ const mongoose = require('mongoose');
 const itinerarySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: [true, 'An itinerary must have a name!']
   },
   title: {
     type: String,
     required: true,
     unique: true
   },
+  description: {
+    type: String,
+    required: true
+  },
   pictureURL: {
     type: String
-  },
-  rating: {
-    type: Number
   },
   duration: {
     type: Number,
@@ -22,6 +23,10 @@ const itinerarySchema = new mongoose.Schema({
   },
   price: {
     type: Number,
+    required: true
+  },
+  tourGuide: {
+    type: String,
     required: true
   },
   hashTags: {

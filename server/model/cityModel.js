@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validate = require('mongoose-validator');
 
-const descriptionValidator = [
+const descriptionVal = [
   validate({
     validator: 'isLength',
     arguments: [50, 250],
@@ -22,7 +22,7 @@ const citySchema = new mongoose.Schema({
   description: {
     type: String,
     required: true,
-    validate: descriptionValidator
+    validate: descriptionVal
   },
   img: {
     type: String,

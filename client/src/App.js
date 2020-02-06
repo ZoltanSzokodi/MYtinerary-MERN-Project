@@ -23,7 +23,7 @@ const App = () => {
             <CitiesContext>
               <Route exact path='/cities' component={Cities} />
               <ItineraryContext>
-                <Route exact path='/cities/:id' component={Itinerary} />
+                <Route exact path='/itineraries/:name' component={Itinerary} />
               </ItineraryContext>
             </CitiesContext>
           </Switch>

@@ -13,9 +13,9 @@ const ItineraryContext = (props) => {
   const [state, dispatch] = useReducer(ajaxReducer, initialState)
 
   // --------------- GET ALL CITIES FROM DB ----------------
-  const fetchItineraries = useCallback(async (id) => {
+  const fetchItineraries = useCallback(async (name) => {
     try {
-      const res = await axios.get(`http://localhost:5000/cities/${id}`)
+      const res = await axios.get(`http://localhost:5000/itineraries/${name}`)
       console.log(res.data)
 
       setTimeout(() => {

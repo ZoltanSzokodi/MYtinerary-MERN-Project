@@ -45,7 +45,7 @@ function CityCard({ name, country, img, description }) {
         <Button size="small" color="primary">
           Share
         </Button>
-        <Link to={`/cities/${name}`}>
+        <Link to={`/itineraries/${name}`}>
           <Button size="small" color="primary">Learn More</Button>
         </Link>
       </CardActions>
