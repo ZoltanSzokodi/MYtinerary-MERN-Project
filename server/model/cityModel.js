@@ -12,16 +12,16 @@ const descriptionVal = [
 const citySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: [true, 'Please specify the city\'s name'],
     unique: true
   },
   country: {
     type: String,
-    required: true
+    required: [true, 'Please specify the country']
   },
   description: {
     type: String,
-    required: true,
+    required: [true, 'Please add a short description between 50 and 250 characters'],
     validate: descriptionVal
   },
   img: {

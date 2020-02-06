@@ -20,7 +20,7 @@ const CitiesContext = ({ children }) => {
       console.log(res.data)
 
       setTimeout(() => {
-        setFilteredCities(res.data)
+        setFilteredCities(res.data.cities)
         dispatch(
           {
             type: 'FETCH_SUCCESS',
@@ -47,7 +47,7 @@ const CitiesContext = ({ children }) => {
     let filtered = []
 
     if (event.target.value !== '') {
-      allCities = [...state.data]
+      allCities = [...state.data.cities]
       filtered = allCities.filter(city => {
         const lc = city.name.toLowerCase()
         const filter = event.target.value.toLowerCase()
@@ -56,7 +56,7 @@ const CitiesContext = ({ children }) => {
       })
     }
     else {
-      filtered = [...state.data]
+      filtered = [...state.data.cities]
     }
     setFilteredCities(filtered)
   }
