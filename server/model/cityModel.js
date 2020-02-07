@@ -1,31 +1,28 @@
 const mongoose = require('mongoose');
-const validate = require('mongoose-validator');
-
-const descriptionVal = [
-  validate({
-    validator: 'isLength',
-    arguments: [50, 250],
-    message: 'Description should be between 50 and 250 characters'
-  })
-];
 
 const citySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    trim: true,
+    required: [true, 'A city must have a name'],
     unique: true
   },
   country: {
     type: String,
-    required: [true, 'Please specify the country']
+    trim: true,
+    required: [true, 'The county of origin must be defined']
   },
   description: {
     type: String,
+    trim: true,
     required: [true, 'Please add a short description between 50 and 250 characters'],
-    validate: descriptionVal
+    maxlength: [250, 'The maximum length of the description is 250 chars'],
+    minlength: [50, 'The minimum length of the description is 50 chars']
   },
   img: {
     type: String,
+    trim: true,
+    required: [true, 'A city must have a cover image']
   }
 });
 
