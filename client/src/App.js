@@ -8,7 +8,7 @@ import ItineraryContext from './context/ItineraryContext'
 
 import Landing from './screen/Landing'
 import Cities from './screen/Cities'
-import Itinerary from './screen/Itinerary'
+import Itineraries from './screen/Itineraries'
 
 const App = () => {
   return (
@@ -23,7 +23,7 @@ const App = () => {
             <CitiesContext>
               <Route exact path='/cities' component={Cities} />
               <ItineraryContext>
-                <Route exact path='/itineraries/:name' component={Itinerary} />
+                <Route exact path='/itineraries/:name' component={Itineraries} />
               </ItineraryContext>
             </CitiesContext>
           </Switch>

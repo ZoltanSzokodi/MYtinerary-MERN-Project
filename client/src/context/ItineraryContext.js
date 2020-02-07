@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export const itineraryContext = createContext()
 
-const ItineraryContext = (props) => {
+const ItineraryContext = props => {
   const initialState = {
     loading: true,
     data: [],
@@ -13,7 +13,7 @@ const ItineraryContext = (props) => {
   const [state, dispatch] = useReducer(ajaxReducer, initialState)
 
   // --------------- GET ALL CITIES FROM DB ----------------
-  const fetchItineraries = useCallback(async (name) => {
+  const fetchItineraries = useCallback(async name => {
     try {
       const res = await axios.get(`http://localhost:5000/itineraries/${name}`)
       console.log(res.data)

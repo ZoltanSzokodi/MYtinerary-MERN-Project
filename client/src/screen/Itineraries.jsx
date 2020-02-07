@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import { itineraryContext } from '../context/ItineraryContext'
 
-const Itinerary = (props) => {
+const Itineraries = (props) => {
   const cityName = props.match.params.name
   const { state, fetchItineraries } = useContext(itineraryContext)
 
@@ -18,4 +18,4 @@ const Itinerary = (props) => {
   )
 }
 
-export default Itinerary
+export default Itineraries

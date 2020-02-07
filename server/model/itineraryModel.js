@@ -3,31 +3,40 @@ const mongoose = require('mongoose');
 const itinerarySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'An itinerary must have a name!']
+    trim: true,
+    required: [true, 'An itinerary must have a name']
   },
   title: {
     type: String,
-    required: true,
+    trim: true,
+    required: [true, 'An itinerary must have a title'],
     unique: true
   },
   description: {
     type: String,
-    // required: true
+    trim: true,
+    required: [true, 'Please add a short description between 50 and 250 characters'],
+    maxlength: [250, 'The maximum length of the description is 250 chars'],
+    minlength: [10, 'The minimum length of the description is 50 chars']
   },
   pictureURL: {
-    type: String
+    type: String,
+    trim: true
   },
   duration: {
     type: Number,
-    require: true
+    require: [true, 'An itinerary must have a duration'],
+    min: [1, 'Minimum 1'],
+    max: [24, 'Max 24']
   },
   price: {
     type: Number,
-    required: true
+    required: [true, 'An itinerary must have a price']
   },
   tourGuide: {
     type: String,
-    // required: true
+    trim: true,
+    required: [true, 'Add tour guide\'s name']
   },
   hashTags: {
     type: String
