@@ -5,6 +5,8 @@ const Itinerary = (props) => {
   const cityName = props.match.params.name
   const { state, fetchItineraries } = useContext(itineraryContext)
 
+  // console.log(state)
+
   useEffect(() => {
     fetchItineraries(cityName)
   }, [cityName, fetchItineraries])

@@ -20,7 +20,7 @@ router.get('/',
       const response = {
         message: 'Failed to fetch cities',
         error
-      }
+      };
       res.status(500).json(response);
     }
   });
@@ -29,23 +29,27 @@ router.get('/',
 router.post('/',
   async (req, res, next) => {
     try {
-      await cityModel
-        .findOne({ name: req.body.name });
+      const cityName = req.body.name;
+      const city = await cityModel
+        .findOne({ name: cityName });
+
+      if (city) {
+        throw new Error(`FAILED! '${cityName}' is already in the DB`);
+      }
 
       let newCity = await cityModel.create(req.body);
 
       const response = {
         message: 'City successfuly added!',
         createdCity: newCity
-      }
+      };
       res.status(201).json(response);
     }
     catch (error) {
       console.log(error)
       const response = {
-        message: 'Failed to post new city',
-        error
-      }
+        message: error.message
+      };
       res.status(500).json(response);
     }
   });
@@ -55,18 +59,21 @@ router.delete('/',
   async (req, res, next) => {
     try {
       const id = req.body.id;
-      await cityModel.findByIdAndDelete(id);
+      const deleteCity = await cityModel.findByIdAndDelete(id);
+
+      if (!deleteCity) {
+        throw new Error(`FAILED! No city found with id number: '${id}'`);
+      }
 
       const response = {
-        message: `City with id: "${id}" is no longer in the DB`,
-      }
-      res.status(200).json(response)
+        message: `City with id: "${id}" removed`,
+      };
+      res.status(200).json(response);
     }
     catch (error) {
       console.log(error)
       const response = {
-        message: 'Failed to delete city',
-        error
+        message: error.message,
       }
       res.status(500).json(response);
     }
@@ -79,20 +86,24 @@ router.patch('/',
       const id = req.body.id;
       const updateCity = await cityModel.findByIdAndUpdate(id, req.body, {
         new: true,
+        omitUndefined: false,
         runValidators: true
       });
+
+      if (!updateCity) {
+        throw new Error(`FAILED! No city found with id number: '${id}'`);
+      }
 
       const response = {
         message: 'City updated',
         updatedCity: updateCity
-      }
-      res.json(response)
+      };
+      res.json(response);
     }
     catch (error) {
       console.log(error)
       const response = {
-        message: 'Failed to update city',
-        error
+        message: error.message
       }
       res.status(500).json(response);
     }

@@ -3,46 +3,45 @@ const router = express.Router();
 const itineraryModel = require('../model/itineraryModel');
 const cityModel = require('../model/cityModel');
 
-
 // GET itineraries for a city -------------------
 router.get('/:name',
   async (req, res, next) => {
     try {
       const cityName = req.params.name;
       const city = await cityModel.findOne({ name: cityName });
-      // check if city exists in the DB
+
       if (!city) {
-        const error = new Error('City not found');
-        error.status = 404;
-        next(error);
+        throw new Error(`FAILED! City named '${cityName}' is not in the DB`);
       }
-      // if the city exists check for its itineraries
+
       const itineraries = await itineraryModel
-        .find({ name: cityName })
+        .find({ name: cityName });
+
       const response = {
         length: itineraries.length,
         itineraries: itineraries
       };
-      res.send(response)
+      res.status(200).send(response);
     }
-    catch (err) {
-      console.log(err);
-      // res.status(500).send("Server error");
-      res.status(500).json({ error: err });
+    catch (error) {
+      console.log(error)
+      const response = {
+        message: error.message
+      }
+      res.status(500).json(response);
     }
   });
 
-// POST a new itinerary
+// POST a new itinerary ------------------------------------
 router.post('/',
   async (req, res, next) => {
     try {
+      const itineraryTitle = req.body.title;
       const itinerary = await itineraryModel
-        .findOne({ title: req.body.title });
+        .findOne({ title: itineraryTitle });
 
       if (itinerary) {
-        const error = new Error('This itinerary already exists');
-        error.status = 403;
-        next(error);
+        throw new Error(`FAILED! Itinerary title '${itineraryTitle}' already exists in DB`);
       }
 
       let newItinerary = await itineraryModel.create(req.body);
@@ -53,10 +52,12 @@ router.post('/',
       }
       res.status(201).json(response);
     }
-    catch (err) {
-      console.log(err)
-      // res.status(500).send("Server error");
-      res.status(500).json({ error: err });
+    catch (error) {
+      console.log(error)
+      const response = {
+        message: error.message
+      }
+      res.status(500).json(response);
     }
   });
 
@@ -65,15 +66,54 @@ router.delete('/',
   async (req, res, next) => {
     try {
       const id = req.body.id;
-      await itineraryModel.findByIdAndDelete(id);
+      const deleteItinerary = await itineraryModel.findByIdAndDelete(id);
 
-      res.json({ message: 'Itinerary deleted' });
+      if (!deleteItinerary) {
+        throw new Error(`FAILED! No itinerary found with id number: '${id}'`);
+      }
+
+      const response = {
+        message: `Itinerary with id: "${id}" removed`,
+      };
+      res.status(200).json(response);
     }
-    catch (err) {
-      console.log(err);
-      res.status(500).json({ error: err });
+    catch (error) {
+      console.log(error)
+      const response = {
+        message: error.message
+      }
+      res.status(500).json(response);
     }
   });
 
+// UPDATE an itinerary -----------------------------------
+router.patch('/',
+  async (req, res, next) => {
+    try {
+      const id = req.body.id;
+      const updateItinerary = await itineraryModel.findByIdAndUpdate(id, req.body, {
+        new: true,
+        omitUndefined: false,
+        runValidators: true
+      });
+
+      if (!updateItinerary) {
+        throw new Error(`FAILED! No itinerary found with id number: '${id}'`);
+      }
+
+      const response = {
+        message: 'Itinerary updated',
+        updatedCity: updateItinerary
+      };
+      res.status(200).json(response);
+    }
+    catch (error) {
+      console.log(error)
+      const response = {
+        message: error.message
+      }
+      res.status(500).json(response);
+    }
+  });
 
 module.exports = router;
