@@ -19,13 +19,14 @@ app.use(morgan('dev'))
 const cityRoutes = require('./routes/cities');
 const itineraryRoutes = require('./routes/itineraries');
 
+
 app.use('/cities', cityRoutes);
 app.use('/itineraries', itineraryRoutes);
 
 // GLOBAL ERROR HANDLING ------------------------
 // if a request reaches this point it will be handled as an error
 app.use((req, res, next) => {
-  const error = new Error('Requested route not found');
+  const error = new Error('Not found');
   error.status = 404;
   next(error);
 })

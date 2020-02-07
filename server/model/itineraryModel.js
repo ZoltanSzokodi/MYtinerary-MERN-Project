@@ -12,7 +12,7 @@ const itinerarySchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true
+    // required: true
   },
   pictureURL: {
     type: String
@@ -27,7 +27,7 @@ const itinerarySchema = new mongoose.Schema({
   },
   tourGuide: {
     type: String,
-    required: true
+    // required: true
   },
   hashTags: {
     type: String

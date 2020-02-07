@@ -15,10 +15,13 @@ router.get('/',
       };
       res.send(response);
     }
-    catch (err) {
-      console.log(err);
-      // res.status(500).send("Server error");
-      res.status(500).json({ error: err });
+    catch (error) {
+      console.log(error);
+      const response = {
+        message: 'Failed to fetch cities',
+        error
+      }
+      res.status(500).json(response);
     }
   });
 
@@ -26,34 +29,24 @@ router.get('/',
 router.post('/',
   async (req, res, next) => {
     try {
-      const city = await cityModel
+      await cityModel
         .findOne({ name: req.body.name });
 
-      if (city) {
-        const error = new Error('This city already exists');
-        error.status = 403;
-        next(error);
-      }
-
-      // let newCity = new cityModel({
-      //   name: req.body.name,
-      //   country: req.body.country,
-      //   description: req.body.description,
-      //   img: req.body.img
-      // });
       let newCity = await cityModel.create(req.body);
 
-      // newCity = await newCity.save();
       const response = {
         message: 'City successfuly added!',
         createdCity: newCity
       }
       res.status(201).json(response);
     }
-    catch (err) {
-      console.log(err)
-      // res.status(500).send("Server error");
-      res.status(500).json({ error: err });
+    catch (error) {
+      console.log(error)
+      const response = {
+        message: 'Failed to post new city',
+        error
+      }
+      res.status(500).json(response);
     }
   });
 
@@ -62,24 +55,20 @@ router.delete('/',
   async (req, res, next) => {
     try {
       const id = req.body.id;
-      const deleteCity = await cityModel.findByIdAndDelete(id)
-
-      if (!deleteCity) {
-        const error = new Error('Failed to delete - invalid id');
-        error.status = 400;
-        next(error);
-      }
+      await cityModel.findByIdAndDelete(id);
 
       const response = {
-        message: 'City deleted',
-        deletedCity: deleteCity.name
+        message: `City with id: "${id}" is no longer in the DB`,
       }
-      res.json(response)
+      res.status(200).json(response)
     }
-    catch (err) {
-      console.log(err)
-      // res.status(500).send("Server error");
-      res.status(500).json({ error: err });
+    catch (error) {
+      console.log(error)
+      const response = {
+        message: 'Failed to delete city',
+        error
+      }
+      res.status(500).json(response);
     }
   });
 
@@ -93,21 +82,19 @@ router.patch('/',
         runValidators: true
       });
 
-      if (!updateCity) {
-        const error = new Error('Failed to update - invalid id');
-        error.status = 400;
-        next(error);
-      }
       const response = {
         message: 'City updated',
         updatedCity: updateCity
       }
       res.json(response)
     }
-    catch (err) {
-      console.log(err)
-      // res.status(500).send("Server error");
-      res.status(500).json({ error: err });
+    catch (error) {
+      console.log(error)
+      const response = {
+        message: 'Failed to update city',
+        error
+      }
+      res.status(500).json(response);
     }
   });
 

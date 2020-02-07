@@ -12,7 +12,7 @@ const descriptionVal = [
 const citySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Please specify the city\'s name'],
+    required: true,
     unique: true
   },
   country: {

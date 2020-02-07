@@ -4,7 +4,7 @@ const itineraryModel = require('../model/itineraryModel');
 const cityModel = require('../model/cityModel');
 
 
-// get a specific city's itineraries
+// GET itineraries for a city -------------------
 router.get('/:name',
   async (req, res, next) => {
     try {
@@ -30,7 +30,50 @@ router.get('/:name',
       // res.status(500).send("Server error");
       res.status(500).json({ error: err });
     }
-  }
-);
+  });
+
+// POST a new itinerary
+router.post('/',
+  async (req, res, next) => {
+    try {
+      const itinerary = await itineraryModel
+        .findOne({ title: req.body.title });
+
+      if (itinerary) {
+        const error = new Error('This itinerary already exists');
+        error.status = 403;
+        next(error);
+      }
+
+      let newItinerary = await itineraryModel.create(req.body);
+
+      const response = {
+        message: 'Itinerary successfuly added!',
+        createdCity: newItinerary
+      }
+      res.status(201).json(response);
+    }
+    catch (err) {
+      console.log(err)
+      // res.status(500).send("Server error");
+      res.status(500).json({ error: err });
+    }
+  });
+
+// DELETE an itinerary ------------------------------------
+router.delete('/',
+  async (req, res, next) => {
+    try {
+      const id = req.body.id;
+      await itineraryModel.findByIdAndDelete(id);
+
+      res.json({ message: 'Itinerary deleted' });
+    }
+    catch (err) {
+      console.log(err);
+      res.status(500).json({ error: err });
+    }
+  });
+
 
 module.exports = router;
