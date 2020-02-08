@@ -32,7 +32,7 @@ const ItineraryContext = props => {
         dispatch(
           {
             type: 'FETCH_FAILED',
-            payload: err.message
+            payload: err
           }
         )
       }, 800)
