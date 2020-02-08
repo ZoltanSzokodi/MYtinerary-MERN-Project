@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
-import Button from '@material-ui/core/Button'
-import Grow from '@material-ui/core/Grow'
-import ItineraryLogo from '../static/itineraryLogo.png'
-import RoundArrow from '../static/round-pink-arrow3.png'
-import Loader from '../components/Loader'
-import { withStyles } from '@material-ui/core/styles'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Grow from '@material-ui/core/Grow';
+import ItineraryLogo from '../static/itineraryLogo.png';
+import RoundArrow from '../static/round-pink-arrow3.png';
+import Loader from '../components/Loader';
 
 
 const styles = {
@@ -35,14 +35,14 @@ const styles = {
     cursor: 'pointer',
     animation: '$globePulse 1s alternate infinite ease-in'
   }
-}
+};
 
 const Landing = ({ classes }) => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   setTimeout(() => {
     setLoading(false)
-  }, 800)
+  }, 800);
 
   return (
     <div className={classes.root}>
@@ -88,7 +88,7 @@ const Landing = ({ classes }) => {
         </Grow>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default withStyles(styles)(Landing)
+export default withStyles(styles)(Landing);

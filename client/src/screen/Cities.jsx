@@ -1,65 +1,33 @@
-import React, { useEffect, useContext, Fragment } from 'react'
-import { citiesContext } from '../context/CitiesContext'
-import { makeStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
+import React, { useEffect, useContext, Fragment } from 'react';
+import { citiesContext } from '../context/CitiesContext';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import Grow from '@material-ui/core/Grow';
-import Loader from '../components/Loader'
-import MenuAppbar from '../components/MenuAppbar'
-import CityCard from '../components/CityCard'
-import Toolbar from '@material-ui/core/Toolbar'
-import useScrollTrigger from '@material-ui/core/useScrollTrigger'
-import Zoom from '@material-ui/core/Zoom'
-import Fab from '@material-ui/core/Fab'
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
+import Loader from '../components/Loader';
+import MenuAppbar from '../components/MenuAppbar';
+import CityCard from '../components/CityCard';
+import ScrollTop from '../components/ScrollTop';
+import Toolbar from '@material-ui/core/Toolbar';
+import Fab from '@material-ui/core/Fab';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 const useStyles = makeStyles(theme => ({
   outerGridRoot: {
     overflow: 'hidden',
-    backgroundImage: 'linear-gradient(to bottom, #ffffff 50%, #f2f1fb 75%)'
   },
   innerGridRoot: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(4)
   },
-  root: {
-    position: 'fixed',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-  },
-}))
-
-const ScrollTop = props => {
-  const { children, window } = props
-  const classes = useStyles()
-  const trigger = useScrollTrigger({
-    target: window ? window() : undefined,
-    disableHysteresis: true,
-    threshold: 100,
-  })
-
-  const handleClick = event => {
-    const anchor = (event.target.ownerDocument || document).querySelector('#back-to-top-anchor');
-
-    if (anchor) {
-      anchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  }
-
-  return (
-    <Zoom in={trigger}>
-      <div onClick={handleClick} role="presentation" className={classes.root}>
-        {children}
-      </div>
-    </Zoom>
-  )
-}
+}));
 
 const Cities = props => {
   const classes = useStyles();
-  const { state, fetchCities, filteredCities } = useContext(citiesContext)
+  const { state, fetchCities, filteredCities } = useContext(citiesContext);
 
   useEffect(() => {
     fetchCities()
-  }, [fetchCities])
+  }, [fetchCities]);
 
   return (
     <Grid container classes={{ root: classes.outerGridRoot }}>
@@ -96,7 +64,7 @@ const Cities = props => {
         </Fragment>
       )}
     </Grid>
-  )
-}
+  );
+};
 
-export default Cities
+export default Cities;

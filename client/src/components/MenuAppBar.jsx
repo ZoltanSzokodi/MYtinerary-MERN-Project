@@ -1,18 +1,18 @@
-import React, { useState, useContext } from 'react'
-import { fade, makeStyles } from '@material-ui/core/styles'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
-import SearchIcon from '@material-ui/icons/Search'
-import InputBase from '@material-ui/core/InputBase'
-import Menu from '@material-ui/core/Menu'
-import AccountCircle from '@material-ui/icons/AccountCircle'
-import MenuItem from '@material-ui/core/MenuItem'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import useScrollTrigger from '@material-ui/core/useScrollTrigger'
-import Slide from '@material-ui/core/Slide'
+import React, { useState, useContext } from 'react';
+import { fade, makeStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
+import Menu from '@material-ui/core/Menu';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MenuItem from '@material-ui/core/MenuItem';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import Slide from '@material-ui/core/Slide';
 
-import { citiesContext } from '../context/CitiesContext'
+import { citiesContext } from '../context/CitiesContext';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
       width: 200,
     },
   },
-}))
+}));
 
 const HideOnScroll = props => {
   const { children, window } = props
@@ -69,24 +69,24 @@ const HideOnScroll = props => {
     <Slide appear={false} direction="down" in={!trigger}>
       {children}
     </Slide>
-  )
-}
+  );
+};
 
 const MenuAppbar = props => {
-  const classes = useStyles()
+  const classes = useStyles();
 
-  const { handleFilter } = useContext(citiesContext)
+  const { handleFilter } = useContext(citiesContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const handleMenu = event => {
     setAnchorEl(event.currentTarget);
-  }
+  };
 
   const handleClose = () => {
     setAnchorEl(null);
-  }
+  };
 
   return (
     <React.Fragment>
@@ -101,7 +101,10 @@ const MenuAppbar = props => {
             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
               <MenuIcon />
             </IconButton>
-            <div className={classes.search}>
+            <div className={classes.search}
+              style={props.type === 'itineraries' ?
+                { display: 'none' } :
+                { display: 'block' }}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
@@ -150,7 +153,7 @@ const MenuAppbar = props => {
       </HideOnScroll>
       <Toolbar />
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default MenuAppbar
+export default MenuAppbar;

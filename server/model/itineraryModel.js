@@ -39,7 +39,7 @@ const itinerarySchema = new mongoose.Schema({
     required: [true, 'Add tour guide\'s name']
   },
   hashTags: {
-    type: String
+    type: Array,
   }
 });
 

@@ -1,6 +1,6 @@
-import React from 'react'
-import Grow from '@material-ui/core/Grow'
-import { withStyles } from '@material-ui/core/styles'
+import React from 'react';
+import Grow from '@material-ui/core/Grow';
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
   container: {
@@ -55,7 +55,7 @@ const styles = {
     '0%': { transform: 'rotate(0deg)' },
     '100%': { transform: 'rotate(360deg)' }
   }
-}
+};
 
 const Loader = ({ classes }) => {
   return (
@@ -65,7 +65,7 @@ const Loader = ({ classes }) => {
         <div className={`${classes.loader} ${classes.loader9}`}></div>
       </div>
     </Grow>
-  )
-}
+  );
+};
 
-export default withStyles(styles)(Loader)
+export default withStyles(styles)(Loader);

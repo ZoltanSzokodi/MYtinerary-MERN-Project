@@ -1,36 +1,41 @@
-import React, { Fragment } from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import Container from '@material-ui/core/Container'
+import React, { Fragment } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
+import Landing from './screen/Landing';
+import Cities from './screen/Cities';
+import Itineraries from './screen/Itineraries';
 
-import CitiesContext from './context/CitiesContext'
-import ItineraryContext from './context/ItineraryContext'
+import CitiesContext from './context/CitiesContext';
+import ItinerariesContext from './context/ItinerariesContext';
 
-import Landing from './screen/Landing'
-import Cities from './screen/Cities'
-import Itineraries from './screen/Itineraries'
 
 const App = () => {
   return (
     <Fragment>
       <CssBaseline />
       <Container maxWidth={'md'} disableGutters>
+
         <BrowserRouter>
           <Switch>
+
             <Route exact path='/'>
               <Landing />
             </Route>
+
             <CitiesContext>
               <Route exact path='/cities' component={Cities} />
-              <ItineraryContext>
+              <ItinerariesContext>
                 <Route exact path='/itineraries/:name' component={Itineraries} />
-              </ItineraryContext>
+              </ItinerariesContext>
             </CitiesContext>
+
           </Switch>
         </BrowserRouter>
+
       </Container>
     </Fragment>
-  )
-}
+  );
+};
 
-export default App
+export default App;

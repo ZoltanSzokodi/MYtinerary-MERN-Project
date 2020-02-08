@@ -14,5 +14,5 @@ export const ajaxReducer = (state, action) => {
       }
     default:
       return state
-  }
-}
+  };
+};
