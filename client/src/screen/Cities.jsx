@@ -48,10 +48,7 @@ const Cities = props => {
                 <Grid item container justify='center' key={city._id}>
                   <CityCard
                     key={city._id}
-                    img={city.img}
-                    name={city.name}
-                    country={city.country}
-                    description={city.description}
+                    city={city}
                   />
                 </Grid>))}
             </Grid>

@@ -57,13 +57,6 @@ const Itineraries = props => {
                   <ItineraryCard
                     key={itinerary._id}
                     itinerary={itinerary}
-                  // title={itinerary.title}
-                  // description={itinerary.description}
-                  // pictireURL={itinerary.pictireURL}
-                  // duration={itinerary.duration}
-                  // price={itinerary.price}
-                  // tourGuide={itinerary.tourGuide}
-                  // hashTags={itinerary.hashTags}
                   />
                 </Grid>
               ))}

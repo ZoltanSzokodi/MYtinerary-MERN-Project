@@ -10,7 +10,7 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: 'linear-gradient(to bottom, #ffffff 50%, #f2f1fb 75%)',
+    // backgroundImage: 'linear-gradient(to bottom, #ffffff 50%, #f2f1fb 75%)',
   },
   loader: {
     // width: '60px',

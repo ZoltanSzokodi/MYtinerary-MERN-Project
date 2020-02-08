@@ -1,15 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import IconButton from '@material-ui/core/IconButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   root: {
     width: '95%',
   },
@@ -18,11 +21,21 @@ const useStyles = makeStyles({
   },
   typographyRoot: {
     textTransform: 'capitalize'
+  },
+  link: {
+    textDecoration: 'none',
+    marginLeft: theme.spacing(1)
   }
-});
+}));
 
-function CityCard({ name, country, img, description }) {
+function CityCard({ city }) {
   const classes = useStyles();
+  const {
+    img,
+    name,
+    country,
+    description,
+  } = city;
 
   return (
     <Card className={classes.root}>
@@ -42,12 +55,14 @@ function CityCard({ name, country, img, description }) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Link to={`/itineraries/${name}`}>
-          <Button size="small" color="primary">Learn More</Button>
-        </Link>
+        <Grid container justify="space-between">
+          <Link to={`/itineraries/${name}`} className={classes.link}>
+            <Button variant="contained" color="primary">Go to itineraries</Button>
+          </Link>
+          <IconButton aria-label="settings">
+            <MoreVertIcon />
+          </IconButton>
+        </Grid>
       </CardActions>
     </Card>
   );

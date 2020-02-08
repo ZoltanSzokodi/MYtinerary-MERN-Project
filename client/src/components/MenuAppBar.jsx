@@ -76,7 +76,6 @@ const MenuAppbar = props => {
   const classes = useStyles();
 
   const { handleFilter } = useContext(citiesContext);
-
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -144,8 +143,10 @@ const MenuAppbar = props => {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem> */}
+                <MenuItem onClick={handleClose}>Log in</MenuItem>
+                <MenuItem onClick={handleClose}>Create account</MenuItem>
               </Menu>
             </div>
           </Toolbar>
