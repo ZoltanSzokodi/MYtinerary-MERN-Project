@@ -27,6 +27,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter your last name'],
     trim: true
+  },
+  userImage: {
+    type: String
   }
 });
 

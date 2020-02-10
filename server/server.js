@@ -7,13 +7,14 @@ const db = require('./keys').mongoURI;
 const app = express();
 
 // GLOBAL MIDDLEWARES ---------------------------
+// cross origin enabled
+app.use(cors());
+// logs requests in the console while nodemon is listening
+app.use(morgan('dev'));
+app.use('/uploads', express.static('uploads'));
 // Setting up middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-app.use(cors());
-// logs requests in the console while nodemon is listening
-app.use(morgan('dev'))
 
 // ROUTES ----------------------------------------
 const cityRoutes = require('./routes/cities');
