@@ -2,33 +2,31 @@ const express = require('express');
 const router = express.Router();
 const userModel = require('../model/userModel');
 
-// image uploading
-const multer = require('multer');
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads/');
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname)
-  }
-});
-const limits = {
-  fileSize: 1024 * 1024 * 2
-};
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-    cb(null, true);
-  }
-  else {
-    cb(null, false);
-  }
-};
+// GET all users -------------------------------------
+router.get('/',
+  async (req, res, next) => {
+    try {
+      const allUsers = await userModel
+        .find({});
 
-
-const upload = multer({ storage, limits, fileFilter });
+      const response = {
+        length: allUsers.length,
+        users: allUsers
+      };
+      res.send(response);
+    }
+    catch (error) {
+      console.log(error);
+      const response = {
+        message: 'Failed to fetch users',
+        error
+      };
+      res.status(500).json(response);
+    }
+  });
 
 // CREATE a new user ---------------------------------
-router.post('/', upload.single('userImage'),
+router.post('/',
   async (req, res, next) => {
     try {
       const username = req.body.username;
@@ -54,14 +52,7 @@ router.post('/', upload.single('userImage'),
           next(error);
         }
         else {
-          let newUser = await userModel.create({
-            username: req.body.username,
-            password: req.body.password,
-            email: req.body.email,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            userImage: req.file.path
-          });
+          let newUser = await userModel.create(req.body);
           const response = {
             message: 'User successfuly created!',
             createdUser: newUser.username

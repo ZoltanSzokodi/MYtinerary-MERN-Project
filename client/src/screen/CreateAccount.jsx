@@ -8,25 +8,41 @@ import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+
+import axios from 'axios';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    marginTop: theme.spacing(4)
   },
   form: {
     width: '100%',
     maxWidth: '700px',
     display: 'flex',
     flexWrap: 'wrap',
+    flexDirection: 'column',
+    alignItems: 'center',
     justifyContent: 'center',
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
   },
   textField: {
     width: '80%',
     marginTop: theme.spacing(2)
+  },
+  avatar: {
+    width: '100px',
+    height: '100px',
+  },
+  input: {
+    display: 'none',
   },
   submit: {
     marginTop: theme.spacing(2)
@@ -40,7 +56,7 @@ const CreateAccount = () => {
     password: '',
     email: '',
     firstName: '',
-    lastName: '',
+    lastName: ''
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -48,6 +64,11 @@ const CreateAccount = () => {
   const handleChange = prop => event => {
     setValues({ ...values, [prop]: event.target.value });
   };
+
+  // const handleFileUpload = event => {
+  //   console.log(event.target.files[0])
+  //   setValues({ ...values, userImg: event.target.files[0] })
+  // };
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -59,11 +80,35 @@ const CreateAccount = () => {
 
   const handleSubmit = () => {
     console.log(values);
+
+    axios.post('http://localhost:5000/user/', values)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
     <div className={classes.root}>
+      {/* <Avatar alt="avatar" src="" className={classes.avatar} /> */}
       <form className={classes.form} noValidate autoComplete="off">
+        {/* <input
+          accept="image/*"
+          className={classes.input}
+          id="contained-button-file"
+          multiple
+          type="file"
+          // onChange={handleChange('userImg')}
+          onChange={handleFileUpload}
+        /> */}
+        {/* <label htmlFor="contained-button-file">
+          <Button variant="contained" color="primary" component="span">
+            Upload
+        </Button>
+        </label> */}
+
         <FormControl className={classes.textField} variant="outlined">
           <InputLabel htmlFor="username">Username</InputLabel>
           <OutlinedInput
@@ -140,7 +185,6 @@ const CreateAccount = () => {
           onClick={handleSubmit}
         >create account</Button>
       </form>
-      {/* <HomeButton /> */}
     </div>
   );
 };

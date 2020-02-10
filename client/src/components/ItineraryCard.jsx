@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     width: '60px',
-    height: 'auto'
+    height: '64px'
   },
   cardTitle: {
     fontSize: '20px',
