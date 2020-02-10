@@ -7,6 +7,7 @@ import Cities from './screen/Cities';
 import Itineraries from './screen/Itineraries';
 import CreateAccount from './screen/CreateAccount';
 import Login from './screen/Login';
+import HomeButton from './components/HomeButton';
 
 import CitiesContext from './context/CitiesContext';
 import ItinerariesContext from './context/ItinerariesContext';
@@ -17,7 +18,6 @@ const App = () => {
     <Fragment>
       <CssBaseline />
       <Container maxWidth={'md'} disableGutters>
-
         <BrowserRouter>
           <Switch>
             <Route exact path='/' component={Landing} />
@@ -30,8 +30,8 @@ const App = () => {
               </ItinerariesContext>
             </CitiesContext>
           </Switch>
+          <HomeButton />
         </BrowserRouter>
-
       </Container>
     </Fragment>
   );

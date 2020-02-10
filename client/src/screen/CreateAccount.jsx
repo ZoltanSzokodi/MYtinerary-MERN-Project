@@ -9,6 +9,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Button from '@material-ui/core/Button';
+import HomeButton from '../components/HomeButton';
 
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -132,10 +133,10 @@ const CreateAccount = () => {
           />
         </FormControl>
 
-        <FormControlLabel
+        {/* <FormControlLabel
           control={<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} value="checkedH" />}
           label="Custom icon"
-        />
+        /> */}
 
         <Button
           variant="contained"
@@ -144,6 +145,7 @@ const CreateAccount = () => {
           onClick={handleSubmit}
         >create account</Button>
       </form>
+      {/* <HomeButton /> */}
     </div>
   );
 };

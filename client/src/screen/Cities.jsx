@@ -10,6 +10,7 @@ import ScrollTop from '../components/ScrollTop';
 import Toolbar from '@material-ui/core/Toolbar';
 import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import HomeButton from '../components/HomeButton';
 
 const useStyles = makeStyles(theme => ({
   outerGridRoot: {
@@ -60,6 +61,7 @@ const Cities = props => {
           </ScrollTop>
         </Fragment>
       )}
+      {/* <HomeButton /> */}
     </Grid>
   );
 };
