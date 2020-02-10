@@ -18,10 +18,12 @@ app.use(morgan('dev'))
 // ROUTES ----------------------------------------
 const cityRoutes = require('./routes/cities');
 const itineraryRoutes = require('./routes/itineraries');
+const userRoutes = require('./routes/users');
 
 
 app.use('/cities', cityRoutes);
 app.use('/itineraries', itineraryRoutes);
+app.use('/user', userRoutes);
 
 // GLOBAL ERROR HANDLING ------------------------
 // if a request reaches this point it will be handled as an error

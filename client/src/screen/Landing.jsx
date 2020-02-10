@@ -79,8 +79,10 @@ const Landing = ({ classes }) => {
                 </Typography>
                 </Grid>
                 <Grid item sm={12} align='center'>
+                  <Link to='/createAccount'>
+                    <Button color='primary' size='large'>Create account</Button>
+                  </Link>
                   <Button color='primary' size='large'>Log in</Button>
-                  <Button color='primary' size='large'>Create account</Button>
                 </Grid>
               </Grid>
             </Grid>
