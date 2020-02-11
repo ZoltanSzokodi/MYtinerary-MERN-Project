@@ -1,72 +1,64 @@
 const express = require('express');
 const router = express.Router();
-const userModel = require('../model/userModel');
+const User = require('../model/userModel');
+const appError = require('../utils/appError');
+const bcrypt = require('bcrypt');
 
 // GET all users -------------------------------------
-router.get('/',
-  async (req, res, next) => {
+router.get('/all',
+  async (req, res) => {
     try {
-      const allUsers = await userModel
-        .find({});
-
+      const users = await User.find({});
       const response = {
-        length: allUsers.length,
-        users: allUsers
+        length: users.length,
+        users: users
       };
       res.send(response);
     }
     catch (error) {
-      console.log(error);
-      const response = {
-        message: 'Failed to fetch users',
-        error
-      };
-      res.status(500).json(response);
+      res.status(500).json(error);
     }
   });
 
 // CREATE a new user ---------------------------------
-router.post('/',
-  async (req, res, next) => {
+router.post('/signup',
+  async (req, res) => {
     try {
-      const username = req.body.username;
-      const user = await userModel
-        .findOne({ username });
+      const username = await User.findOne({ username: req.body.username });
+      const email = await User.findOne({ email: req.body.email });
 
-      if (user) {
-        // throw new Error(`FAILED! '${cityName}' is already in the DB`);
-        const error = new Error();
-        error.status = 400;
-        error.message = `FAILED! username: '${username}' is already taken`;
-        next(error);
-      }
-      else {
-        const email = req.body.email;
-        const checkEmail = await userModel
-          .findOne({ email });
+      username && appError('This username is already taken', 409);
+      email && appError('This email is already taken', 409);
 
-        if (checkEmail) {
-          const error = new Error();
-          error.status = 400;
-          error.message = `FAILED! email: '${email}' is already taken`;
-          next(error);
-        }
-        else {
-          let newUser = await userModel.create(req.body);
+      bcrypt.hash(req.body.password, 10, async (err, hash) => {
+        try {
+          // err && res.status(500).json(err);
+          err && appError('bcrypt error', 500);
+
+          const user = new User({
+            username: req.body.username,
+            password: hash,
+            email: req.body.email,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            userImg: req.body.userImg
+          });
+
+          await user.save()
           const response = {
             message: 'User successfuly created!',
-            createdUser: newUser.username
+            newUser: user.username
           };
           res.status(201).json(response);
         }
-      }
+        catch (error) {
+          res.status(error.status || 500).json(error)
+        }
+      });
     }
     catch (error) {
-      console.log(error.message)
-      const response = {
-        message: error.message
-      };
-      res.status(400).json(response);
+      console.log(error)
+      res.status(error.status || 500).json(error);
     }
   });
 

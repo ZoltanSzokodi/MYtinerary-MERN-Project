@@ -1,126 +1,80 @@
 const express = require('express');
 const router = express.Router();
-const cityModel = require('../model/cityModel');
+const City = require('../model/cityModel');
+const appError = require('../utils/appError');
 
 // GET all cities ----------------------------------
 router.get('/',
-  async (req, res, next) => {
+  async (req, res) => {
     try {
-      const allCities = await cityModel
-        .find({})
+      const cities = await City.find({})
         .select('name country description img'); // only the fields I need
       const response = {
-        length: allCities.length,
-        cities: allCities
+        length: cities.length,
+        cities: cities
       };
       res.send(response);
     }
     catch (error) {
-      console.log(error);
-      const response = {
-        message: 'Failed to fetch cities',
-        error
-      };
-      res.status(500).json(response);
+      res.status(500).json(error);
     }
   });
 
 // POST a new city ---------------------------------
 router.post('/',
-  async (req, res, next) => {
+  async (req, res) => {
     try {
-      const cityName = req.body.name;
-      const city = await cityModel
-        .findOne({ name: cityName });
+      const cityName = await City.findOne({ name: req.body.name });
 
-      if (city) {
-        // throw new Error(`FAILED! '${cityName}' is already in the DB`);
-        const error = new Error();
-        error.status = 400;
-        error.message = `FAILED! '${cityName}' is already in the DB`;
-        next(error);
-      }
-      else {
-        let newCity = await cityModel.create(req.body);
-        const response = {
-          message: 'City successfuly added!',
-          createdCity: newCity
-        };
-        res.status(201).json(response);
-      }
+      cityName && appError('This city already exists', 409);
+
+      let city = await City.create(req.body);
+      const response = {
+        message: 'City successfuly added!',
+        newCity: city
+      };
+      res.status(201).json(response);
     }
     catch (error) {
-      console.log(error.message)
-      const response = {
-        message: error.message
-      };
-      res.status(400).json(response);
+      res.status(error.status || 500).json(error);
     }
   });
 
 // DELETE a city ------------------------------------
 router.delete('/',
-  async (req, res, next) => {
+  async (req, res) => {
     try {
-      const id = req.body.id;
-      const deleteCity = await cityModel.findByIdAndDelete(id);
+      const cityId = await City.findByIdAndDelete(req.body.id);
 
-      if (!deleteCity) {
-        // throw new Error(`FAILED! No city found with id number: '${id}'`);
-        const error = new Error();
-        error.status = 400;
-        error.message = `FAILED! No city found with id number: '${id}'`;
-        next(error);
-      }
-      else {
-        const response = {
-          message: `City with id: "${id}" successfuly removed!`,
-        }
-        res.status(200).json(response);
-      };
+      !cityId && appError('Invalid id number', 400);
+
+      res.status(200).json({ message: 'City successfuly removed' });
     }
     catch (error) {
-      console.log(error);
-      const response = {
-        message: error.message,
-      }
-      res.status(500).json(response);
+      res.status(error.status || 500).json(error);
     }
   });
 
 // UPDATE a city -----------------------------------
 router.patch('/',
-  async (req, res, next) => {
+  async (req, res) => {
     try {
-      const id = req.body.id;
-      const updateCity = await cityModel.findByIdAndUpdate(id, req.body, {
+      const city = await City.findByIdAndUpdate(req.body.id, req.body, {
         new: true,
         omitUndefined: false,
         runValidators: true,
-        // useFindAndModify: true
       });
 
-      if (!updateCity) {
-        // throw new Error(`FAILED! No city found with id number: '${id}'`);
-        const error = new Error();
-        error.status = 400;
-        error.message = `FAILED! No city found with id number: '${id}'`;
-        next(error);
-      }
-      else {
-        const response = {
-          message: 'City successfuly updated!',
-          updatedCity: updateCity
-        };
-        res.json(response);
-      }
+      !city && appError('Invalid id number', 400);
+
+      const response = {
+        message: 'City successfuly updated!',
+        updatedCity: city
+      };
+      res.json(response);
     }
     catch (error) {
-      console.log(error);
-      const response = {
-        message: error.message
-      }
-      res.status(400).json(response);
+      res.status(error.status || 500).json(error);
     }
   });
 

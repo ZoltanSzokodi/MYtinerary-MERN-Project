@@ -11,7 +11,7 @@ const app = express();
 app.use(cors());
 // logs requests in the console while nodemon is listening
 app.use(morgan('dev'));
-app.use('/uploads', express.static('uploads'));
+// app.use('/uploads', express.static('uploads'));
 // Setting up middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

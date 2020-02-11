@@ -3,29 +3,30 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: [true, 'You must add a username'],
+    required: [true, 'required'],
     unique: true,
     trim: true
   },
   password: {
     type: String,
-    required: [true, 'You must add a password'],
+    required: [true, 'required'],
     trim: true
   },
   email: {
     type: String,
-    required: [true, 'You must add your email'],
+    required: [true, 'required'],
     unique: true,
+    match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
     trim: true
   },
   firstName: {
     type: String,
-    required: [true, 'Please enter your first name'],
+    required: [true, 'required'],
     trim: true
   },
   lastName: {
     type: String,
-    required: [true, 'Please enter your last name'],
+    required: [true, 'required'],
     trim: true
   },
   userImg: {

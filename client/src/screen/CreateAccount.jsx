@@ -37,13 +37,13 @@ const useStyles = makeStyles(theme => ({
     width: '80%',
     marginTop: theme.spacing(2)
   },
-  avatar: {
-    width: '100px',
-    height: '100px',
-  },
-  input: {
-    display: 'none',
-  },
+  // avatar: {
+  //   width: '100px',
+  //   height: '100px',
+  // },
+  // input: {
+  //   display: 'none',
+  // },
   submit: {
     marginTop: theme.spacing(2)
   }
@@ -56,7 +56,8 @@ const CreateAccount = () => {
     password: '',
     email: '',
     firstName: '',
-    lastName: ''
+    lastName: '',
+    userImg: ''
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -78,16 +79,16 @@ const CreateAccount = () => {
     event.preventDefault();
   };
 
-  const handleSubmit = () => {
-    console.log(values);
-
-    axios.post('http://localhost:5000/user/', values)
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  const handleSubmit = async () => {
+    try {
+      // console.log(values);
+      const response = await axios.post('http://localhost:5000/user/signup', values);
+      const data = await response.data;
+      console.log(data);
+    }
+    catch (error) {
+      console.log(error.response);
+    }
   };
 
   return (
@@ -169,6 +170,16 @@ const CreateAccount = () => {
             id="lastName"
             value={values.lastName}
             onChange={handleChange('lastName')}
+            labelWidth={90}
+          />
+        </FormControl>
+
+        <FormControl className={classes.textField} variant="outlined">
+          <InputLabel htmlFor="username">Picture url</InputLabel>
+          <OutlinedInput
+            id="userImg"
+            value={values.userImg}
+            onChange={handleChange('userImg')}
             labelWidth={90}
           />
         </FormControl>
