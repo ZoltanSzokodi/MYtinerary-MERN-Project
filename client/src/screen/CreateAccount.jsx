@@ -54,6 +54,7 @@ const CreateAccount = () => {
   const [values, setValues] = useState({
     username: '',
     password: '',
+    passwordConfirm: '',
     email: '',
     firstName: '',
     lastName: '',
@@ -140,6 +141,29 @@ const CreateAccount = () => {
               </InputAdornment>
             }
             labelWidth={70}
+          />
+        </FormControl>
+
+        <FormControl className={classes.textField} variant="outlined">
+          <InputLabel htmlFor="password">Password confirm</InputLabel>
+          <OutlinedInput
+            id="passwordConfirm"
+            type={showPassword ? 'text' : 'password'}
+            value={values.passwordConfirm}
+            onChange={handleChange('passwordConfirm')}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+            labelWidth={135}
           />
         </FormControl>
 
