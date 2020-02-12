@@ -82,7 +82,9 @@ const Landing = ({ classes }) => {
                   <Link to='/createAccount'>
                     <Button color='primary' size='large'>Create account</Button>
                   </Link>
-                  <Button color='primary' size='large'>Log in</Button>
+                  <Link to='login'>
+                    <Button color='primary' size='large'>Log in</Button>
+                  </Link>
                 </Grid>
               </Grid>
             </Grid>

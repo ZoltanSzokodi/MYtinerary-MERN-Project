@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../model/userModel');
 const appError = require('../utils/appError');
 const bcrypt = require('bcrypt');
+const validator = require('validator');
 
 // GET all users -------------------------------------
 router.get('/all',
@@ -24,29 +25,40 @@ router.get('/all',
 router.post('/signup',
   async (req, res) => {
     try {
-      const password = req.body.password;
-      const passwordConfirm = req.body.passwordConfirm;
-      const username = await User.findOne({ username: req.body.username });
-      const email = await User.findOne({ email: req.body.email });
+      const {
+        username,
+        password,
+        passwordConfirm,
+        email,
+        firstName,
+        lastName,
+        userImg } = req.body;
+
+      const usernameTaken = await User.findOne({ username });
+      const emailTaken = await User.findOne({ email });
 
       // Validation
-      username && appError('This username is already taken', 409);
-      email && appError('This email is already taken', 409);
-      password.length < 8 && appError('Password minimum 8 characters', 400);
-      password !== passwordConfirm && appError('Passwords are not the same', 400);
+      usernameTaken
+        && appError('This username is already taken', 409);
+      emailTaken
+        && appError('This email is already taken', 409);
+      !validator.isLength(password, { min: 8, max: 30 })
+        && appError('Password minimum 8 characters', 400);
+      !validator.equals(password, passwordConfirm)
+        && appError('Passwords are not the same', 400);
 
-      bcrypt.hash(req.body.password, 10, async (err, hash) => {
+      bcrypt.hash(password, 10, async (err, hash) => {
         try {
           // err && res.status(500).json(err);
           err && appError('bcrypt error', 500);
 
           const user = new User({
-            username: req.body.username,
+            username,
             password: hash,
-            email: req.body.email,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            userImg: req.body.userImg
+            email,
+            firstName,
+            lastName,
+            userImg
           });
 
           await user.save()

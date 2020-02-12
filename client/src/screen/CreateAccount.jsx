@@ -82,7 +82,6 @@ const CreateAccount = () => {
 
   const handleSubmit = async () => {
     try {
-      // console.log(values);
       const response = await axios.post('http://localhost:5000/user/signup', values);
       const data = await response.data;
       console.log(data);
