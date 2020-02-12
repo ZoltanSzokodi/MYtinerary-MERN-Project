@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
 const Login = () => {
   const classes = useStyles();
   const [values, setValues] = useState({
-    username: '',
+    email: '',
     password: '',
   });
 
@@ -91,11 +91,11 @@ const Login = () => {
       <form className={classes.form} noValidate autoComplete="off">
 
         <FormControl className={classes.textField} variant="outlined">
-          <InputLabel htmlFor="username">Username</InputLabel>
+          <InputLabel htmlFor="email">Email</InputLabel>
           <OutlinedInput
-            id="username"
-            value={values.username}
-            onChange={handleChange('username')}
+            id="email"
+            value={values.email}
+            onChange={handleChange('email')}
             labelWidth={80}
           />
         </FormControl>

@@ -11,7 +11,7 @@ const secret = require('../keys').secret;
 router.get('/all',
   async (req, res) => {
     try {
-      const users = await User.find({});
+      const users = await User.find({}, 'username userImg');
       const response = {
         length: users.length,
         users: users
@@ -81,15 +81,17 @@ router.post('/signup',
     }
   });
 
-// LOG IN user -------------------------------------------
+// LOGIN user -------------------------------------------
 router.post('/login',
   async (req, res) => {
     try {
-      const { username, password } = req.body;
-      const user = await User.findOne({ username });
+      const { email, password } = req.body;
+      const user = await User.findOne({ email });
 
-      !validator.isLength(username, { min: 1, max: undefined })
-        && appError('Please enter your username', 400);
+      !validator.isLength(email, { min: 1, max: undefined })
+        && appError('Please enter your email', 400);
+      !validator.isEmail(email)
+        && appError('Please enter a valid email', 400);
       !validator.isLength(password, { min: 1, max: undefined })
         && appError('Please enter your password', 400);
       !user && appError('Authentication failed', 401);
@@ -121,6 +123,48 @@ router.post('/login',
     }
     catch (error) {
       console.log(error)
+      res.status(error.status || 500).json(error);
+    }
+  });
+
+// DELETE user 
+router.delete('/',
+  async (req, res) => {
+    try {
+      const userId = await User.findByIdAndDelete(req.body.id);
+
+      !userId && appError('Invalid id number', 400);
+
+      res.status(200).json({ message: 'User successfuly deleted' });
+    }
+    catch (error) {
+      res.status(error.status || 500).json(error);
+    }
+  });
+
+// UPDATE a user -----------------------------------
+router.patch('/',
+  async (req, res) => {
+    try {
+      const user = await User.findByIdAndUpdate(req.body.id, req.body, {
+        new: true,
+        omitUndefined: false,
+        runValidators: true,
+      });
+
+      !user && appError('Invalid id number', 400);
+
+      const response = {
+        message: 'User successfuly updated!',
+        updatedUser: {
+          username: user.username,
+          email: user.email,
+          userImg: user.userImg
+        }
+      };
+      res.json(response);
+    }
+    catch (error) {
       res.status(error.status || 500).json(error);
     }
   });
