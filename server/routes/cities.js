@@ -4,7 +4,7 @@ const City = require('../model/cityModel');
 const appError = require('../utils/appError');
 
 // GET all cities ----------------------------------
-router.get('/',
+router.get('/all',
   async (req, res) => {
     try {
       const cities = await City.find({})

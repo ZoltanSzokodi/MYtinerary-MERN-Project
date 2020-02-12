@@ -4,6 +4,8 @@ const User = require('../model/userModel');
 const appError = require('../utils/appError');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
+const jwt = require('jsonwebtoken');
+const secret = require('../keys').secret;
 
 // GET all users -------------------------------------
 router.get('/all',
@@ -67,6 +69,50 @@ router.post('/signup',
             newUser: user.username
           };
           res.status(201).json(response);
+        }
+        catch (error) {
+          res.status(error.status || 500).json(error)
+        }
+      });
+    }
+    catch (error) {
+      console.log(error)
+      res.status(error.status || 500).json(error);
+    }
+  });
+
+// LOG IN user -------------------------------------------
+router.post('/login',
+  async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      const user = await User.findOne({ username });
+
+      !validator.isLength(username, { min: 1, max: undefined })
+        && appError('Please enter your username', 400);
+      !validator.isLength(password, { min: 1, max: undefined })
+        && appError('Please enter your password', 400);
+      !user && appError('Authentication failed', 401);
+
+      bcrypt.compare(password, user.password, (err, result) => {
+        try {
+          if (err) { appError('Authentication failed', 401) }
+
+          if (result) {
+            const payload = {
+              id: user._id,
+              role: user.role,
+              username: user.username,
+              userImg: user.userImg
+            };
+            const options = {
+              expiresIn: 2592000
+            }
+            const token = jwt.sign(payload, secret, options);
+
+            res.status(200).json({ message: 'Authentication successful', token })
+          }
+          else { appError('Authentication failed', 401) }
         }
         catch (error) {
           res.status(error.status || 500).json(error)

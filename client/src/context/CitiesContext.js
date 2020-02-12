@@ -16,7 +16,7 @@ const CitiesContext = ({ children }) => {
   // --------------- GET ALL CITIES FROM DB ----------------
   const fetchCities = useCallback(async () => {
     try {
-      const res = await axios.get('http://localhost:5000/cities/');
+      const res = await axios.get('http://localhost:5000/api/cities/all');
       console.log(res.data);
 
       setTimeout(() => {

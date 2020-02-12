@@ -13,7 +13,6 @@ import Button from '@material-ui/core/Button';
 
 import axios from 'axios';
 
-
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -77,7 +76,8 @@ const Login = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/user/login', values);
+      console.log(values)
+      const response = await axios.post('http://localhost:5000/api/user/login', values);
       const data = await response.data;
       console.log(data);
     }
@@ -119,7 +119,7 @@ const Login = () => {
                 </IconButton>
               </InputAdornment>
             }
-            labelWidth={70}
+            labelWidth={75}
           />
         </FormControl>
 

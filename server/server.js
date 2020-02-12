@@ -22,9 +22,9 @@ const itineraryRoutes = require('./routes/itineraries');
 const userRoutes = require('./routes/users');
 
 
-app.use('/cities', cityRoutes);
-app.use('/itineraries', itineraryRoutes);
-app.use('/user', userRoutes);
+app.use('/api/cities', cityRoutes);
+app.use('/api/itineraries', itineraryRoutes);
+app.use('/api/user', userRoutes);
 
 // GLOBAL ERROR HANDLING ------------------------
 // if a request reaches this point it will be handled as an error
