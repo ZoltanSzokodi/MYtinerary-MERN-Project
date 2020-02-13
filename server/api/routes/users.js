@@ -7,7 +7,8 @@ const router = express.Router();
 const User = require('../model/userModel');
 const secret = require('../../keys').secret;
 const appError = require('../../utils/appError');
-// GET all users -------------------------------------
+
+// GET all users ========================================
 router.get('/all',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
@@ -25,7 +26,7 @@ router.get('/all',
     }
   });
 
-// CREATE a new user ---------------------------------
+// CREATE a new user ======================================
 router.post('/signup',
   async (req, res) => {
     try {
@@ -84,7 +85,7 @@ router.post('/signup',
     }
   });
 
-// LOGIN user -------------------------------------------
+// LOGIN user ==============================================
 router.post('/login',
   async (req, res) => {
     try {
@@ -131,7 +132,7 @@ router.post('/login',
     }
   });
 
-// DELETE user 
+// DELETE user ==============================================
 router.delete('/',
   async (req, res) => {
     try {
@@ -146,7 +147,7 @@ router.delete('/',
     }
   });
 
-// UPDATE a user -----------------------------------
+// UPDATE a user ==============================================
 router.patch('/',
   async (req, res) => {
     try {

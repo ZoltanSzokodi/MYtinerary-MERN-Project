@@ -1,15 +1,16 @@
 import React, { useEffect, useContext, Fragment } from 'react';
-import { citiesContext } from '../context/CitiesContext';
+import { itineraiesContext } from '../../context/ItinerariesContext';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Grow from '@material-ui/core/Grow';
-import Loader from '../components/Loader';
-import MenuAppbar from '../components/MenuAppbar';
-import CityCard from '../components/CityCard';
-import ScrollTop from '../components/ScrollTop';
+import Loader from '../../components/Loader';
+import MenuAppbar from '../../components/MenuAppbar';
+import ScrollTop from '../../components/ScrollTop';
 import Toolbar from '@material-ui/core/Toolbar';
 import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+
+import ItineraryCard from '../../components/ItineraryCard'
 
 const useStyles = makeStyles(theme => ({
   outerGridRoot: {
@@ -18,16 +19,23 @@ const useStyles = makeStyles(theme => ({
   innerGridRoot: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(4)
+
   },
 }));
 
-const Cities = props => {
+const Itineraries = props => {
   const classes = useStyles();
-  const { state, fetchCities, filteredCities } = useContext(citiesContext);
+
+  const cityName = props.match.params.name;
+  const { state, fetchItineraries } = useContext(itineraiesContext);
+
+  console.log(state.data.itineraries);
+
+  const { itineraries } = state.data;
 
   useEffect(() => {
-    fetchCities()
-  }, [fetchCities]);
+    fetchItineraries(cityName)
+  }, [cityName, fetchItineraries]);
 
   return (
     <Grid container classes={{ root: classes.outerGridRoot }}>
@@ -35,7 +43,7 @@ const Cities = props => {
       {state.error && state.error}
       {!state.loading && (
         <Fragment>
-          <MenuAppbar />
+          <MenuAppbar type="itineraries" />
           <Toolbar id="back-to-top-anchor" />
           <Grow in timeout={500}>
             <Grid
@@ -44,13 +52,14 @@ const Cities = props => {
               spacing={2}
               classes={{ root: classes.innerGridRoot }}
             >
-              {filteredCities.map(city => (
-                <Grid item container justify='center' key={city._id}>
-                  <CityCard
-                    key={city._id}
-                    city={city}
+              {itineraries.map(itinerary => (
+                <Grid item container justify='center' key={itinerary._id}>
+                  <ItineraryCard
+                    key={itinerary._id}
+                    itinerary={itinerary}
                   />
-                </Grid>))}
+                </Grid>
+              ))}
             </Grid>
           </Grow>
           <ScrollTop {...props}>
@@ -64,4 +73,4 @@ const Cities = props => {
   );
 };
 
-export default Cities;
+export default Itineraries;

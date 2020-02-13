@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
@@ -15,7 +15,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 // import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 
-import { authContext } from '../context/AuthContext';
+import { authContext } from '../../context/AuthContext';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -111,7 +111,7 @@ const Login = () => {
         type: 'LOGIN',
         payload: token
       });
-      console.log(response.data)
+      // console.log(response.data)
     }
     catch (error) {
       console.log(error.response);
@@ -123,62 +123,65 @@ const Login = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <Fragment>
       {state.isAuthenticated ?
         <Redirect to='/' /> :
-        <form className={classes.form} noValidate autoComplete="off">
-          <Typography variant='h5' align='center'>Login</Typography>
+        <div className={classes.root}>
+          <form className={classes.form} noValidate autoComplete="off">
+            <Typography variant='h5' align='center'>Login</Typography>
 
-          {values.errorMessage &&
-            <div className={classes.formError}>
-              {values.errorMessage}
-            </div>}
+            {values.errorMessage &&
+              <div className={classes.formError}>
+                {values.errorMessage}
+              </div>}
 
-          <FormControl className={classes.textField} variant="outlined">
-            <InputLabel htmlFor="email">Email</InputLabel>
-            <OutlinedInput
-              id="email"
-              value={values.email}
-              onChange={handleChange('email')}
-              labelWidth={80}
-            />
-          </FormControl>
+            <FormControl className={classes.textField} variant="outlined">
+              <InputLabel htmlFor="email">Email</InputLabel>
+              <OutlinedInput
+                id="email"
+                value={values.email}
+                onChange={handleChange('email')}
+                labelWidth={80}
+              />
+            </FormControl>
 
-          <FormControl className={classes.textField} variant="outlined">
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <OutlinedInput
-              id="password"
-              type={showPassword ? 'text' : 'password'}
-              value={values.password}
-              onChange={handleChange('password')}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              labelWidth={75}
-            />
-          </FormControl>
+            <FormControl className={classes.textField} variant="outlined">
+              <InputLabel htmlFor="password">Password</InputLabel>
+              <OutlinedInput
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                value={values.password}
+                onChange={handleChange('password')}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                labelWidth={75}
+              />
+            </FormControl>
 
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleLogin}
-            className={classes.submit}
-            disabled={values.isSubmiting}
-          >
-            {values.isSubmiting ? 'Loading...' : 'Login'}
-          </Button>
-        </form>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleLogin}
+              className={classes.submit}
+              disabled={values.isSubmiting}
+            >
+              {values.isSubmiting ? 'Loading...' : 'Login'}
+            </Button>
+          </form>
+        </div>
       }
-    </div>
+    </Fragment>
+
   );
 };
 

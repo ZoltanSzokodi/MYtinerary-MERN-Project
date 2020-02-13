@@ -10,7 +10,6 @@ import ItineraryLogo from '../static/itineraryLogo.png';
 import RoundArrow from '../static/round-pink-arrow3.png';
 import Loader from '../components/Loader';
 
-
 const styles = {
   root: {
     backgroundImage: 'linear-gradient(to bottom, #ffffff 50%, #f2f1fb 75%)',
