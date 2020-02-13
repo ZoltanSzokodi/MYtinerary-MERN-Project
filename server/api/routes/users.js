@@ -1,14 +1,15 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+const validator = require('validator');
 const router = express.Router();
 const User = require('../model/userModel');
-const appError = require('../utils/appError');
-const bcrypt = require('bcrypt');
-const validator = require('validator');
-const jwt = require('jsonwebtoken');
-const secret = require('../keys').secret;
-
+const secret = require('../../keys').secret;
+const appError = require('../../utils/appError');
 // GET all users -------------------------------------
 router.get('/all',
+  passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     try {
       const users = await User.find({}, 'username userImg');

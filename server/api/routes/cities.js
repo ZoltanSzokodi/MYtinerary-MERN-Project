@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const City = require('../model/cityModel');
-const appError = require('../utils/appError');
+const appError = require('../../utils/appError');
 
 // GET all cities ----------------------------------
 router.get('/all',

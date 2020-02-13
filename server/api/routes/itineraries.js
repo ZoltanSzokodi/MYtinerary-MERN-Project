@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Itinerary = require('../model/itineraryModel');
 const City = require('../model/cityModel');
-const appError = require('../utils/appError');
+const appError = require('../../utils/appError');
 
 // GET itineraries for a city -------------------
 router.get('/:name',
