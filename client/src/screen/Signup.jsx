@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -94,6 +95,8 @@ const Signup = () => {
     <div className={classes.root}>
       {/* <Avatar alt="avatar" src="" className={classes.avatar} /> */}
       <form className={classes.form} noValidate autoComplete="off">
+        <Typography variant='h5' align='center'>Create account</Typography>
+
         {/* <input
           accept="image/*"
           className={classes.input}

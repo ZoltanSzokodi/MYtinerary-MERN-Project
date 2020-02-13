@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import jwt from 'jwt-decode';
 
 import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import Avatar from '@material-ui/core/Avatar';
+// import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 
 import { authContext } from '../context/AuthContext';
-
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,6 +40,9 @@ const useStyles = makeStyles(theme => ({
     width: '80%',
     marginTop: theme.spacing(2)
   },
+  formError: {
+
+  },
   // avatar: {
   //   width: '100px',
   //   height: '100px',
@@ -54,15 +57,23 @@ const useStyles = makeStyles(theme => ({
 
 const Login = () => {
   const classes = useStyles();
+  const { dispatch, state } = useContext(authContext);
+
+  console.log(state)
+
   const [values, setValues] = useState({
     email: '',
     password: '',
+    isSubmiting: false,
+    errorMessage: null
   });
-
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value });
+    setValues({
+      ...values,
+      [prop]: event.target.value
+    });
   };
 
   // const handleFileUpload = event => {
@@ -78,22 +89,48 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async event => {
+    event.preventDefault();
+    setValues({
+      ...values,
+      isSubmiting: true,
+      errorMessage: null
+    });
     try {
-      console.log(values)
-      const response = await axios.post('http://localhost:5000/api/user/login', values);
+      const response = await axios
+        .post(
+          'http://localhost:5000/api/user/login',
+          {
+            email: values.email,
+            password: values.password
+          }
+        );
       const token = await response.data.token;
-      const user = jwt(token);
-      console.log(user);
+
+      dispatch({
+        type: 'LOGIN',
+        payload: token
+      });
+      console.log(response.data)
     }
     catch (error) {
       console.log(error.response);
+      setValues({
+        ...values,
+        errorMessage: error.response.data.message
+      });
     }
   };
 
   return (
     <div className={classes.root}>
       <form className={classes.form} noValidate autoComplete="off">
+        <Typography variant='h5' align='center'>Login</Typography>
+
+        {values.errorMessage &&
+          <div className={classes.formError}>
+            {values.errorMessage}
+          </div>}
 
         <FormControl className={classes.textField} variant="outlined">
           <InputLabel htmlFor="email">Email</InputLabel>
@@ -133,7 +170,10 @@ const Login = () => {
           color="primary"
           className={classes.submit}
           onClick={handleSubmit}
-        >Login</Button>
+          disabled={values.isSubmiting}
+        >
+          {values.isSubmiting ? 'Loading...' : 'Login'}
+        </Button>
       </form>
     </div>
   );
