@@ -39,12 +39,18 @@ const styles = {
 };
 
 const Landing = ({ classes }) => {
-  const { state } = useContext(authContext);
+  const { dispatch, state } = useContext(authContext);
   const [loading, setLoading] = useState(true);
 
   setTimeout(() => {
     setLoading(false)
   }, 800);
+
+  const handleLogout = () => {
+    dispatch({
+      type: 'LOGOUT'
+    });
+  };
 
   return (
     <div className={classes.root}>
@@ -91,7 +97,7 @@ const Landing = ({ classes }) => {
                     </Link>
                   </div>
                   <div style={state.isAuthenticated ? { display: 'block' } : { display: 'none' }}>
-                    <Button color='primary' size='large'>Log out</Button>
+                    <Button color='primary' size='large' onClick={handleLogout}>Log out</Button>
                   </div>
                 </Grid>
               </Grid>

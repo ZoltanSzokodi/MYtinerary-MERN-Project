@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import jwt from 'jwt-decode';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -89,7 +89,7 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const handleSubmit = async event => {
+  const handleLogin = async event => {
     event.preventDefault();
     setValues({
       ...values,
@@ -117,64 +117,67 @@ const Login = () => {
       console.log(error.response);
       setValues({
         ...values,
-        errorMessage: error.response.data.message
+        errorMessage: error.response.data.message || error.statusText
       });
     }
   };
 
   return (
     <div className={classes.root}>
-      <form className={classes.form} noValidate autoComplete="off">
-        <Typography variant='h5' align='center'>Login</Typography>
+      {state.isAuthenticated ?
+        <Redirect to='/' /> :
+        <form className={classes.form} noValidate autoComplete="off">
+          <Typography variant='h5' align='center'>Login</Typography>
 
-        {values.errorMessage &&
-          <div className={classes.formError}>
-            {values.errorMessage}
-          </div>}
+          {values.errorMessage &&
+            <div className={classes.formError}>
+              {values.errorMessage}
+            </div>}
 
-        <FormControl className={classes.textField} variant="outlined">
-          <InputLabel htmlFor="email">Email</InputLabel>
-          <OutlinedInput
-            id="email"
-            value={values.email}
-            onChange={handleChange('email')}
-            labelWidth={80}
-          />
-        </FormControl>
+          <FormControl className={classes.textField} variant="outlined">
+            <InputLabel htmlFor="email">Email</InputLabel>
+            <OutlinedInput
+              id="email"
+              value={values.email}
+              onChange={handleChange('email')}
+              labelWidth={80}
+            />
+          </FormControl>
 
-        <FormControl className={classes.textField} variant="outlined">
-          <InputLabel htmlFor="password">Password</InputLabel>
-          <OutlinedInput
-            id="password"
-            type={showPassword ? 'text' : 'password'}
-            value={values.password}
-            onChange={handleChange('password')}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-            labelWidth={75}
-          />
-        </FormControl>
+          <FormControl className={classes.textField} variant="outlined">
+            <InputLabel htmlFor="password">Password</InputLabel>
+            <OutlinedInput
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              value={values.password}
+              onChange={handleChange('password')}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              labelWidth={75}
+            />
+          </FormControl>
 
-        <Button
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-          onClick={handleSubmit}
-          disabled={values.isSubmiting}
-        >
-          {values.isSubmiting ? 'Loading...' : 'Login'}
-        </Button>
-      </form>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleLogin}
+            className={classes.submit}
+            disabled={values.isSubmiting}
+          >
+            {values.isSubmiting ? 'Loading...' : 'Login'}
+          </Button>
+        </form>
+      }
     </div>
   );
 };
