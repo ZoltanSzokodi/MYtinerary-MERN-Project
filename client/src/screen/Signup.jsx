@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CreateAccount = () => {
+const Signup = () => {
   const classes = useStyles();
   const [values, setValues] = useState({
     username: '',
@@ -222,4 +222,4 @@ const CreateAccount = () => {
   );
 };
 
-export default CreateAccount;
+export default Signup;

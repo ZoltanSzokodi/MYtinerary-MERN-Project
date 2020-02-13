@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useCallback } from 'react';
-import { ajaxReducer } from './reducers';
+import ajaxReducer from './reducers/ajaxReducer';
 import axios from 'axios';
 
 export const itineraiesContext = createContext();
@@ -12,7 +12,7 @@ const ItinerariesContext = props => {
   };
   const [state, dispatch] = useReducer(ajaxReducer, initialState);
 
-  // --------------- GET ALL CITIES FROM DB ----------------
+  // GET ALL CITIES FROM DB =====================================
   const fetchItineraries = useCallback(async name => {
     try {
       const res = await axios.get(`http://localhost:5000/api/itineraries/${name}`);

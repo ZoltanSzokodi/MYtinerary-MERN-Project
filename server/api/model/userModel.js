@@ -37,12 +37,17 @@ const userSchema = new mongoose.Schema({
   userImg: {
     type: String,
     trim: true,
-    // validate: [validator.isURL, 'Please provide a valid URL']
+    default: null
   },
-  role: {
-    type: String,
-    enum: ['user', 'admin'],
-    default: 'user'
+  isAdmin: {
+    type: Boolean,
+    default: false
+  },
+  favoriteItineraries: {
+    type: Array
+  },
+  date: {
+    type: Date
   }
 });
 

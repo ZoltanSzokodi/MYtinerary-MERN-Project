@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { authContext } from '../context/AuthContext';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -38,6 +39,7 @@ const styles = {
 };
 
 const Landing = ({ classes }) => {
+  const { state } = useContext(authContext);
   const [loading, setLoading] = useState(true);
 
   setTimeout(() => {
@@ -78,13 +80,19 @@ const Landing = ({ classes }) => {
                     Share your itineraries!
                 </Typography>
                 </Grid>
-                <Grid item sm={12} align='center'>
-                  <Link to='/createAccount'>
-                    <Button color='primary' size='large'>Create account</Button>
-                  </Link>
-                  <Link to='login'>
-                    <Button color='primary' size='large'>Log in</Button>
-                  </Link>
+
+                <Grid item container sm={12} align='center' direction='column'>
+                  <div style={!state.isAuthenticated ? { display: 'block' } : { display: 'none' }}>
+                    <Link to='/signup'>
+                      <Button color='primary' size='large'>Create account</Button>
+                    </Link>
+                    <Link to='login'>
+                      <Button color='primary' size='large'>Log in</Button>
+                    </Link>
+                  </div>
+                  <div style={state.isAuthenticated ? { display: 'block' } : { display: 'none' }}>
+                    <Button color='primary' size='large'>Log out</Button>
+                  </div>
                 </Grid>
               </Grid>
             </Grid>

@@ -12,7 +12,8 @@ router.get('/all',
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     try {
-      const users = await User.find({}, 'username userImg');
+      // 'username userImg'
+      const users = await User.find({});
       const response = {
         length: users.length,
         users: users
@@ -61,7 +62,8 @@ router.post('/signup',
             email,
             firstName,
             lastName,
-            userImg
+            userImg,
+            date: Date.now()
           });
 
           await user.save()
@@ -104,11 +106,12 @@ router.post('/login',
           if (result) {
             const payload = {
               id: user._id,
-              role: user.role,
+              isAdmin: user.isAdmin,
               username: user.username,
               userImg: user.userImg
             };
             const options = {
+              // 30 days
               expiresIn: 2592000
             }
             const token = jwt.sign(payload, secret, options);

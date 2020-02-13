@@ -1,5 +1,5 @@
 import React, { createContext, useState, useReducer, useCallback } from 'react';
-import { ajaxReducer } from './reducers';
+import ajaxReducer from './reducers/ajaxReducer';
 import axios from 'axios';
 
 export const citiesContext = createContext();
@@ -13,7 +13,7 @@ const CitiesContext = ({ children }) => {
   const [state, dispatch] = useReducer(ajaxReducer, initialState);
   const [filteredCities, setFilteredCities] = useState([]);
 
-  // --------------- GET ALL CITIES FROM DB ----------------
+  // GET ALL CITIES FROM DB ======================================
   const fetchCities = useCallback(async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/cities/all');
@@ -37,7 +37,7 @@ const CitiesContext = ({ children }) => {
     }
   }, []);
 
-  // --------------- HANDLE SEARCH FILTER ----------------
+  // HANDLE SEARCH FILTER ==================================
   const handleFilter = event => {
     let allCities = [];
     let filtered = [];

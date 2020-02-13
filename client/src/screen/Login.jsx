@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import jwt from 'jwt-decode';
+
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
@@ -11,7 +14,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 
-import axios from 'axios';
+import { authContext } from '../context/AuthContext';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -78,8 +82,9 @@ const Login = () => {
     try {
       console.log(values)
       const response = await axios.post('http://localhost:5000/api/user/login', values);
-      const data = await response.data;
-      console.log(data);
+      const token = await response.data.token;
+      const user = jwt(token);
+      console.log(user);
     }
     catch (error) {
       console.log(error.response);

@@ -1,4 +1,4 @@
-export const ajaxReducer = (state, action) => {
+const ajaxReducer = (state, action) => {
   switch (action.type) {
     case 'FETCH_SUCCESS':
       return {
@@ -16,3 +16,5 @@ export const ajaxReducer = (state, action) => {
       return state
   };
 };
+
+export default ajaxReducer;
