@@ -2,6 +2,8 @@ const Itinerary = require('../models/itineraryModel');
 const City = require('../models/cityModel');
 const appError = require('../../utils/appError');
 
+// ================================================================
+
 exports.getItineraries = async (req, res) => {
   try {
     const city = await City.findOne({ name: req.params.name });
@@ -20,6 +22,8 @@ exports.getItineraries = async (req, res) => {
     res.status(error.status || 500).json(error);
   }
 };
+
+// ================================================================
 
 exports.postItinerary = async (req, res) => {
   try {
@@ -45,6 +49,8 @@ exports.postItinerary = async (req, res) => {
   }
 };
 
+// ================================================================
+
 exports.deleteItinerary = async (req, res) => {
   try {
     !req.user.isAdmin && appError('You are not authorized to delete itineraries', 403);
@@ -59,6 +65,8 @@ exports.deleteItinerary = async (req, res) => {
     res.status(error.status || 500).json(error);
   }
 };
+
+// ================================================================
 
 exports.updateItinerary = async (req, res) => {
   try {

@@ -22,7 +22,7 @@ router.delete('/',
   passport.authenticate('jwt', { session: false }),
   UsersController.deleteUser);
 
-// UPDATE a user ==============================================
+// UPDATE a user ============================================
 router.patch('/',
   passport.authenticate('jwt', { session: false }),
   UsersController.updateUser);

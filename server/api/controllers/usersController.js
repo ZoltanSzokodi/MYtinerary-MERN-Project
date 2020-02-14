@@ -6,6 +6,8 @@ const validator = require('validator');
 const secret = require('../../keys').secret;
 const appError = require('../../utils/appError');
 
+// ================================================================
+
 exports.getAllUsers = async (req, res) => {
   try {
     // 'username userImg'
@@ -20,6 +22,8 @@ exports.getAllUsers = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+// ================================================================
 
 exports.signupUser = async (req, res) => {
   try {
@@ -85,6 +89,8 @@ exports.signupUser = async (req, res) => {
   }
 };
 
+// ================================================================
+
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -129,17 +135,12 @@ exports.loginUser = async (req, res) => {
   }
 };
 
+// ================================================================
+
 exports.deleteUser = async (req, res) => {
   try {
     await User.findByIdAndDelete(req.user.id);
-    // !userToDelete && appError('Invalid id number', 400);
 
-    // if (userToDelete !== req.user.id) {
-    //   appError('You are not authorized to delete another user', 403)
-    // }
-    // else {
-    //   res.status(200).json({ message: 'User successfuly deleted' });
-    // }
     res.status(200).json({ message: 'User successfuly deleted' });
   }
   catch (error) {
@@ -147,25 +148,10 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
+// ================================================================
+
 exports.updateUser = async (req, res) => {
   try {
-    // const user = await User.findByIdAndUpdate(req.body.id, req.body, {
-    //   new: true,
-    //   omitUndefined: true,
-    //   runValidators: true,
-    // });
-
-    // !user && appError('Invalid id number', 400);
-
-    // const response = {
-    //   message: 'User successfuly updated!',
-    //   updatedUser: {
-    //     username: user.username,
-    //     email: user.email,
-    //     userImg: user.userImg
-    //   }
-    // };
-    // res.status(200).json(response);
     const user = await User.findByIdAndUpdate(req.user.id, req.body, {
       new: true,
       omitUndefined: true,

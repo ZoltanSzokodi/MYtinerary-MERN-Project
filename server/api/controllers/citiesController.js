@@ -1,6 +1,8 @@
 const City = require('../models/cityModel');
 const appError = require('../../utils/appError');
 
+// ================================================================
+
 exports.getAllCities = async (req, res) => {
   try {
     const cities = await City.find({})
@@ -15,6 +17,8 @@ exports.getAllCities = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+// ================================================================
 
 exports.postCity = async (req, res) => {
   try {
@@ -36,6 +40,8 @@ exports.postCity = async (req, res) => {
   }
 };
 
+// ================================================================
+
 exports.deleteCity = async (req, res) => {
   try {
     !req.user.isAdmin && appError('You are not authorized to delete cities', 403);
@@ -50,6 +56,8 @@ exports.deleteCity = async (req, res) => {
     res.status(error.status || 500).json(error);
   }
 };
+
+// ================================================================
 
 exports.updateCity = async (req, res) => {
   try {

@@ -26,7 +26,7 @@ require('./api/auth/passport')(passport);
 // API ROUTES ===================================
 app.use('/api/cities', cityRoutes);
 app.use('/api/itineraries', itineraryRoutes);
-app.use('/api/user', userRoutes);
+app.use('/api/users', userRoutes);
 
 // GLOBAL ERROR HANDLING ========================
 // if a request reaches this point it will be handled as an error
