@@ -23,6 +23,8 @@ exports.getItineraries = async (req, res) => {
 
 exports.postItinerary = async (req, res) => {
   try {
+    !req.user.isAdmin && appError('You are not authorized to add itineraries', 403);
+
     const city = await City.findOne({ name: req.body.name });
 
     !city && appError('City not found', 400);
@@ -45,6 +47,8 @@ exports.postItinerary = async (req, res) => {
 
 exports.deleteItinerary = async (req, res) => {
   try {
+    !req.user.isAdmin && appError('You are not authorized to delete itineraries', 403);
+
     const itineraryId = await Itinerary.findByIdAndDelete(req.body.id);
 
     !itineraryId && appError('Invalid id number', 400);
@@ -58,6 +62,8 @@ exports.deleteItinerary = async (req, res) => {
 
 exports.updateItinerary = async (req, res) => {
   try {
+    !req.user.isAdmin && appError('You are not authorized to update itineraries', 403);
+
     const itinerary = await Itinerary.findByIdAndUpdate(req.body.id, req.body, {
       new: true,
       omitUndefined: true,
