@@ -54,7 +54,6 @@ router.post('/signup',
 
       bcrypt.hash(password, 10, async (err, hash) => {
         try {
-          // err && res.status(500).json(err);
           err && appError('bcrypt error', 500);
 
           const user = new User({
@@ -67,12 +66,20 @@ router.post('/signup',
             date: Date.now()
           });
 
-          await user.save()
-          const response = {
-            message: 'User successfuly created!',
-            newUser: user.username
+          await user.save();
+
+          const payload = {
+            id: user._id,
+            isAdmin: user.isAdmin,
+            username: user.username,
+            userImg: user.userImg
           };
-          res.status(201).json(response);
+          const options = {
+            expiresIn: 2592000
+          };
+          const token = jwt.sign(payload, secret, options);
+
+          res.status(201).json({ message: 'User successfuly created', token });
         }
         catch (error) {
           res.status(error.status || 500).json(error)
@@ -80,7 +87,7 @@ router.post('/signup',
       });
     }
     catch (error) {
-      console.log(error)
+      console.log(error);
       res.status(error.status || 500).json(error);
     }
   });
@@ -112,7 +119,6 @@ router.post('/login',
               userImg: user.userImg
             };
             const options = {
-              // 30 days
               expiresIn: 2592000
             }
             const token = jwt.sign(payload, secret, options);

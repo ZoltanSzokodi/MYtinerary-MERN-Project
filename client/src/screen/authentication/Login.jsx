@@ -59,7 +59,7 @@ const Login = () => {
   const classes = useStyles();
   const { dispatch, state } = useContext(authContext);
 
-  console.log(state)
+  console.log(state);
 
   const [values, setValues] = useState({
     email: '',
@@ -98,8 +98,7 @@ const Login = () => {
     });
     try {
       const response = await axios
-        .post(
-          'http://localhost:5000/api/user/login',
+        .post('http://localhost:5000/api/user/login',
           {
             email: values.email,
             password: values.password

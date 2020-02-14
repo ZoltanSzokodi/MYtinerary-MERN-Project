@@ -9,23 +9,16 @@ import axios from 'axios';
 const Users = () => {
   const { state } = useContext(authContext);
 
-  // console.log(state.token)
-
   const handleClick = async () => {
     try {
-      const response = await axios.get(
-        'http://localhost:5000/api/user/all',
-        {
-          headers:
+      const response = await axios
+        .get('http://localhost:5000/api/user/all',
           {
-            'Authorization': `bearer ${state.token}`
-          }
-        });
+            headers: { 'Authorization': `bearer ${state.token}` }
+          });
       console.log(response);
     }
-    catch (err) {
-      console.log(err.response);
-    }
+    catch (err) { console.log(err.response) }
   };
 
   return (
