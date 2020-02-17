@@ -2,6 +2,17 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
+  // provider: {
+  //   type: String,
+  //   required: true,
+  //   enum: ['jwt', 'google']
+  // },
+  // googleId: {
+  //   type: String
+  // },
+  // token: {
+  //   type: String
+  // },
   username: {
     type: String,
     required: [true, 'Required'],
@@ -11,7 +22,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, 'Required'],
-    // select: false,
     trim: true
   },
   email: {
@@ -25,13 +35,13 @@ const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: [true, 'required'],
-    validate: [validator.isAlpha, 'Name must only contain A-Z/a-z characters'],
+    validate: [validator.isAscii, 'Name must only contain A-Z/a-z characters'],
     trim: true
   },
   lastName: {
     type: String,
     required: [true, 'required'],
-    validate: [validator.isAlpha, 'Name must only contain A-Z/a-z characters'],
+    validate: [validator.isAscii, 'Name must only contain A-Z/a-z characters'],
     trim: true
   },
   userImg: {

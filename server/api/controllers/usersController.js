@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 
-const secret = require('../../keys').secret;
+const secret = require('../../keys').JWT_SECRET;
 const appError = require('../../utils/appError');
 
 // ================================================================
@@ -28,6 +28,7 @@ exports.getAllUsers = async (req, res) => {
 exports.signupUser = async (req, res) => {
   try {
     const {
+      // provider,
       username,
       password,
       passwordConfirm,
@@ -54,6 +55,7 @@ exports.signupUser = async (req, res) => {
         err && appError('bcrypt error', 500);
 
         const user = new User({
+          // provider,
           username,
           password: hash,
           email,

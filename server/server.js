@@ -21,7 +21,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
-require('./api/auth/passport')(passport);
+require('./api/auth/passport');
 
 // API ROUTES ===================================
 app.use('/api/cities', cityRoutes);

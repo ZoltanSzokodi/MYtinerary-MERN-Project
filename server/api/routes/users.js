@@ -13,9 +13,26 @@ router.get('/all',
 router.post('/signup',
   UsersController.signupUser);
 
-// LOGIN user ==============================================
+// JWT - LOGIN user ==============================================
 router.post('/login',
   UsersController.loginUser);
+
+
+
+// GOOGLE - LOGIN
+router.get('/google',
+  passport.authenticate('google', { scope: ['profile'] }));
+
+// GOOGLE - REDIRECT
+router.get('/google/redirect',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
+
+
+
 
 // DELETE user ==============================================
 router.delete('/',
