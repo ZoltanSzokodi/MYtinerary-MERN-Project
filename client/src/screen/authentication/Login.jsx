@@ -178,9 +178,11 @@ const Login = () => {
             </Button>
           </form>
 
-          <Button variant="contained" color="primary">
-            Google
-            </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            href="http://localhost:5000/api/users/google"
+          >Google</Button>
         </div>
       }
     </Fragment>

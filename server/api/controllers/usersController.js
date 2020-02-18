@@ -40,6 +40,7 @@ exports.googleAuth = (req, res) => {
       userImg
     }
     const options = {
+      // expiresIn: 86400
       expiresIn: 2592000
     };
     const token = jwt.sign(payload, secret, options);

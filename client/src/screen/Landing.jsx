@@ -41,12 +41,14 @@ const Landing = ({ classes }) => {
   const { dispatch, state } = useContext(authContext);
   const [loading, setLoading] = useState(true);
 
+  // LOADER ===============================================================
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
     }, 800);
   }, []);
 
+  // LOGIN with URL TOKEN from Google =====================================
   useEffect(() => {
     const urlParam = window.location.search;
     if (urlParam !== '') {
@@ -59,6 +61,7 @@ const Landing = ({ classes }) => {
     }
   }, []);
 
+  // SIMPLE LOG OUT ======================================================
   const handleLogout = () => {
     dispatch({
       type: 'LOGOUT'
