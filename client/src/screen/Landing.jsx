@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { authContext } from '../context/AuthContext';
 import { withStyles } from '@material-ui/core/styles';
@@ -41,9 +41,23 @@ const Landing = ({ classes }) => {
   const { dispatch, state } = useContext(authContext);
   const [loading, setLoading] = useState(true);
 
-  setTimeout(() => {
-    setLoading(false)
-  }, 800);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false)
+    }, 800);
+  }, []);
+
+  useEffect(() => {
+    const urlParam = window.location.search;
+    if (urlParam !== '') {
+      const token = urlParam.split('=')[1];
+
+      dispatch({
+        type: 'LOGIN',
+        payload: token
+      });
+    }
+  }, []);
 
   const handleLogout = () => {
     dispatch({

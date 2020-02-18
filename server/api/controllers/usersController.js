@@ -51,7 +51,7 @@ exports.googleAuth = (req, res) => {
     console.log(error);
     res.status(error.status || 500).json(error);
   }
-}
+};
 
 // ================================================================
 
