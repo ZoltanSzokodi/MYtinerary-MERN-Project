@@ -1,5 +1,5 @@
 import React, { useState, useContext, Fragment } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -177,6 +177,10 @@ const Login = () => {
               {values.isSubmiting ? 'Loading...' : 'Login'}
             </Button>
           </form>
+
+          <Button variant="contained" color="primary">
+            Google
+            </Button>
         </div>
       }
     </Fragment>

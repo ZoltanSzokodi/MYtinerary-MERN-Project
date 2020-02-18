@@ -21,7 +21,9 @@ router.post('/login',
 
 // GOOGLE - LOGIN
 router.get('/google',
-  passport.authenticate('google', { scope: ['profile'] }));
+  passport.authenticate('google', {
+    scope: ["profile", "email"],
+  }));
 
 // GOOGLE - REDIRECT
 router.get('/google/redirect',

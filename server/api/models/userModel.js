@@ -7,12 +7,14 @@ const userSchema = new mongoose.Schema({
   //   required: true,
   //   enum: ['jwt', 'google']
   // },
-  // googleId: {
-  //   type: String
-  // },
-  // token: {
-  //   type: String
-  // },
+  isOAuth: {
+    type: Boolean,
+    required: true,
+    // default: false
+  },
+  googleId: {
+    type: String
+  },
   username: {
     type: String,
     required: [true, 'Required'],
@@ -21,7 +23,10 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: [true, 'Required'],
+    // required: [true, 'Required'],
+    required: function () {
+      return this.isOAuth ? false : true;
+    },
     trim: true
   },
   email: {

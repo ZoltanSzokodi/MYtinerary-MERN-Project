@@ -34,7 +34,6 @@ module.exports = passport.use('google',
   },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        console.log('provider:' + profile.provider)
         console.log(profile)
 
         let user = await User.findOne({ 'googleId': profile.id });
@@ -44,18 +43,17 @@ module.exports = passport.use('google',
         }
         else {
           user = new User({
-            // provider: profile.provider,
+            isOAuth: true,
             googleId: profile.id,
             username: profile.displayName,
+            email: profile.emails[0].value,
             firstName: profile.name.givenName,
             lastName: profile.name.familyName,
             userImg: profile.photos[0].value,
-            token: accessToken
-
+            // token: accessToken
           });
           await user.save();
           return done(null, user);
-          // console.log('fail')
         }
       }
       catch (error) {

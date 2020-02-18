@@ -28,7 +28,7 @@ exports.getAllUsers = async (req, res) => {
 exports.signupUser = async (req, res) => {
   try {
     const {
-      // provider,
+      // isOAuth,
       username,
       password,
       passwordConfirm,
@@ -55,7 +55,7 @@ exports.signupUser = async (req, res) => {
         err && appError('bcrypt error', 500);
 
         const user = new User({
-          // provider,
+          isOAuth: false,
           username,
           password: hash,
           email,
