@@ -2,15 +2,14 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
-  // provider: {
-  //   type: String,
-  //   required: true,
-  //   enum: ['jwt', 'google']
-  // },
   isOAuth: {
     type: Boolean,
-    required: true,
-    // default: false
+    // required: true,
+    default: false
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false
   },
   googleId: {
     type: String
@@ -23,10 +22,9 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    // required: [true, 'Required'],
-    required: function () {
-      return this.isOAuth ? false : true;
-    },
+    required: [function () {
+      return this.isOAuth ? false : true
+    }, 'Required'],
     trim: true
   },
   email: {
@@ -54,15 +52,12 @@ const userSchema = new mongoose.Schema({
     trim: true,
     default: null
   },
-  isAdmin: {
-    type: Boolean,
-    default: false
-  },
   favoriteItineraries: {
     type: Array
   },
   date: {
-    type: Date
+    type: Date,
+    default: Date.now()
   }
 });
 

@@ -25,10 +25,39 @@ exports.getAllUsers = async (req, res) => {
 
 // ================================================================
 
+exports.googleAuth = (req, res) => {
+  try {
+    const {
+      _id,
+      isAdmin,
+      username,
+      userImg } = req.user;
+
+    const payload = {
+      id: _id,
+      isAdmin,
+      username,
+      userImg
+    }
+    const options = {
+      expiresIn: 2592000
+    };
+    const token = jwt.sign(payload, secret, options);
+
+    const resToken = "?code=" + token;
+    res.redirect('http://localhost:3000/' + resToken);
+  }
+  catch (error) {
+    console.log(error);
+    res.status(error.status || 500).json(error);
+  }
+}
+
+// ================================================================
+
 exports.signupUser = async (req, res) => {
   try {
     const {
-      // isOAuth,
       username,
       password,
       passwordConfirm,
@@ -55,14 +84,12 @@ exports.signupUser = async (req, res) => {
         err && appError('bcrypt error', 500);
 
         const user = new User({
-          isOAuth: false,
           username,
           password: hash,
           email,
           firstName,
           lastName,
-          userImg,
-          date: Date.now()
+          userImg
         });
 
         await user.save();

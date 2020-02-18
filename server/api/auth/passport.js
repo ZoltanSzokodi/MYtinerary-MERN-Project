@@ -34,11 +34,9 @@ module.exports = passport.use('google',
   },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        console.log(profile)
-
+        // console.log(profile)
         let user = await User.findOne({ 'googleId': profile.id });
         if (user) {
-          // console.log(user)
           return done(null, user);
         }
         else {
@@ -57,7 +55,7 @@ module.exports = passport.use('google',
         }
       }
       catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     }
   ));
