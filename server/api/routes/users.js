@@ -28,6 +28,11 @@ router.get('/google/redirect',
   passport.authenticate('google', { session: false }),
   UsersController.googleAuth);
 
+// LOGOUT user ==============================================
+router.get('/logout',
+  passport.authenticate('jwt', { session: false }),
+  UsersController.logoutUser);
+
 // DELETE user ==============================================
 router.delete('/',
   passport.authenticate('jwt', { session: false }),

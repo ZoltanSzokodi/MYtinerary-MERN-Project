@@ -23,7 +23,7 @@ module.exports = passport.use('jwt',
       console.log(error);
     }
   })
-)
+);
 
 // GOOGLE STRATEGY =====================================
 module.exports = passport.use('google',
@@ -37,18 +37,21 @@ module.exports = passport.use('google',
         // console.log(profile)
         let user = await User.findOne({ 'googleId': profile.id });
         if (user) {
+          user.isLoggedin = true;
+          await user.save();
+
           return done(null, user);
         }
         else {
           user = new User({
             isOAuth: true,
+            isLoggedin: true,
             googleId: profile.id,
             username: profile.displayName,
             email: profile.emails[0].value,
             firstName: profile.name.givenName,
             lastName: profile.name.familyName,
             userImg: profile.photos[0].value,
-            // token: accessToken
           });
           await user.save();
           return done(null, user);

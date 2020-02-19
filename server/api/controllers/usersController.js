@@ -59,6 +59,8 @@ exports.googleAuth = (req, res) => {
 exports.signupUser = async (req, res) => {
   try {
     const {
+      // isAdmin, ==================================
+      // This would be a security issue - nobody should be able to sign up as admin. It has to be granted manually in the DB ===========================
       username,
       password,
       passwordConfirm,
@@ -85,6 +87,8 @@ exports.signupUser = async (req, res) => {
         err && appError('bcrypt error', 500);
 
         const user = new User({
+          // isAdmin,
+          isLoggedin: true,
           username,
           password: hash,
           email,
@@ -134,11 +138,14 @@ exports.loginUser = async (req, res) => {
       && appError('Please enter your password', 400);
     !user && appError('Authentication failed', 401);
 
-    bcrypt.compare(password, user.password, (err, result) => {
+    bcrypt.compare(password, user.password, async (err, result) => {
       try {
         if (err) { appError('Authentication failed', 401) }
 
         if (result) {
+          user.isLoggedin = true;
+          await user.save();
+
           const payload = {
             id: user._id,
             isAdmin: user.isAdmin,
@@ -164,6 +171,23 @@ exports.loginUser = async (req, res) => {
     res.status(error.status || 500).json(error);
   }
 };
+
+// ================================================================
+
+exports.logoutUser = async (req, res) => {
+  try {
+    const user = await User.findById({ _id: req.user.id });
+
+    user.isLoggedin = false;
+
+    await user.save();
+
+    res.status(200).json({ message: 'You are logged out' })
+  }
+  catch (error) {
+    res.status(error.status || 500).json(error);
+  }
+}
 
 // ================================================================
 

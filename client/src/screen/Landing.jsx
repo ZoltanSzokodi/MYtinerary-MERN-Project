@@ -59,7 +59,7 @@ const Landing = ({ classes }) => {
         payload: token
       });
     }
-  }, []);
+  }, [dispatch]);
 
   // SIMPLE LOG OUT ======================================================
   const handleLogout = () => {

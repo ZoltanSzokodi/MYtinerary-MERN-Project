@@ -4,12 +4,15 @@ const validator = require('validator');
 const userSchema = new mongoose.Schema({
   isOAuth: {
     type: Boolean,
-    // required: true,
     default: false
   },
   isAdmin: {
     type: Boolean,
     default: false
+  },
+  isLoggedin: {
+    type: Boolean,
+    required: [true, 'Required']
   },
   googleId: {
     type: String
@@ -23,7 +26,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [function () {
-      return this.isOAuth ? false : true
+      return this.isOAuth ? false : true;
     }, 'Required'],
     trim: true
   },
