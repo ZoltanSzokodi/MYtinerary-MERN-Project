@@ -43,4 +43,9 @@ router.patch('/',
   passport.authenticate('jwt', { session: false }),
   UsersController.updateUser);
 
+// TOGGLE FAVS ==============================================
+router.post('/toggleFavs',
+  passport.authenticate('jwt', { session: false }),
+  UsersController.toggleFavs);
+
 module.exports = router;

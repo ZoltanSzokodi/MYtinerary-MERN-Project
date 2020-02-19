@@ -1,5 +1,5 @@
 import React, { useState, useContext, Fragment } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -177,12 +177,6 @@ const Login = () => {
               {values.isSubmiting ? 'Loading...' : 'Login'}
             </Button>
           </form>
-
-          <Button
-            variant="contained"
-            color="primary"
-            href="http://localhost:5000/api/users/google"
-          >Google</Button>
         </div>
       }
     </Fragment>

@@ -113,6 +113,7 @@ const Landing = ({ classes }) => {
                     <Link to='login'>
                       <Button color='primary' size='large'>Log in</Button>
                     </Link>
+                    <Button color="primary" size='large' href="http://localhost:5000/api/users/google">Google</Button>
                   </div>
                   <div style={state.isAuthenticated ? { display: 'block' } : { display: 'none' }}>
                     <Button color='primary' size='large' onClick={handleLogout}>Log out</Button>

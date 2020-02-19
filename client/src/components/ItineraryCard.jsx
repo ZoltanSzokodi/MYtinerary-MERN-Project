@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { authContext } from '../context/AuthContext';
+
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -9,8 +11,9 @@ import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ThumbUpAltRoundedIcon from '@material-ui/icons/ThumbUpAltRounded';
+import Checkbox from '@material-ui/core/Checkbox';
+import Favorite from '@material-ui/icons/Favorite';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import Grid from '@material-ui/core/Grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -49,6 +52,7 @@ const useStyles = makeStyles(theme => ({
 
 const ItineraryCard = ({ itinerary }) => {
   const classes = useStyles();
+  const { state } = useContext(authContext);
   const [expanded, setExpanded] = React.useState(false);
 
   const {
@@ -58,7 +62,7 @@ const ItineraryCard = ({ itinerary }) => {
     duration,
     price,
     tourGuide,
-    hashTags
+    hashTags,
   } = itinerary;
 
   const handleExpandClick = () => {
@@ -114,12 +118,8 @@ const ItineraryCard = ({ itinerary }) => {
       </CardContent>
 
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="like">
-          <ThumbUpAltRoundedIcon />
-        </IconButton>
+        <Checkbox icon={<FavoriteBorder />} disabled={!state.isAuthenticated && true} checkedIcon={<Favorite />} value="checkedH" />
+
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,

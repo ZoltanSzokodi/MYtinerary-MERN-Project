@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Itinerary = require('../models/itineraryModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
@@ -234,3 +235,67 @@ exports.updateUser = async (req, res) => {
     res.status(error.status || 500).json(error.message);
   }
 };
+
+
+
+
+
+
+
+
+// ==================================================================
+// FAVORITES
+
+exports.getFavs = async (req, res) => {
+  try {
+    !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
+    // find and return all favorite itineraries of a logged in user
+  }
+  catch (error) {
+    console.log(error)
+    res.status(error.status || 500).json(error.message);
+  }
+};
+
+// =================================================================
+
+exports.toggleFavs = async (req, res) => {
+  try {
+    // !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
+    const { itineraryId } = req.body;
+    const user = await User.findById({ _id: req.user.id });
+    const itinerary = await Itinerary.findById({ _id: itineraryId })
+    const { favoriteItineraries } = user;
+
+    !itinerary && appError('Invalidid number', 400);
+
+    if (favoriteItineraries.includes(itineraryId)) {
+      // remove from favorites
+      const index = favoriteItineraries.indexOf(itineraryId);
+      favoriteItineraries.splice(index, 1);
+    }
+    else {
+      // add to favorites
+      favoriteItineraries.push(itineraryId);
+    }
+    await user.save();
+
+    res.status(200).json({ message: 'Success' });
+  }
+  catch (error) {
+    console.log(error)
+    res.status(error.status || 500).json(error.message);
+  }
+};
+
+// =================================================================
+
+// exports.removeFromFavs = async (req, res) => {
+//   try {
+
+//   }
+//   catch (error) {
+//     console.log(error)
+//     res.status(error.status || 500).json(error.message);
+//   }
+// };
