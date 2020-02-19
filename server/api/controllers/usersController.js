@@ -10,7 +10,8 @@ const appError = require('../../utils/appError');
 
 exports.getAllUsers = async (req, res) => {
   try {
-    // 'username userImg'
+    !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
+
     const users = await User.find({});
     const response = {
       length: users.length,
@@ -176,6 +177,8 @@ exports.loginUser = async (req, res) => {
 
 exports.logoutUser = async (req, res) => {
   try {
+    !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
+
     const user = await User.findById({ _id: req.user.id });
 
     user.isLoggedin = false;
@@ -193,6 +196,8 @@ exports.logoutUser = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
+    !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
+
     await User.findByIdAndDelete(req.user.id);
 
     res.status(200).json({ message: 'User successfuly deleted' });
@@ -206,6 +211,8 @@ exports.deleteUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
+    !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
+
     const user = await User.findByIdAndUpdate(req.user.id, req.body, {
       new: true,
       omitUndefined: true,

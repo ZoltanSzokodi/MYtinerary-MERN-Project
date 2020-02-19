@@ -22,6 +22,7 @@ exports.getAllCities = async (req, res) => {
 
 exports.postCity = async (req, res) => {
   try {
+    !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
     !req.user.isAdmin && appError('You are not authorized to add cities', 403);
 
     const cityName = await City.findOne({ name: req.body.name });
@@ -44,6 +45,7 @@ exports.postCity = async (req, res) => {
 
 exports.deleteCity = async (req, res) => {
   try {
+    !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
     !req.user.isAdmin && appError('You are not authorized to delete cities', 403);
 
     const deleteCity = await City.findByIdAndDelete(req.body.id);
@@ -61,6 +63,7 @@ exports.deleteCity = async (req, res) => {
 
 exports.updateCity = async (req, res) => {
   try {
+    !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
     !req.user.isAdmin && appError('You are not authorized to update cities', 403);
 
     const updateCity = await City.findByIdAndUpdate(req.body.id, req.body, {
