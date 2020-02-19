@@ -1,4 +1,5 @@
 import jwt from 'jwt-decode';
+import axios from 'axios';
 
 const authReducer = (state, action) => {
   switch (action.type) {
@@ -13,7 +14,15 @@ const authReducer = (state, action) => {
         user: jwt(action.payload),
         token: action.payload
       };
+
     case 'LOGOUT':
+      // BACK-END LOG OUT ============================================
+      axios.get('http://localhost:5000/api/users/logout',
+        { headers: { 'Authorization': `bearer ${action.payload}` } })
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+
+      // FRONT-END LOG OUT ===========================================
       localStorage.clear();
       return {
         ...state,

@@ -58,13 +58,15 @@ const Landing = ({ classes }) => {
         type: 'LOGIN',
         payload: token
       });
+      window.location = '/';
     }
   }, [dispatch]);
 
-  // SIMPLE LOG OUT ======================================================
+  // LOG OUT ======================================================
   const handleLogout = () => {
     dispatch({
-      type: 'LOGOUT'
+      type: 'LOGOUT',
+      payload: state.token
     });
   };
 
