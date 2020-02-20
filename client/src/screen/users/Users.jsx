@@ -7,14 +7,14 @@ import axios from 'axios';
 // THIS IS FOR PASSPORT TESTING PURPOSES ===============
 
 const Users = () => {
-  const { state } = useContext(authContext);
+  const { authState } = useContext(authContext);
 
   const handleClick = async () => {
     try {
       const response = await axios
         .get('http://localhost:5000/api/user/all',
           {
-            headers: { 'Authorization': `bearer ${state.token}` }
+            headers: { 'Authorization': `bearer ${authState.token}` }
           });
       console.log(response);
     }
@@ -23,7 +23,7 @@ const Users = () => {
 
   return (
     <Fragment>
-      {!state.isAuthenticated ?
+      {!authState.isAuthenticated ?
         <Redirect to='/' /> :
         <Fragment>
           <div>GET ALL USERS</div>

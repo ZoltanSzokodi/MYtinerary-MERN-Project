@@ -20,10 +20,10 @@ const AuthContext = ({ children }) => {
     user: JSON.parse(localStorage.getItem('user')),
     token: JSON.parse(localStorage.getItem('token'))
   };
-  const [state, dispatch] = useReducer(authReducer, initialState);
+  const [authState, authDispatch] = useReducer(authReducer, initialState);
 
   return (
-    <authContext.Provider value={{ state, dispatch }}>
+    <authContext.Provider value={{ authState, authDispatch }}>
       {children}
     </authContext.Provider>
   );

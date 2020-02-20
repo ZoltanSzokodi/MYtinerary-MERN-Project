@@ -48,4 +48,9 @@ router.post('/toggleFavs',
   passport.authenticate('jwt', { session: false }),
   UsersController.toggleFavs);
 
+// GET FAVS ================================================
+router.get('/getFavs',
+  passport.authenticate('jwt', { session: false }),
+  UsersController.getFavs);
+
 module.exports = router;

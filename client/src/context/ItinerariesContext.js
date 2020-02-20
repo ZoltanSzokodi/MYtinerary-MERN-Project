@@ -10,16 +10,16 @@ const ItinerariesContext = props => {
     data: [],
     error: ''
   };
-  const [state, dispatch] = useReducer(ajaxReducer, initialState);
+  const [itinerariesState, itinerariesDispatch] = useReducer(ajaxReducer, initialState);
 
   // GET ALL CITIES FROM DB =====================================
   const fetchItineraries = useCallback(async name => {
     try {
       const res = await axios.get(`http://localhost:5000/api/itineraries/${name}`);
-      console.log(res.data);
+      // console.log(res.data);
 
       setTimeout(() => {
-        dispatch({
+        itinerariesDispatch({
           type: 'FETCH_SUCCESS',
           payload: res.data
         })
@@ -27,7 +27,7 @@ const ItinerariesContext = props => {
     }
     catch (err) {
       setTimeout(() => {
-        dispatch({
+        itinerariesDispatch({
           type: 'FETCH_FAILED',
           payload: err
         })
@@ -36,7 +36,7 @@ const ItinerariesContext = props => {
   }, []);
 
   return (
-    <itineraiesContext.Provider value={{ state, fetchItineraries }}>
+    <itineraiesContext.Provider value={{ itinerariesState, fetchItineraries }}>
       {props.children}
     </itineraiesContext.Provider>
   );

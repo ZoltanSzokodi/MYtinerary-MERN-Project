@@ -1,5 +1,7 @@
 import React, { useState, useContext, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
+import { authContext } from '../../context/AuthContext';
+
 import axios from 'axios';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,7 +17,6 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 // import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 
-import { authContext } from '../../context/AuthContext';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -57,9 +58,9 @@ const useStyles = makeStyles(theme => ({
 
 const Login = () => {
   const classes = useStyles();
-  const { dispatch, state } = useContext(authContext);
+  const { authState, authDispatch } = useContext(authContext);
 
-  console.log(state);
+  console.log(authState);
 
   const [values, setValues] = useState({
     email: '',
@@ -106,7 +107,7 @@ const Login = () => {
         );
       const token = await response.data.token;
 
-      dispatch({
+      authDispatch({
         type: 'LOGIN',
         payload: token
       });
@@ -123,7 +124,7 @@ const Login = () => {
 
   return (
     <Fragment>
-      {state.isAuthenticated ?
+      {authState.isAuthenticated ?
         <Redirect to='/' /> :
         <div className={classes.root}>
           <form className={classes.form} noValidate autoComplete="off">

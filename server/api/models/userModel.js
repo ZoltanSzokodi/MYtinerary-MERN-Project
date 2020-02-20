@@ -56,7 +56,8 @@ const userSchema = new mongoose.Schema({
     default: null
   },
   favoriteItineraries: {
-    type: Array
+    type: Array,
+    trim: true
   },
   date: {
     type: Date,

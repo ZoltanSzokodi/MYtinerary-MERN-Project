@@ -38,7 +38,7 @@ const styles = {
 };
 
 const Landing = ({ classes }) => {
-  const { dispatch, state } = useContext(authContext);
+  const { authState, authDispatch } = useContext(authContext);
   const [loading, setLoading] = useState(true);
 
   // LOADER ===============================================================
@@ -54,19 +54,19 @@ const Landing = ({ classes }) => {
     if (urlParam !== '') {
       const token = urlParam.split('=')[1];
 
-      dispatch({
+      authDispatch({
         type: 'LOGIN',
         payload: token
       });
       window.location = '/';
     }
-  }, [dispatch]);
+  }, [authDispatch]);
 
   // LOG OUT ======================================================
   const handleLogout = () => {
-    dispatch({
+    authDispatch({
       type: 'LOGOUT',
-      payload: state.token
+      payload: authState.token
     });
   };
 
@@ -106,7 +106,7 @@ const Landing = ({ classes }) => {
                 </Grid>
 
                 <Grid item container sm={12} align='center' direction='column'>
-                  <div style={!state.isAuthenticated ? { display: 'block' } : { display: 'none' }}>
+                  <div style={!authState.isAuthenticated ? { display: 'block' } : { display: 'none' }}>
                     <Link to='/signup'>
                       <Button color='primary' size='large'>Create account</Button>
                     </Link>
@@ -115,7 +115,7 @@ const Landing = ({ classes }) => {
                     </Link>
                     <Button color="primary" size='large' href="http://localhost:5000/api/users/google">Google</Button>
                   </div>
-                  <div style={state.isAuthenticated ? { display: 'block' } : { display: 'none' }}>
+                  <div style={authState.isAuthenticated ? { display: 'block' } : { display: 'none' }}>
                     <Button color='primary' size='large' onClick={handleLogout}>Log out</Button>
                   </div>
                 </Grid>

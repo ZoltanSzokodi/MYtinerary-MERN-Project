@@ -218,15 +218,19 @@ exports.updateUser = async (req, res) => {
       new: true,
       omitUndefined: true,
       runValidators: true,
+      useFindAndModify: false
     });
+
+    console.log(req.body)
 
     const response = {
       message: 'User successfuly updated!',
-      updatedUser: {
-        username: user.username,
-        email: user.email,
-        userImg: user.userImg
-      }
+      // updatedUser: {
+      //   username: user.username,
+      //   email: user.email,
+      //   userImg: user.userImg
+      // }
+      updatedUser: user
     };
     res.status(200).json(response);
   }
@@ -250,6 +254,16 @@ exports.getFavs = async (req, res) => {
   try {
     !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
     // find and return all favorite itineraries of a logged in user
+    const user = await User.findById({ _id: req.user.id });
+
+    const { favoriteItineraries } = user;
+
+    const response = {
+      length: favoriteItineraries.length,
+      favoriteItineraries
+    };
+
+    res.status(200).json(response);
   }
   catch (error) {
     console.log(error)

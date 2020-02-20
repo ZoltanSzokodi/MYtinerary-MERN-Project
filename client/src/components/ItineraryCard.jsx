@@ -50,9 +50,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ItineraryCard = ({ itinerary }) => {
+const ItineraryCard = props => {
   const classes = useStyles();
-  const { state } = useContext(authContext);
+  const { authState } = useContext(authContext);
   const [expanded, setExpanded] = React.useState(false);
 
   const {
@@ -63,7 +63,13 @@ const ItineraryCard = ({ itinerary }) => {
     price,
     tourGuide,
     hashTags,
-  } = itinerary;
+    _id
+  } = props.itinerary;
+
+  const {
+    favorites,
+    handleToggleFav
+  } = props;
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -118,7 +124,14 @@ const ItineraryCard = ({ itinerary }) => {
       </CardContent>
 
       <CardActions disableSpacing>
-        <Checkbox icon={<FavoriteBorder />} disabled={!state.isAuthenticated && true} checkedIcon={<Favorite />} value="checkedH" />
+        <Checkbox
+          icon={<FavoriteBorder />}
+          disabled={!authState.isAuthenticated && true}
+          checkedIcon={<Favorite />}
+          value={_id}
+          checked={favorites.includes(_id) ? true : false}
+          onChange={handleToggleFav}
+        />
 
         <IconButton
           className={clsx(classes.expand, {

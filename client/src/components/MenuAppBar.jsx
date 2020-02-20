@@ -1,4 +1,6 @@
 import React, { useState, useContext } from 'react';
+import { citiesContext } from '../context/CitiesContext';
+
 import { fade, makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -12,7 +14,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
 
-import { citiesContext } from '../context/CitiesContext';
 
 const useStyles = makeStyles(theme => ({
   root: {

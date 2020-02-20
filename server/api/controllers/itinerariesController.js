@@ -79,6 +79,7 @@ exports.updateItinerary = async (req, res) => {
       new: true,
       omitUndefined: true,
       runValidators: true,
+      useFindAndModify: false
     });
 
     !itinerary && appError('Invalid id number', 400);

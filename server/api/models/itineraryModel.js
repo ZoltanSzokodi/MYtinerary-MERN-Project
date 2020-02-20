@@ -40,6 +40,7 @@ const itinerarySchema = new mongoose.Schema({
   },
   hashTags: {
     type: Array,
+    trim: true
   }
 });
 

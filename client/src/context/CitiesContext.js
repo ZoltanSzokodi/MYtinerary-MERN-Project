@@ -10,7 +10,7 @@ const CitiesContext = ({ children }) => {
     data: [],
     error: ''
   };
-  const [state, dispatch] = useReducer(ajaxReducer, initialState);
+  const [citiesState, citiesDispatch] = useReducer(ajaxReducer, initialState);
   const [filteredCities, setFilteredCities] = useState([]);
 
   // GET ALL CITIES FROM DB ======================================
@@ -21,7 +21,7 @@ const CitiesContext = ({ children }) => {
 
       setTimeout(() => {
         setFilteredCities(res.data.cities)
-        dispatch({
+        citiesDispatch({
           type: 'FETCH_SUCCESS',
           payload: res.data
         })
@@ -29,7 +29,7 @@ const CitiesContext = ({ children }) => {
     }
     catch (error) {
       setTimeout(() => {
-        dispatch({
+        citiesDispatch({
           type: 'FETCH_FAILED',
           payload: error
         })
@@ -43,7 +43,7 @@ const CitiesContext = ({ children }) => {
     let filtered = [];
 
     if (event.target.value !== '') {
-      allCities = [...state.data.cities];
+      allCities = [...citiesState.data.cities];
       filtered = allCities.filter(city => {
         const lc = city.name.toLowerCase();
         const filter = event.target.value.toLowerCase();
@@ -52,13 +52,13 @@ const CitiesContext = ({ children }) => {
       })
     }
     else {
-      filtered = [...state.data.cities];
+      filtered = [...citiesState.data.cities];
     }
     setFilteredCities(filtered);
   };
 
   return (
-    <citiesContext.Provider value={{ state, fetchCities, filteredCities, handleFilter }}>
+    <citiesContext.Provider value={{ citiesState, fetchCities, filteredCities, handleFilter }}>
       {children}
     </citiesContext.Provider >
   );

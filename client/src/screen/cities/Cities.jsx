@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 const Cities = props => {
   const classes = useStyles();
-  const { state, fetchCities, filteredCities } = useContext(citiesContext);
+  const { citiesState, fetchCities, filteredCities } = useContext(citiesContext);
 
   useEffect(() => {
     fetchCities()
@@ -31,9 +31,9 @@ const Cities = props => {
 
   return (
     <Grid container classes={{ root: classes.outerGridRoot }}>
-      {state.loading && <Loader />}
-      {state.error && state.error}
-      {!state.loading && (
+      {citiesState.loading && <Loader />}
+      {citiesState.error && citiesState.error}
+      {!citiesState.loading && (
         <Fragment>
           <MenuAppbar />
           <Toolbar id="back-to-top-anchor" />

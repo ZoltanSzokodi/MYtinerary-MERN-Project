@@ -1,5 +1,7 @@
 import React, { useState, useContext, Fragment } from 'react';
+import { authContext } from '../../context/AuthContext';
 import { Redirect } from 'react-router-dom';
+
 import axios from 'axios';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,7 +17,6 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 // import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 
-import { authContext } from '../../context/AuthContext';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -54,7 +55,7 @@ const useStyles = makeStyles(theme => ({
 
 const Signup = () => {
   const classes = useStyles();
-  const { dispatch, state } = useContext(authContext);
+  const { authState, authDispatch } = useContext(authContext);
 
   // console.log(state);
 
@@ -101,7 +102,7 @@ const Signup = () => {
         );
       const token = await response.data.token;
 
-      dispatch({
+      authDispatch({
         type: 'LOGIN',
         payload: token
       });
@@ -130,7 +131,7 @@ const Signup = () => {
 
   return (
     <Fragment>
-      {state.isAuthenticated ?
+      {authState.isAuthenticated ?
         <Redirect to='/' /> :
         <div className={classes.root}>
           {/* <Avatar alt="avatar" src="" className={classes.avatar} /> */}
