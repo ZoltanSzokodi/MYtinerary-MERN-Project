@@ -1,9 +1,11 @@
 import React, { useState, useContext, Fragment } from 'react';
 import { Redirect } from 'react-router-dom';
-import { authContext } from '../../context/AuthContext';
-
 import axios from 'axios';
 
+// CONTEXT ====================================================
+import { authContext } from '../../context/AuthContext';
+
+// MATERIAL UI ================================================
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
@@ -11,13 +13,14 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-// import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+// import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import Avatar from '@material-ui/core/Avatar';
 
 
+// STYLES =========================================================
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
@@ -56,11 +59,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
+// COMPONENT ==========================================================
 const Login = () => {
   const classes = useStyles();
-  const { authState, authDispatch } = useContext(authContext);
 
-  console.log(authState);
+  const { authState, authDispatch } = useContext(authContext);
 
   const [values, setValues] = useState({
     email: '',
@@ -70,6 +74,9 @@ const Login = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
 
+  // console.log(authState);
+
+  // EVENT HANDLERS =====================================================
   const handleChange = prop => event => {
     setValues({
       ...values,
@@ -122,6 +129,8 @@ const Login = () => {
     }
   };
 
+
+  // RENDER =============================================================
   return (
     <Fragment>
       {authState.isAuthenticated ?
@@ -181,7 +190,6 @@ const Login = () => {
         </div>
       }
     </Fragment>
-
   );
 };
 

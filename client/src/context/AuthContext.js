@@ -3,6 +3,8 @@ import authReducer from './reducers/authReducer';
 
 export const authContext = createContext();
 
+
+// CONTEXT WRAPPER COMPONENT ===========================================
 const AuthContext = ({ children }) => {
   /*
   const initialState = {
@@ -22,6 +24,8 @@ const AuthContext = ({ children }) => {
   };
   const [authState, authDispatch] = useReducer(authReducer, initialState);
 
+
+  // RENDER =======================================================
   return (
     <authContext.Provider value={{ authState, authDispatch }}>
       {children}

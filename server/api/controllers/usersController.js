@@ -225,12 +225,12 @@ exports.updateUser = async (req, res) => {
 
     const response = {
       message: 'User successfuly updated!',
-      // updatedUser: {
-      //   username: user.username,
-      //   email: user.email,
-      //   userImg: user.userImg
-      // }
-      updatedUser: user
+      updatedUser: {
+        username: user.username,
+        email: user.email,
+        userImg: user.userImg,
+        favoriteItineraries: user.favoriteItineraries
+      }
     };
     res.status(200).json(response);
   }
@@ -239,13 +239,6 @@ exports.updateUser = async (req, res) => {
     res.status(error.status || 500).json(error.message);
   }
 };
-
-
-
-
-
-
-
 
 // ==================================================================
 // FAVORITES
@@ -273,34 +266,34 @@ exports.getFavs = async (req, res) => {
 
 // =================================================================
 
-exports.toggleFavs = async (req, res) => {
-  try {
-    // !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
-    const { itineraryId } = req.body;
-    const user = await User.findById({ _id: req.user.id });
-    const itinerary = await Itinerary.findById({ _id: itineraryId })
-    const { favoriteItineraries } = user;
+// exports.toggleFavs = async (req, res) => {
+//   try {
+//     // !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
+//     const { itineraryId } = req.body;
+//     const user = await User.findById({ _id: req.user.id });
+//     const itinerary = await Itinerary.findById({ _id: itineraryId })
+//     const { favoriteItineraries } = user;
 
-    !itinerary && appError('Invalidid number', 400);
+//     !itinerary && appError('Invalidid number', 400);
 
-    if (favoriteItineraries.includes(itineraryId)) {
-      // remove from favorites
-      const index = favoriteItineraries.indexOf(itineraryId);
-      favoriteItineraries.splice(index, 1);
-    }
-    else {
-      // add to favorites
-      favoriteItineraries.push(itineraryId);
-    }
-    await user.save();
+//     if (favoriteItineraries.includes(itineraryId)) {
+//       // remove from favorites
+//       const index = favoriteItineraries.indexOf(itineraryId);
+//       favoriteItineraries.splice(index, 1);
+//     }
+//     else {
+//       // add to favorites
+//       favoriteItineraries.push(itineraryId);
+//     }
+//     await user.save();
 
-    res.status(200).json({ message: 'Success' });
-  }
-  catch (error) {
-    console.log(error)
-    res.status(error.status || 500).json(error.message);
-  }
-};
+//     res.status(200).json({ message: 'Success' });
+//   }
+//   catch (error) {
+//     console.log(error)
+//     res.status(error.status || 500).json(error.message);
+//   }
+// };
 
 // =================================================================
 

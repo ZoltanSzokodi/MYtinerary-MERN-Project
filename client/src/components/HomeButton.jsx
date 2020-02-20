@@ -1,9 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+
+// MATERIAL UI ==============================================
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import HomeIcon from '@material-ui/icons/Home';
 
+
+// STYLES ===================================================
 const useStyles = makeStyles(theme => ({
   root: {
     position: 'fixed',
@@ -13,9 +17,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
+// COMPONENT ==================================================
 const HomeButton = () => {
   const classes = useStyles();
 
+
+  // RENDER ===================================================
   return (
     <div className={classes.root}>
       <Link to='/'>

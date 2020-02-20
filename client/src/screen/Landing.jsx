@@ -1,15 +1,25 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
+
+// CONTEXT ===================================================
 import { authContext } from '../context/AuthContext';
+
+// MATERIAL UI ===============================================
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Grow from '@material-ui/core/Grow';
+
+// STATIC ====================================================
 import ItineraryLogo from '../static/itineraryLogo.png';
 import RoundArrow from '../static/round-pink-arrow3.png';
+
+// COMPONENTS ================================================
 import Loader from '../components/Loader';
 
+
+// STYLES ====================================================
 const styles = {
   root: {
     backgroundImage: 'linear-gradient(to bottom, #ffffff 50%, #f2f1fb 75%)',
@@ -37,11 +47,14 @@ const styles = {
   }
 };
 
+
+// COMPONENT ============================================================
 const Landing = ({ classes }) => {
   const { authState, authDispatch } = useContext(authContext);
+
   const [loading, setLoading] = useState(true);
 
-  // LOADER ===============================================================
+  // loader ------------------------------
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)
@@ -62,7 +75,7 @@ const Landing = ({ classes }) => {
     }
   }, [authDispatch]);
 
-  // LOG OUT ======================================================
+  // EVENT HANDLERS ======================================================
   const handleLogout = () => {
     authDispatch({
       type: 'LOGOUT',
@@ -70,6 +83,8 @@ const Landing = ({ classes }) => {
     });
   };
 
+
+  // RENDER ==============================================================
   return (
     <div className={classes.root}>
       {loading && <Loader />}

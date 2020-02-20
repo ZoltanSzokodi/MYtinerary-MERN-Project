@@ -1,19 +1,23 @@
 import React, { createContext, useState, useReducer, useCallback } from 'react';
-import ajaxReducer from './reducers/ajaxReducer';
+import fetchDataReducer from './reducers/fetchDataReducer';
 import axios from 'axios';
 
 export const citiesContext = createContext();
 
+
+// CONTEXT WRAPPER COMPONENT ============================================
 const CitiesContext = ({ children }) => {
   const initialState = {
     loading: true,
     data: [],
     error: ''
   };
-  const [citiesState, citiesDispatch] = useReducer(ajaxReducer, initialState);
+
+  const [citiesState, citiesDispatch] = useReducer(fetchDataReducer, initialState);
   const [filteredCities, setFilteredCities] = useState([]);
 
-  // GET ALL CITIES FROM DB ======================================
+
+  // GET ALL CITIES FROM DB =============================================
   const fetchCities = useCallback(async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/cities/all');
@@ -37,7 +41,8 @@ const CitiesContext = ({ children }) => {
     }
   }, []);
 
-  // HANDLE SEARCH FILTER ==================================
+
+  // EVENT HANDLERS ====================================================
   const handleFilter = event => {
     let allCities = [];
     let filtered = [];
@@ -57,6 +62,8 @@ const CitiesContext = ({ children }) => {
     setFilteredCities(filtered);
   };
 
+
+  // RENDER ==========================================================
   return (
     <citiesContext.Provider value={{ citiesState, fetchCities, filteredCities, handleFilter }}>
       {children}

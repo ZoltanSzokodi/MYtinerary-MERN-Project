@@ -1,19 +1,26 @@
 import React, { useEffect, useState, useContext, Fragment } from 'react';
+import axios from 'axios';
+
+// CONTEXT ===========================================================
 import { itineraiesContext } from '../../context/ItinerariesContext';
 import { authContext } from '../../context/AuthContext';
+
+// MATERIAL UI =======================================================
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Grow from '@material-ui/core/Grow';
-import Loader from '../../components/Loader';
-import MenuAppbar from '../../components/MenuAppbar';
-import ScrollTop from '../../components/ScrollTop';
 import Toolbar from '@material-ui/core/Toolbar';
 import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
+// COMPONENTS =======================================================
+import Loader from '../../components/Loader';
+import MenuAppbar from '../../components/MenuAppbar';
+import ScrollTop from '../../components/ScrollTop';
 import ItineraryCard from '../../components/ItineraryCard'
-import axios from 'axios';
 
+
+// STYLES ===========================================================
 const useStyles = makeStyles(theme => ({
   outerGridRoot: {
     overflow: 'hidden',
@@ -25,22 +32,28 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
+// COMPONENT ========================================================
 const Itineraries = props => {
   const classes = useStyles();
 
-  const cityName = props.match.params.name;
   const { itinerariesState, fetchItineraries } = useContext(itineraiesContext);
-  const { authState, authDispatch } = useContext(authContext);
+  const { authState } = useContext(authContext);
+
   const [favorites, setFavorites] = useState([]);
 
+  const cityName = props.match.params.name;
   const { itineraries } = itinerariesState.data;
   // console.log(authState);
 
 
+  // fetch -------------------------
   useEffect(() => {
     fetchItineraries(cityName)
   }, [cityName, fetchItineraries]);
 
+
+  // fetch -------------------------
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
@@ -58,25 +71,26 @@ const Itineraries = props => {
   }, [authState.token]);
 
 
+  // patch function -------------------------
   const patchFavorites = async array => {
     try {
-      const response = await axios
+      await axios
         .patch('http://localhost:5000/api/users/',
           {
             favoriteItineraries: array
           },
           { headers: { 'Authorization': `bearer ${authState.token}` } })
-      console.log(response)
     }
     catch (error) {
       console.log(error.response);
     }
-  }
-  // patchFavorites()
+  };
 
+  // EVENT HANDLERS ===========================================
 
-  const handleToggleFav = e => {
-    const itineraryId = e.target.value;
+  // favorites --------------------------
+  const handleToggleFav = event => {
+    const itineraryId = event.target.value;
     let favsArray = [...favorites];
 
     if (favsArray.includes(itineraryId)) {
@@ -96,6 +110,7 @@ const Itineraries = props => {
 
   console.log(favorites);
 
+  // RENDER =======================================================
   return (
     <Grid container classes={{ root: classes.outerGridRoot }}>
       {itinerariesState.loading && <Loader />}

@@ -1,6 +1,9 @@
 import React, { useState, useContext } from 'react';
+
+// CONTEXT ================================================
 import { citiesContext } from '../context/CitiesContext';
 
+// MATERIAL UI ============================================
 import { fade, makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -15,6 +18,7 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
 
 
+// STYLES =================================================
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -62,10 +66,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const HideOnScroll = props => {
-  const { children, window } = props
-  const trigger = useScrollTrigger({ target: window ? window() : undefined })
 
+// COMPONENT =====================================================
+const HideOnScroll = props => {
+  const { children, window } = props;
+  const trigger = useScrollTrigger({ target: window ? window() : undefined });
+
+
+  // RENDER ====================================================== 
   return (
     <Slide appear={false} direction="down" in={!trigger}>
       {children}
@@ -73,13 +81,18 @@ const HideOnScroll = props => {
   );
 };
 
+
+// COMPONENT =====================================================
 const MenuAppbar = props => {
   const classes = useStyles();
 
   const { handleFilter } = useContext(citiesContext);
+
   const [anchorEl, setAnchorEl] = useState(null);
+
   const open = Boolean(anchorEl);
 
+  // EVENT HANDLERS =============================================
   const handleMenu = event => {
     setAnchorEl(event.currentTarget);
   };
@@ -88,9 +101,10 @@ const MenuAppbar = props => {
     setAnchorEl(null);
   };
 
+
+  // RENDER =====================================================
   return (
     <React.Fragment>
-
       <HideOnScroll {...props}>
         <AppBar>
           <Toolbar
@@ -144,8 +158,6 @@ const MenuAppbar = props => {
                 open={open}
                 onClose={handleClose}
               >
-                {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem> */}
                 <MenuItem onClick={handleClose}>Log in</MenuItem>
                 <MenuItem onClick={handleClose}>Create account</MenuItem>
               </Menu>

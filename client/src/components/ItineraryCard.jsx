@@ -1,8 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import clsx from 'clsx';
+
+// CONTEXT =============================================
 import { authContext } from '../context/AuthContext';
 
+// MATERIAL UI =========================================
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -19,14 +22,16 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Chip from '@material-ui/core/Chip';
 
+
+// STYLES ==============================================
 const useStyles = makeStyles(theme => ({
   root: {
     width: '95%',
   },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
+  // media: {
+  //   height: 0,
+  //   paddingTop: '56.25%', // 16:9
+  // },
   expand: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
@@ -50,10 +55,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
+// COMPONENT =============================================
 const ItineraryCard = props => {
   const classes = useStyles();
+
   const { authState } = useContext(authContext);
-  const [expanded, setExpanded] = React.useState(false);
+
+  const [expanded, setExpanded] = useState(false);
 
   const {
     title,
@@ -71,10 +80,14 @@ const ItineraryCard = props => {
     handleToggleFav
   } = props;
 
+
+  // EVENT HANDLERS ===============================================
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+
+  // RENDER =======================================================
   return (
     <Card className={classes.root}>
       <CardHeader

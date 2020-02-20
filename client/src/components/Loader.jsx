@@ -1,7 +1,11 @@
 import React from 'react';
-import Grow from '@material-ui/core/Grow';
-import { withStyles } from '@material-ui/core/styles';
 
+// MATERIAL UI ==================================================
+import { withStyles } from '@material-ui/core/styles';
+import Grow from '@material-ui/core/Grow';
+
+
+// STYLES =======================================================
 const styles = {
   container: {
     width: '100%',
@@ -13,22 +17,15 @@ const styles = {
     // backgroundImage: 'linear-gradient(to bottom, #ffffff 50%, #f2f1fb 75%)',
   },
   loader: {
-    // width: '60px',
-    // height: '60px',
     width: '70px',
     height: '70px',
     borderRadius: '50%',
-    // margin: '3em',
     display: 'inline-block',
     position: 'relative',
     verticalAlign: 'middle',
     '&:before, &:after': {
-      // width: '100%',
-      // height: '100%',
       borderRadius: '50%',
       position: 'absolute',
-      // top: 0,
-      // left: 0,
     }
   },
   loader9: {
@@ -43,13 +40,6 @@ const styles = {
       left: '10%',
       boxShadow: '5px -8px 0 rgba(235,6,117,0.8), 8px 5px 0 rgba(26,170,172,0.8),-3px 8px 0 rgba(18,119,189,0.8), -8px -5px 0 rgba(255,203,49,0.9)',
     },
-    // '&:after': {
-    //   content: "''",
-    //   border: '3px solid white',
-    //   zIndex: 2,
-    //   top: '-3px',
-    //   left: '-3px',
-    // },
   },
   '@keyframes loader-anim': {
     '0%': { transform: 'rotate(0deg)' },
@@ -57,7 +47,12 @@ const styles = {
   }
 };
 
+
+// COMPONENT ===============================================================
 const Loader = ({ classes }) => {
+
+
+  // RENDER ================================================================
   return (
     <Grow in timeout={500}>
       <div className={classes.container}>

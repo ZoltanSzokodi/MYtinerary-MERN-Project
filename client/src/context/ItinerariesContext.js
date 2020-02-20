@@ -1,18 +1,22 @@
 import React, { createContext, useReducer, useCallback } from 'react';
-import ajaxReducer from './reducers/ajaxReducer';
+import fetchDataReducer from './reducers/fetchDataReducer';
 import axios from 'axios';
 
 export const itineraiesContext = createContext();
 
+
+// CONTEXT WRAPPER COMPONENT ==========================================
 const ItinerariesContext = props => {
   const initialState = {
     loading: true,
     data: [],
     error: ''
   };
-  const [itinerariesState, itinerariesDispatch] = useReducer(ajaxReducer, initialState);
 
-  // GET ALL CITIES FROM DB =====================================
+  const [itinerariesState, itinerariesDispatch] = useReducer(fetchDataReducer, initialState);
+
+
+  // GET ALL CITIES FROM DB ============================================
   const fetchItineraries = useCallback(async name => {
     try {
       const res = await axios.get(`http://localhost:5000/api/itineraries/${name}`);
@@ -35,6 +39,8 @@ const ItinerariesContext = props => {
     }
   }, []);
 
+
+  // RENDER =============================================================
   return (
     <itineraiesContext.Provider value={{ itinerariesState, fetchItineraries }}>
       {props.children}
