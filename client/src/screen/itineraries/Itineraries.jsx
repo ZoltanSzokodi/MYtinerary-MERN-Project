@@ -47,13 +47,14 @@ const Itineraries = props => {
   // console.log(authState);
 
 
-  // fetch -------------------------
+  // fetch itineraries for the selected city -------------------
   useEffect(() => {
     fetchItineraries(cityName)
   }, [cityName, fetchItineraries]);
 
 
-  // fetch -------------------------
+  // fetches favoriteItineraries[] for the logged in user when the component mounts
+  // sets the favorites[] equal to favoriteItineraries[] on every page reload/re-render
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
@@ -71,7 +72,9 @@ const Itineraries = props => {
   }, [authState.token]);
 
 
-  // patch function -------------------------
+  // patch function for liking or unliking (favorite/un-favorite) -------------------------
+  // this function is passed into the handleToggleFav event handler
+  // on every change it updates the user's favoriteItineraries[] on the back-end
   const patchFavorites = async array => {
     try {
       await axios
@@ -89,6 +92,9 @@ const Itineraries = props => {
   // EVENT HANDLERS ===========================================
 
   // favorites --------------------------
+  // toggles the favorites in the back-end with the patchFavorites()
+  // updates favorites[] to show changes immediately on the front-end 
+  // on page reload the favorites[] will be cleared BUT also immediately updated thanks to the fetchFavorites(), thus the changes are persistent 
   const handleToggleFav = event => {
     const itineraryId = event.target.value;
     let favsArray = [...favorites];
