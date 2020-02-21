@@ -19,7 +19,7 @@ const itinerarySchema = new mongoose.Schema({
     maxlength: [250, 'max 250 characters'],
     minlength: [10, 'min 50 characters']
   },
-  pictureURL: {
+  userImg: {
     type: String,
     trim: true
   },

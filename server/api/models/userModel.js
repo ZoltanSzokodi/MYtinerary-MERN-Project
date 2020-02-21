@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, 'Required'],
+    required: [true, 'required'],
     unique: true,
     validate: [validator.isEmail, 'Please provide a valid email'],
     trim: true,
@@ -61,7 +61,7 @@ const userSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    default: Date.now()
+    default: Date.now
   }
 });
 

@@ -10,6 +10,7 @@ const db = require('./keys').mongoURI;
 const cityRoutes = require('./api/routes/cities');
 const itineraryRoutes = require('./api/routes/itineraries');
 const userRoutes = require('./api/routes/users');
+const commentRoutes = require('./api/routes/comments');
 
 // EXPRESS & PORT CONFIG =======================
 const app = express();
@@ -27,6 +28,7 @@ require('./api/auth/passport');
 app.use('/api/cities', cityRoutes);
 app.use('/api/itineraries', itineraryRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/comments', commentRoutes);
 
 // GLOBAL ERROR HANDLING ========================
 // if a request reaches this point it will be handled as an error

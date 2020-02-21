@@ -1,5 +1,5 @@
 const User = require('../models/userModel');
-const Itinerary = require('../models/itineraryModel');
+// const Itinerary = require('../models/itineraryModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');

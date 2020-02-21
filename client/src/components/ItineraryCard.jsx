@@ -67,7 +67,7 @@ const ItineraryCard = props => {
   const {
     title,
     description,
-    pictureURL,
+    userImg,
     duration,
     price,
     tourGuide,
@@ -92,7 +92,7 @@ const ItineraryCard = props => {
     <Card className={classes.root}>
       <CardHeader
         avatar={
-          <Avatar src={pictureURL} alt={tourGuide} className={classes.avatar} />
+          <Avatar src={userImg} alt={tourGuide} className={classes.avatar} />
         }
         action={
           <IconButton aria-label="settings">
