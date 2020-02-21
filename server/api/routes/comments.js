@@ -9,9 +9,14 @@ router.get('/all',
   passport.authenticate('jwt', { session: false }),
   CommentsController.getAllComments);
 
-// Post a comment ================================================
+// POST a comment ================================================
 router.post('/',
   passport.authenticate('jwt', { session: false }),
   CommentsController.postComment);
+
+// GET comments for a specific itinerary
+// router.get('/',
+//   passport.authenticate('jwt', { session: false}),
+//   CommentsController.getComments);
 
 module.exports = router;

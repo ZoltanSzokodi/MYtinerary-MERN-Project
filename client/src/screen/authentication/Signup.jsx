@@ -23,12 +23,14 @@ import Button from '@material-ui/core/Button';
 // STYLES =======================================================
 const useStyles = makeStyles(theme => ({
   root: {
+    // minHeight: '110vh',
     display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    flexWrap: 'nowrap',
+    // justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
-    marginTop: theme.spacing(4)
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
   },
   form: {
     width: '100%',
@@ -44,13 +46,13 @@ const useStyles = makeStyles(theme => ({
     width: '80%',
     marginTop: theme.spacing(2)
   },
-  // avatar: {
-  //   width: '100px',
-  //   height: '100px',
-  // },
-  // input: {
-  //   display: 'none',
-  // },
+  avatar: {
+    width: '100px',
+    height: '100px',
+  },
+  input: {
+    display: 'none',
+  },
   submit: {
     marginTop: theme.spacing(2)
   }
@@ -152,19 +154,19 @@ const Signup = () => {
               </div>}
 
             {/* <input
-          accept="image/*"
-          className={classes.input}
-          id="contained-button-file"
-          multiple
-          type="file"
-          // onChange={handleChange('userImg')}
-          onChange={handleFileUpload}
-        /> */}
-            {/* <label htmlFor="contained-button-file">
-          <Button variant="contained" color="primary" component="span">
-            Upload
-        </Button>
-        </label> */}
+              accept="image/*"
+              className={classes.input}
+              id="contained-button-file"
+              multiple
+              type="file"
+              // onChange={handleChange('userImg')}
+              onChange={handleFileUpload}
+            />
+            <label htmlFor="contained-button-file">
+              <Button variant="contained" color="primary" component="span">
+                select image
+              </Button>
+            </label> */}
 
             <FormControl className={classes.textField} variant="outlined">
               <InputLabel htmlFor="username">Username</InputLabel>

@@ -69,7 +69,7 @@ const Itineraries = props => {
       }
     }
     authState.isAuthenticated && fetchFavorites();
-  }, [authState.token]);
+  }, [authState.token, authState.isAuthenticated]);
 
 
   // patch function for liking or unliking (favorite/un-favorite) -------------------------

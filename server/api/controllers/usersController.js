@@ -60,6 +60,7 @@ exports.googleAuth = (req, res) => {
 
 exports.signupUser = async (req, res) => {
   try {
+    console.log(req.file);
     const {
       // isAdmin, ==================================
       // This would be a security issue - nobody should be able to sign up as admin. It has to be granted manually in the DB ===========================

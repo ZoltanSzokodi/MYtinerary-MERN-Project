@@ -54,6 +54,8 @@ const Landing = ({ classes }) => {
 
   const [loading, setLoading] = useState(true);
 
+  console.log(authState);
+
   // loader ------------------------------
   useEffect(() => {
     setTimeout(() => {

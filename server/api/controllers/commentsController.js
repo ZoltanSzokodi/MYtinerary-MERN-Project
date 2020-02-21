@@ -59,3 +59,14 @@ exports.postComment = async (req, res) => {
     res.status(error.status || 500).json(error);
   }
 };
+
+// =========================================================
+
+exports.getComments = async (req, res) => {
+  try {
+
+  }
+  catch (error) {
+
+  }
+};
