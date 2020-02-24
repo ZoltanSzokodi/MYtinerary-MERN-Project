@@ -1,9 +1,17 @@
 const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
+  itineraryId: {
+    type: String,
+    required: [true, 'required']
+  },
   itineraryTitle: {
     type: String,
     trim: true,
+    required: [true, 'required']
+  },
+  userId: {
+    type: String,
     required: [true, 'required']
   },
   username: {
@@ -19,7 +27,7 @@ const commentSchema = new mongoose.Schema({
     required: [true, 'required']
   },
   date: {
-    type: Date,
+    type: Number,
     default: Date.now
   }
 });

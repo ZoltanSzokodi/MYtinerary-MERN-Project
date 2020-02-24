@@ -19,6 +19,15 @@ const itinerarySchema = new mongoose.Schema({
     maxlength: [250, 'max 250 characters'],
     minlength: [10, 'min 50 characters']
   },
+  username: {
+    type: String,
+    trim: true,
+    required: [true, 'required']
+  },
+  userId: {
+    type: String,
+    required: [true, 'required']
+  },
   userImg: {
     type: String,
     trim: true
@@ -33,14 +42,13 @@ const itinerarySchema = new mongoose.Schema({
     type: Number,
     required: [true, 'required']
   },
-  tourGuide: {
-    type: String,
-    trim: true,
-    required: [true, 'required']
-  },
   hashTags: {
     type: Array,
     trim: true
+  },
+  date: {
+    type: Number,
+    default: Date.now
   }
 });
 

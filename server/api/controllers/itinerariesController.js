@@ -28,9 +28,23 @@ exports.getItineraries = async (req, res) => {
 exports.postItinerary = async (req, res) => {
   try {
     !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
-    !req.user.isAdmin && appError('You are not authorized to add itineraries', 403);
+    // !req.user.isAdmin && appError('You are not authorized to add itineraries', 403);
+    const {
+      title,
+      description,
+      duration,
+      price,
+      hashTags
+    } = req.body;
 
-    const city = await City.findOne({ name: req.body.name });
+    const {
+      username,
+      userImg,
+      id
+    } = req.user;
+
+    // const city = await City.findOne({ name: req.body.name });
+    const city = await City.findOne({ name: req.params.city });
 
     !city && appError('City not found', 400);
 
@@ -38,7 +52,20 @@ exports.postItinerary = async (req, res) => {
 
     itinerary && appError('This itinerary title is already taken');
 
-    let newItinerary = await Itinerary.create(req.body);
+    let newItinerary = new Itinerary({
+      name: req.params.city,
+      title,
+      username,
+      userId: id,
+      userImg,
+      description,
+      duration,
+      price,
+      hashTags
+    });
+
+    await newItinerary.save();
+
     const response = {
       message: 'Itinerary successfuly added!',
       newItinerary

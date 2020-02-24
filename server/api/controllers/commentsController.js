@@ -27,21 +27,25 @@ exports.postComment = async (req, res) => {
     !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
 
     const {
+      // itineraryId,
       itineraryTitle,
       comment
     } = req.body;
 
     const {
+      id,
       username,
       userImg
     } = req.user;
 
-    const itinerary = await Itinerary.findOne({ title: itineraryTitle });
+    const itinerary = await Itinerary.findOne({ _id: req.params.itineraryId });
 
     !itinerary && appError('Itinerary not fount', 400);
 
     let newComment = new Comment({
+      itineraryId: req.params.itineraryId,
       itineraryTitle,
+      userId: id,
       username,
       userImg,
       comment
@@ -64,9 +68,16 @@ exports.postComment = async (req, res) => {
 
 exports.getComments = async (req, res) => {
   try {
+    const comments = await Comment.find({ itineraryId: req.params.itineraryId });
 
+    const response = {
+      length: comments.length,
+      comments
+    };
+
+    res.send(response);
   }
   catch (error) {
-
+    res.status(error.status || 500).json(error);
   }
 };

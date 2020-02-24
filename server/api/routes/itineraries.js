@@ -10,7 +10,7 @@ router.get('/:name',
   ItinerariesController.getItineraries);
 
 // POST a new itinerary ==========================================
-router.post('/',
+router.post('/:city',
   passport.authenticate('jwt', { session: false }),
   ItinerariesController.postItinerary);
 

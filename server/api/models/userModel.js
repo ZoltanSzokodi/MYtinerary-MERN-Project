@@ -60,7 +60,7 @@ const userSchema = new mongoose.Schema({
     trim: true
   },
   date: {
-    type: Date,
+    type: Number,
     default: Date.now
   }
 });
