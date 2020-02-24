@@ -1,16 +1,24 @@
 import React, { useEffect, useContext, Fragment } from 'react';
+
+// CONTEXT ===============================================
 import { citiesContext } from '../../context/CitiesContext';
+
+// MATERIAL UI ===========================================
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Grow from '@material-ui/core/Grow';
-import Loader from '../../components/Loader';
-import MenuAppbar from '../../components/MenuAppbar';
-import CityCard from '../../components/CityCard';
-import ScrollTop from '../../components/ScrollTop';
 import Toolbar from '@material-ui/core/Toolbar';
 import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
+// COMPONENTS ============================================
+import Loader from '../../components/Loader';
+import MenuAppbar from '../../components/MenuAppbar';
+import CityCard from '../../components/CityCard';
+import ScrollTop from '../../components/ScrollTop';
+
+
+// STYLES =================================================
 const useStyles = makeStyles(theme => ({
   outerGridRoot: {
     overflow: 'hidden',
@@ -21,6 +29,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
+// COMPONENT =====================================================
 const Cities = props => {
   const classes = useStyles();
   const { citiesState, fetchCities, filteredCities } = useContext(citiesContext);
@@ -29,6 +39,8 @@ const Cities = props => {
     fetchCities()
   }, [fetchCities]);
 
+
+  // RENDER ======================================================
   return (
     <Grid container classes={{ root: classes.outerGridRoot }}>
       {citiesState.loading && <Loader />}

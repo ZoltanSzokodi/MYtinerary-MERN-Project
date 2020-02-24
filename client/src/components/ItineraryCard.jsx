@@ -6,6 +6,8 @@ import { authContext } from '../context/AuthContext';
 
 // MATERIAL UI =========================================
 import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -14,6 +16,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 import Checkbox from '@material-ui/core/Checkbox';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
@@ -45,13 +48,37 @@ const useStyles = makeStyles(theme => ({
   chip: {
     margin: theme.spacing(0.5)
   },
-  avatar: {
+  avatarLarge: {
     width: '60px',
-    height: '64px'
+    height: '60px'
+  },
+  avatarSmall: {
+    width: '40px',
+    height: '40px'
   },
   cardTitle: {
     fontSize: '20px',
     textTransform: 'capitalize'
+  },
+  contentPadding: {
+    padding: '0 16px 0'
+  },
+  commentPadding: {
+    paddingTop: 0
+  },
+  commentInput: {
+    margin: theme.spacing(.5),
+    marginBottom: theme.spacing(2)
+  },
+  commentBody: {
+    width: '100%',
+    marginLeft: theme.spacing(1)
+  },
+  commentButtons: {
+    marginTop: theme.spacing(1)
+  },
+  commentOutput: {
+    margin: theme.spacing(.5)
   }
 }));
 
@@ -63,6 +90,7 @@ const ItineraryCard = props => {
   const { authState } = useContext(authContext);
 
   const [expanded, setExpanded] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
   const {
     title,
@@ -86,13 +114,21 @@ const ItineraryCard = props => {
     setExpanded(!expanded);
   };
 
+  const handleInput = event => {
+    setInputValue(event.target.value);
+  };
+
+  const handleInputCancel = () => {
+    setInputValue('');
+  };
+
 
   // RENDER =======================================================
   return (
     <Card className={classes.root}>
       <CardHeader
         avatar={
-          <Avatar src={userImg} alt={tourGuide} className={classes.avatar} />
+          <Avatar src={userImg} alt={tourGuide} className={classes.avatarLarge} />
         }
         action={
           <IconButton aria-label="settings">
@@ -106,7 +142,7 @@ const ItineraryCard = props => {
         }}
       />
 
-      <CardContent>
+      <CardContent classes={{ root: classes.contentPadding }}>
         <Typography variant="body1" color="textSecondary" component="p">
           {description}
         </Typography>
@@ -132,7 +168,7 @@ const ItineraryCard = props => {
         </Grid>
       </CardContent>
 
-      <CardContent>
+      <CardContent classes={{ root: classes.contentPadding }}>
         {hashTags.map(tag => <Chip key={tag} size="small" label={tag} className={classes.chip} />)}
       </CardContent>
 
@@ -157,14 +193,69 @@ const ItineraryCard = props => {
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
+
+      {/* COMMENTS SECTION */}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
+        <CardContent classes={{ root: classes.commentPadding }}>
           <Typography paragraph>Comments</Typography>
-          <Typography paragraph>
-            THIS WILL BE THE COMMENTS SECTION
-          </Typography>
+
+          <div className={classes.commentInput}>
+            <Grid container spacing={1} alignItems="flex-end" direction="row" wrap="nowrap">
+              <Grid item >
+                <Avatar src={userImg} alt={tourGuide} className={classes.avatarSmall} />
+              </Grid>
+              <Grid item container>
+                <TextField
+                  className={classes.commentBody}
+                  label="add a comment..."
+                  multiline
+                  value={inputValue}
+                  onChange={handleInput} />
+              </Grid>
+            </Grid>
+            <Grid
+              className={classes.commentButtons}
+              container
+              justify="flex-end"
+              style={{ display: inputValue.length > 0 ? 'flex' : 'none' }}
+            >
+              <Button
+                size="small"
+                style={{ marginRight: '10px' }}
+                onClick={handleInputCancel}>cancel</Button>
+              <Button size="small" variant="contained">comment</Button>
+            </Grid>
+          </div>
+
+          <div className={classes.commentOutput}>
+            <Grid container spacing={1} alignItems="flex-end" direction="row" wrap="nowrap">
+              <Grid item >
+                <Avatar src={userImg} alt={tourGuide} className={classes.avatarSmall} />
+              </Grid>
+              <Grid item container direction="column">
+                <Grid item container direction="row" wrap="nowrap" spacing={1}>
+                  <Grid item>
+                    <Typography color="textSecondary" component="div">
+                      <Box fontSize={13} fontStyle="italic">username</Box>
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <Typography color="textSecondary" component="div">
+                      <Box fontSize={13} fontStyle="italic" variant="body1">03.07.2020</Box>
+                    </Typography>
+                  </Grid>
+                </Grid>
+                <Grid item>
+                  <Typography className={classes.commentBody}>This is a test comment</Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+          </div>
+
         </CardContent>
       </Collapse>
+
+
     </Card>
   );
 }

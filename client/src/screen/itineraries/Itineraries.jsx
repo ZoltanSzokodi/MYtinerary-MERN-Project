@@ -114,7 +114,7 @@ const Itineraries = props => {
     }
   };
 
-  console.log(favorites);
+  // console.log(favorites);
 
   // RENDER =======================================================
   return (
