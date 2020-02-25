@@ -1,6 +1,7 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import clsx from 'clsx';
 import axios from 'axios';
+import OpenSocket from 'socket.io-client';
 
 // CONTEXT =============================================
 import { authContext } from '../context/AuthContext';
@@ -72,6 +73,7 @@ const ItineraryCard = props => {
   const [expanded, setExpanded] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [comments, setComments] = useState([]);
+  const [socket, setSocket] = useState(OpenSocket('http://localhost:5000'));
 
   const {
     title,
@@ -203,7 +205,10 @@ const ItineraryCard = props => {
               handleInput={handleInput}
               handleInputCancel={handleInputCancel}
               itineraryId={_id}
-              itineraryTitle={title} />
+              itineraryTitle={title}
+              comments={comments}
+              setComments={setComments}
+              socket={socket} />
           }
 
           {comments.map(commentObj => (

@@ -5,6 +5,7 @@ const passport = require('passport');
 const morgan = require('morgan');
 const cors = require('cors');
 const db = require('./keys').mongoURI;
+const socket = require('socket.io');
 
 // ROUTES ======================================
 const cityRoutes = require('./api/routes/cities');
@@ -56,6 +57,14 @@ mongoose
 
 // SET UP SERVER =======================================
 const port = process.env.PORT || 5000;
-app.listen(port, () => {
+let server = app.listen(port, () => {
   console.log(`Server is running on ${port} port`);
+});
+
+let io = socket(server);
+
+io.on('connection', socket => {
+  socket.on('new-comment', data => {
+    io.sockets.emit('new-comment', data);
+  });
 });

@@ -42,18 +42,26 @@ const CommentInput = props => {
     handleInput,
     handleInputCancel,
     itineraryId,
-    itineraryTitle
+    itineraryTitle,
+    comments,
+    setComments,
+    socket
   } = props;
 
   // EVENET LISTENERS ===========================================
   const handleCommentSubmit = async () => {
     try {
-      await axios.post(`http://localhost:5000/api/comments/${itineraryId}`,
+      const response = await axios.post(`http://localhost:5000/api/comments/${itineraryId}`,
         {
           itineraryTitle,
           comment: inputValue
         },
         { headers: { 'Authorization': `bearer ${authState.token}` } });
+      console.log(response);
+      socket.emit('new-comment', response.data.newComment);
+      socket.on('new-comment', comment => {
+        setComments([...comments, comment])
+      });
     }
     catch (error) {
       console.log(error)
