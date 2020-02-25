@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext, Fragment } from 'react';
 import axios from 'axios';
+import OpenSocket from 'socket.io-client';
 
 // CONTEXT ===========================================================
 import { itineraiesContext } from '../../context/ItinerariesContext';
@@ -41,17 +42,21 @@ const Itineraries = props => {
   const { authState } = useContext(authContext);
 
   const [favorites, setFavorites] = useState([]);
+  const [socket, setSocket] = useState('');
+
+  // open live connection between client and server for comments
+  useEffect(() => {
+    setSocket(OpenSocket('http://localhost:5000'));
+  }, [])
 
   const cityName = props.match.params.name;
   const { itineraries } = itinerariesState.data;
-  // console.log(authState);
 
 
   // fetch itineraries for the selected city -------------------
   useEffect(() => {
     fetchItineraries(cityName)
   }, [cityName, fetchItineraries]);
-
 
   // fetches favoriteItineraries[] for the logged in user when the component mounts
   // sets the favorites[] equal to favoriteItineraries[] on every page reload/re-render
@@ -139,6 +144,7 @@ const Itineraries = props => {
                     itinerary={itinerary}
                     favorites={favorites}
                     handleToggleFav={handleToggleFav}
+                    socket={socket}
                   />
                 </Grid>
               ))}

@@ -6,7 +6,7 @@ const appError = require('../../utils/appError');
 
 exports.getAllComments = async (req, res) => {
   try {
-    !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
+    // !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
 
     const comments = await Comment.find({});
     const response = {
@@ -29,7 +29,6 @@ exports.postComment = async (req, res) => {
     console.log(req.body)
     console.log(req.user)
     const {
-      // itineraryId,
       itineraryTitle,
       comment
     } = req.body;
@@ -67,6 +66,9 @@ exports.postComment = async (req, res) => {
 };
 
 // =========================================================
+// OUT OF USE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// this controller gets the comments for a specified itinerary
+// on the client side I am fetching all the comments for all itineraries and distributing them according to their 'itineraryId' property
 
 exports.getComments = async (req, res) => {
   try {

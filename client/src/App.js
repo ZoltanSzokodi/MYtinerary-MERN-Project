@@ -22,6 +22,7 @@ import HomeButton from './components/HomeButton';
 import AuthContext from './context/AuthContext';
 import CitiesContext from './context/CitiesContext';
 import ItinerariesContext from './context/ItinerariesContext';
+import CommentsContext from './context/CommentsContext';
 
 
 const App = () => {
@@ -41,9 +42,12 @@ const App = () => {
                 <Route exact path='/createCity' component={CreateCity} />
                 <Route exact path='/updateCity' component={UpdateCity} />
                 <ItinerariesContext>
-                  <Route exact path='/itineraries/:name' component={Itineraries} />
-                  <Route exact path='/createItinerary' component={CreateItinerary} />
-                  <Route exact path='/updateItinerary' component={UpdateItinerary} />
+                  <CommentsContext>
+                    <Route exact path='/itineraries/:name' component={Itineraries} />
+                    <Route exact path='/createItinerary' component={CreateItinerary} />
+                    <Route exact path='/updateItinerary' component={UpdateItinerary} />
+
+                  </CommentsContext>
                 </ItinerariesContext>
               </CitiesContext>
             </AuthContext>

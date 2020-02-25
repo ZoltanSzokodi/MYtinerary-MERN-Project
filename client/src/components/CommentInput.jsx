@@ -3,6 +3,7 @@ import axios from 'axios';
 
 // CONTEXT =============================================
 import { authContext } from '../context/AuthContext';
+import { commentsContext } from '../context/CommentsContext';
 
 // MATERIAL UI ===============================================
 import { makeStyles } from '@material-ui/core/styles';
@@ -36,15 +37,14 @@ const CommentInput = props => {
   const classes = useStyles();
 
   const { authState } = useContext(authContext);
-  // console.log(itineraryId)
+  const { comments, setComments } = useContext(commentsContext);
+
   const {
     inputValue,
     handleInput,
     handleInputCancel,
     itineraryId,
     itineraryTitle,
-    comments,
-    setComments,
     socket
   } = props;
 
@@ -58,6 +58,8 @@ const CommentInput = props => {
         },
         { headers: { 'Authorization': `bearer ${authState.token}` } });
       console.log(response);
+
+      // emitting event for socket.io ---------------------------
       socket.emit('new-comment', response.data.newComment);
       socket.on('new-comment', comment => {
         setComments([...comments, comment])

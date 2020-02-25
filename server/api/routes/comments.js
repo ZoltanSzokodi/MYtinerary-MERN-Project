@@ -5,9 +5,7 @@ const router = express.Router();
 const CommentsController = require('../controllers/commentsController');
 
 // GET all comments ==============================================
-// only for testing
 router.get('/all',
-  passport.authenticate('jwt', { session: false }),
   CommentsController.getAllComments);
 
 // POST a comment ================================================
@@ -15,7 +13,9 @@ router.post('/:itineraryId',
   passport.authenticate('jwt', { session: false }),
   CommentsController.postComment);
 
-// GET comments for a specific itinerary
+// GET comments for a specific itinerary =========================
+// OUT OF USE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// I am using getAllComments instead and handling them on the client side
 router.get('/:itineraryId',
   CommentsController.getComments);
 

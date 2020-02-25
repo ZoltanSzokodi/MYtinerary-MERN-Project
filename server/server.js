@@ -61,6 +61,7 @@ let server = app.listen(port, () => {
   console.log(`Server is running on ${port} port`);
 });
 
+// SET UP LIVE CONNECTION BETWEEN THE SERVER AND THE CLIENT FOR LIVE COMMENTING
 let io = socket(server);
 
 io.on('connection', socket => {

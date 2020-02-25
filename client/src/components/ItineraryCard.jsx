@@ -1,10 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import clsx from 'clsx';
-import axios from 'axios';
-import OpenSocket from 'socket.io-client';
 
 // CONTEXT =============================================
 import { authContext } from '../context/AuthContext';
+import { commentsContext } from '../context/CommentsContext';
 
 // MATERIAL UI =========================================
 import { makeStyles } from '@material-ui/core/styles';
@@ -69,11 +68,10 @@ const ItineraryCard = props => {
   const classes = useStyles();
 
   const { authState } = useContext(authContext);
+  const { comments } = useContext(commentsContext);
 
   const [expanded, setExpanded] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [comments, setComments] = useState([]);
-  const [socket, setSocket] = useState(OpenSocket('http://localhost:5000'));
 
   const {
     title,
@@ -88,26 +86,9 @@ const ItineraryCard = props => {
 
   const {
     favorites,
-    handleToggleFav
+    handleToggleFav,
+    socket
   } = props;
-
-  // GET ALL COMMENTS FOR ITINERARY ===================================
-  useEffect(() => {
-    const getCommenst = async () => {
-      try {
-        const response = await axios
-          .get(`http://localhost:5000/api/comments/${_id}`,
-            {
-              headers: { 'Authorization': `bearer ${authState.token}` }
-            });
-        setComments([...response.data.comments]);
-      }
-      catch (error) {
-        console.log(error.response.statusText);
-      }
-    };
-    getCommenst();
-  }, [_id, authState.token]);
 
 
   // EVENT HANDLERS ===============================================
@@ -197,7 +178,7 @@ const ItineraryCard = props => {
       {/* COMMENTS SECTION */}
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent classes={{ root: classes.commentPadding }}>
-          <Typography paragraph>{`${comments.length} comment(s)`}</Typography>
+          <Typography paragraph>comments</Typography>
 
           {authState.isAuthenticated &&
             <CommentInput
@@ -206,12 +187,11 @@ const ItineraryCard = props => {
               handleInputCancel={handleInputCancel}
               itineraryId={_id}
               itineraryTitle={title}
-              comments={comments}
-              setComments={setComments}
               socket={socket} />
           }
 
           {comments.map(commentObj => (
+            commentObj.itineraryId === _id &&
             <CommentOutput
               key={commentObj._id}
               commentObj={commentObj}
