@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(1)
   },
   commentOutput: {
-    margin: theme.spacing(.5)
+    margin: theme.spacing(.5),
   }
 }));
 

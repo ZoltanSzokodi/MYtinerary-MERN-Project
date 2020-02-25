@@ -26,6 +26,8 @@ exports.postComment = async (req, res) => {
   try {
     !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
 
+    console.log(req.body)
+    console.log(req.user)
     const {
       // itineraryId,
       itineraryTitle,

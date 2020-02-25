@@ -23,7 +23,7 @@ const AuthContext = ({ children }) => {
     token: JSON.parse(localStorage.getItem('token'))
   };
   const [authState, authDispatch] = useReducer(authReducer, initialState);
-
+  // console.log(authState)
 
   // RENDER =======================================================
   return (

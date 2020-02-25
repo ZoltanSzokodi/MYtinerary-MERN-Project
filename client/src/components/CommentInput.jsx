@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import axios from 'axios';
 
 // CONTEXT =============================================
 import { authContext } from '../context/AuthContext';
@@ -31,11 +32,37 @@ const useStyles = makeStyles(theme => ({
 }));
 
 // RENDER =======================================================
-const CommentInput = ({ inputValue, handleInput, handleInputCancel }) => {
+const CommentInput = props => {
   const classes = useStyles();
 
   const { authState } = useContext(authContext);
+  // console.log(itineraryId)
+  const {
+    inputValue,
+    handleInput,
+    handleInputCancel,
+    itineraryId,
+    itineraryTitle
+  } = props;
 
+  // EVENET LISTENERS ===========================================
+  const handleCommentSubmit = async () => {
+    try {
+      await axios.post(`http://localhost:5000/api/comments/${itineraryId}`,
+        {
+          itineraryTitle,
+          comment: inputValue
+        },
+        { headers: { 'Authorization': `bearer ${authState.token}` } });
+    }
+    catch (error) {
+      console.log(error)
+    };
+    handleInputCancel();
+  };
+
+
+  // RENDER =====================================================
   return (
     <div className={classes.commentInput}>
       <Grid container spacing={1} alignItems="flex-end" direction="row" wrap="nowrap">
@@ -61,7 +88,11 @@ const CommentInput = ({ inputValue, handleInput, handleInputCancel }) => {
           size="small"
           style={{ marginRight: '10px' }}
           onClick={handleInputCancel}>cancel</Button>
-        <Button size="small" variant="contained">comment</Button>
+        <Button
+          size="small"
+          variant="contained"
+          onClick={handleCommentSubmit}>comment</Button>
+
       </Grid>
     </div>
   );

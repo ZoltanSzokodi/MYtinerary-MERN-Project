@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import clsx from 'clsx';
 import axios from 'axios';
 
@@ -89,17 +89,24 @@ const ItineraryCard = props => {
     handleToggleFav
   } = props;
 
-  // its working
+  // GET ALL COMMENTS FOR ITINERARY ===================================
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/comments/${_id}`,
-      { headers: { 'Authorization': `bearer ${authState.token}` } })
-      .then(res => {
-        setComments([...res.data.comments]);
+    const getCommenst = async () => {
+      try {
+        const response = await axios
+          .get(`http://localhost:5000/api/comments/${_id}`,
+            {
+              headers: { 'Authorization': `bearer ${authState.token}` }
+            });
+        setComments([...response.data.comments]);
+      }
+      catch (error) {
+        console.log(error.response.statusText);
+      }
+    };
+    getCommenst();
+  }, [_id, authState.token]);
 
-      })
-      .catch(err => console.log(err))
-  }, [])
-  console.log(comments)
 
   // EVENT HANDLERS ===============================================
   const handleExpandClick = () => {
@@ -190,21 +197,24 @@ const ItineraryCard = props => {
         <CardContent classes={{ root: classes.commentPadding }}>
           <Typography paragraph>{`${comments.length} comment(s)`}</Typography>
 
-          <CommentInput
-            inputValue={inputValue}
-            handleInput={handleInput}
-            handleInputCancel={handleInputCancel} />
+          {authState.isAuthenticated &&
+            <CommentInput
+              inputValue={inputValue}
+              handleInput={handleInput}
+              handleInputCancel={handleInputCancel}
+              itineraryId={_id}
+              itineraryTitle={title} />
+          }
 
           {comments.map(commentObj => (
             <CommentOutput
               key={commentObj._id}
-              commentObj={commentObj} />
+              commentObj={commentObj}
+            />
           ))}
 
         </CardContent>
       </Collapse>
-
-
     </Card>
   );
 }
