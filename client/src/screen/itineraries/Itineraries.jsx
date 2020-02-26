@@ -6,6 +6,9 @@ import OpenSocket from 'socket.io-client';
 import { itineraiesContext } from '../../context/ItinerariesContext';
 import { authContext } from '../../context/AuthContext';
 
+import { commentsContext } from '../../context/CommentsContext';
+
+
 // MATERIAL UI =======================================================
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -40,6 +43,8 @@ const Itineraries = props => {
 
   const { itinerariesState, fetchItineraries } = useContext(itineraiesContext);
   const { authState } = useContext(authContext);
+  const { getComments } = useContext(commentsContext);
+
 
   const [favorites, setFavorites] = useState([]);
   const [socket, setSocket] = useState('');
@@ -47,6 +52,7 @@ const Itineraries = props => {
   // open live connection between client and server for comments
   useEffect(() => {
     setSocket(OpenSocket('http://localhost:5000'));
+    getComments();
   }, [])
 
   const cityName = props.match.params.name;

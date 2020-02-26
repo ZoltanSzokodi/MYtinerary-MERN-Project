@@ -37,7 +37,7 @@ const CommentInput = props => {
   const classes = useStyles();
 
   const { authState } = useContext(authContext);
-  const { comments, setComments } = useContext(commentsContext);
+  const { comments, setComments, getComments } = useContext(commentsContext);
 
   const {
     inputValue,
@@ -63,7 +63,7 @@ const CommentInput = props => {
       socket.emit('new-comment', response.data.newComment);
       socket.on('new-comment', comment => {
         let currentComments = comments;
-        currentComments.push(comment);
+        comments.push(comment);
         setComments([...currentComments])
       });
     }
@@ -71,6 +71,7 @@ const CommentInput = props => {
       console.log(error)
     };
     handleInputCancel();
+    getComments();
   };
 
 

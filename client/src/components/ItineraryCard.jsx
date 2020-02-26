@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import clsx from 'clsx';
 
 // CONTEXT =============================================
@@ -68,7 +68,7 @@ const ItineraryCard = props => {
   const classes = useStyles();
 
   const { authState } = useContext(authContext);
-  const { comments } = useContext(commentsContext);
+  const { comments, getComments } = useContext(commentsContext);
 
   const [expanded, setExpanded] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -90,6 +90,9 @@ const ItineraryCard = props => {
     socket
   } = props;
 
+  useEffect(() => {
+    getComments();
+  }, [])
 
   // EVENT HANDLERS ===============================================
   const handleExpandClick = () => {

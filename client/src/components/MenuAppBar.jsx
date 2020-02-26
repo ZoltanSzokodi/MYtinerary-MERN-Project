@@ -2,20 +2,25 @@ import React, { useState, useContext } from 'react';
 
 // CONTEXT ================================================
 import { citiesContext } from '../context/CitiesContext';
+import { authContext } from '../context/AuthContext';
 
 // MATERIAL UI ============================================
 import { fade, makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import Menu from '@material-ui/core/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
+
+// COMPONENTS =============================================
+import LoginDialog from '../screen/authentication/LoginDialog';
+import LogoutDialog from '../screen/authentication/LogoutDialog';
 
 
 // STYLES =================================================
@@ -23,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
   },
-  menuButton: {
+  backButton: {
     marginRight: theme.spacing(2),
   },
   toolBarRoot: {
@@ -87,6 +92,7 @@ const MenuAppbar = props => {
   const classes = useStyles();
 
   const { handleFilter } = useContext(citiesContext);
+  const { authState } = useContext(authContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -101,6 +107,12 @@ const MenuAppbar = props => {
     setAnchorEl(null);
   };
 
+  const handleClick = e => {
+    // const innerText = e.target.innerText;
+    // console.log(innerText)
+
+  };
+
 
   // RENDER =====================================================
   return (
@@ -112,8 +124,8 @@ const MenuAppbar = props => {
               root: classes.toolBarRoot
             }}
           >
-            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-              <MenuIcon />
+            <IconButton edge="start" className={classes.backButton} color="inherit" aria-label="go back">
+              <ArrowBackIosIcon />
             </IconButton>
             <div className={classes.search}
               style={props.type === 'itineraries' ?
@@ -141,7 +153,7 @@ const MenuAppbar = props => {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                <MenuIcon />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -158,7 +170,9 @@ const MenuAppbar = props => {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Log in</MenuItem>
+                <MenuItem onClick={handleClick}>
+                  {!authState.isAuthenticated ? <LoginDialog /> : <LogoutDialog />}
+                </MenuItem>
                 <MenuItem onClick={handleClose}>Create account</MenuItem>
               </Menu>
             </div>
