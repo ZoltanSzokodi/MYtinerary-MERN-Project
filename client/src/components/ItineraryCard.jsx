@@ -152,7 +152,6 @@ const ItineraryCard = props => {
       <CardContent classes={{ root: classes.contentPadding }}>
         {hashTags.map(tag => <Chip key={tag} size="small" label={tag} className={classes.chip} />)}
       </CardContent>
-
       <CardActions disableSpacing>
         <Checkbox
           icon={<FavoriteBorder />}
@@ -162,7 +161,6 @@ const ItineraryCard = props => {
           checked={favorites.includes(_id) ? true : false}
           onChange={handleToggleFav}
         />
-
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
@@ -203,5 +201,4 @@ const ItineraryCard = props => {
     </Card>
   );
 }
-
 export default ItineraryCard;

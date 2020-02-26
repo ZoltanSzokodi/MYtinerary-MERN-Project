@@ -62,7 +62,9 @@ const CommentInput = props => {
       // emitting event for socket.io ---------------------------
       socket.emit('new-comment', response.data.newComment);
       socket.on('new-comment', comment => {
-        setComments([...comments, comment])
+        let currentComments = comments;
+        currentComments.push(comment);
+        setComments([...currentComments])
       });
     }
     catch (error) {

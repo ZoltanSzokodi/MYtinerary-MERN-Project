@@ -23,10 +23,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-// RENDER =======================================================
+
+// COMPONENT ======================================================
 const CommentOutput = ({ commentObj }) => {
   const classes = useStyles();
 
+  // RENDER =======================================================
   return (
     <div className={classes.commentOutput}>
       <Grid container spacing={1} alignItems="flex-end" direction="row" wrap="nowrap">

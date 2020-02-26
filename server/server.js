@@ -65,6 +65,12 @@ let server = app.listen(port, () => {
 let io = socket(server);
 
 io.on('connection', socket => {
+  // socket.on('all-comments', data => {
+  //   console.log(data)
+  //   console.log('=================================================')
+  //   io.sockets.emit('all-comments', data);
+  // });
+
   socket.on('new-comment', data => {
     io.sockets.emit('new-comment', data);
   });
