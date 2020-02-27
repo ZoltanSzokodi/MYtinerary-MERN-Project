@@ -17,6 +17,9 @@ import RoundArrow from '../static/round-pink-arrow3.png';
 
 // COMPONENTS ================================================
 import Loader from '../components/Loader';
+import SignupDialog from './authentication/SignupDialog';
+import LoginDialog from './authentication/LoginDialog';
+import LogoutDialog from './authentication/LogoutDialog';
 
 
 // STYLES ====================================================
@@ -73,17 +76,10 @@ const Landing = ({ classes }) => {
         type: 'LOGIN',
         payload: token
       });
-      window.location = '/';
+      // get rid of the token from the url
+      window.history.replaceState({}, document.title, "/");
     }
   }, [authDispatch]);
-
-  // EVENT HANDLERS ======================================================
-  const handleLogout = () => {
-    authDispatch({
-      type: 'LOGOUT',
-      payload: authState.token
-    });
-  };
 
 
   // RENDER ==============================================================
@@ -124,16 +120,11 @@ const Landing = ({ classes }) => {
 
                 <Grid item container sm={12} align='center' direction='column'>
                   <div style={!authState.isAuthenticated ? { display: 'block' } : { display: 'none' }}>
-                    <Link to='/signup'>
-                      <Button color='primary' size='large'>Create account</Button>
-                    </Link>
-                    <Link to='login'>
-                      <Button color='primary' size='large'>Log in</Button>
-                    </Link>
-                    <Button color="primary" size='large' href="http://localhost:5000/api/users/google">Google</Button>
+                    <Button><LoginDialog /></Button>
+                    <Button><SignupDialog /></Button>
                   </div>
                   <div style={authState.isAuthenticated ? { display: 'block' } : { display: 'none' }}>
-                    <Button color='primary' size='large' onClick={handleLogout}>Log out</Button>
+                    <Button><LogoutDialog /></Button>
                   </div>
                 </Grid>
               </Grid>

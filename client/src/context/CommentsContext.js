@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useState, useCallback } from 'react';
 import axios from 'axios';
 
 export const commentsContext = createContext();
@@ -16,7 +16,7 @@ const CommentsContext = props => {
       setComments([...response.data.comments]);
     }
     catch (error) {
-      console.log(error.response.statusText);
+      console.log(error.response);
     }
   }, []);
   // useEffect(() => {

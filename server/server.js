@@ -65,13 +65,13 @@ let server = app.listen(port, () => {
 let io = socket(server);
 
 io.on('connection', socket => {
-  // socket.on('all-comments', data => {
-  //   console.log(data)
-  //   console.log('=================================================')
-  //   io.sockets.emit('all-comments', data);
-  // });
+  // console.log('a user is connected')
 
   socket.on('new-comment', data => {
     io.sockets.emit('new-comment', data);
   });
+
+  // socket.on('disconnect', () => {
+  //   console.log('user disconnected');
+  // });
 });

@@ -1,32 +1,32 @@
-import React, { useState, useContext, Fragment } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { Fragment, useState, useContext } from 'react';
 import axios from 'axios';
 
-// CONTEXT ======================================================
+// CONTEXT ====================================================
 import { authContext } from '../../context/AuthContext';
 
-// MATERIAL UI ==================================================
+// MATERIAL UI ==============================================
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import Slide from '@material-ui/core/Slide';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import Button from '@material-ui/core/Button';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Avatar from '@material-ui/core/Avatar';
 
 
-// STYLES =======================================================
+// STYLES ===================================================
 const useStyles = makeStyles(theme => ({
-  root: {
-    // minHeight: '110vh',
+  formContainer: {
     display: 'flex',
     flexWrap: 'nowrap',
-    // justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
     marginTop: theme.spacing(4),
@@ -55,15 +55,35 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     marginTop: theme.spacing(2)
+  },
+
+  appBar: {
+    position: 'relative',
+  },
+  title: {
+    marginLeft: theme.spacing(-3.5),
+    flex: 1,
+  },
+  loginButton: {
+    width: '150px',
+    marginBottom: theme.spacing(2),
+  },
+  buttonsContainer: {
+    marginTop: theme.spacing(4)
   }
 }));
 
+// COMPONENT ====================================================
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 // COMPONENT ======================================================
-const Signup = () => {
+const SignupDialog = () => {
   const classes = useStyles();
 
-  const { authState, authDispatch } = useContext(authContext);
+  const { authDispatch } = useContext(authContext);
+  const [open, setOpen] = useState(false);
 
   const [values, setValues] = useState({
     username: '',
@@ -78,14 +98,33 @@ const Signup = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
 
-  // console.log(state);
+  // EVENT HANDLERS ==============================================
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-  // EVENT HANDLERS ====================================================
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const handleChange = prop => event => {
     setValues({
       ...values,
       [prop]: event.target.value
     });
+  };
+
+  // const handleFileUpload = event => {
+  //   console.log(event.target.files[0])
+  //   setValues({ ...values, userImg: event.target.files[0] })
+  // };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = event => {
+    event.preventDefault();
   };
 
   const handleSignup = async event => {
@@ -114,6 +153,9 @@ const Signup = () => {
         type: 'LOGIN',
         payload: token
       });
+
+      window.location.reload();
+      // setOpen(false);
     }
     catch (error) {
       console.log(error.response);
@@ -124,26 +166,26 @@ const Signup = () => {
     }
   };
 
-  // const handleFileUpload = event => {
-  //   console.log(event.target.files[0])
-  //   setValues({ ...values, userImg: event.target.files[0] })
-  // };
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = event => {
-    event.preventDefault();
-  };
-
-
-  // RENDER ===========================================================
+  // RENDER =======================================================
   return (
     <Fragment>
-      {authState.isAuthenticated ?
-        <Redirect to='/' /> :
-        <div className={classes.root}>
+      <div onClick={handleClickOpen}>
+        Create account
+      </div>
+      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+        <AppBar className={classes.appBar}>
+          <Toolbar>
+            <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="h6" align="center" className={classes.title}>
+              Create account
+            </Typography>
+          </Toolbar>
+        </AppBar>
+
+        <div className={classes.formContainer}>
           {/* <Avatar alt="avatar" src="" className={classes.avatar} /> */}
           <form className={classes.form} noValidate autoComplete="off">
             <Typography variant='h5' align='center'>Create account</Typography>
@@ -275,12 +317,13 @@ const Signup = () => {
               color="primary"
               className={classes.submit}
               onClick={handleSignup}
-            >create account</Button>
+              disabled={values.isSubmiting}
+            >{values.isSubmiting ? 'Loading...' : 'Create account'}</Button>
           </form>
         </div>
-      }
+      </Dialog>
     </Fragment>
   );
 };
 
-export default Signup;
+export default SignupDialog;

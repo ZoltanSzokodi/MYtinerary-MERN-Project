@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext, Fragment } from 'react';
 import axios from 'axios';
-import OpenSocket from 'socket.io-client';
+// import OpenSocket from 'socket.io-client';
 
 // CONTEXT ===========================================================
-import { itineraiesContext } from '../../context/ItinerariesContext';
-import { authContext } from '../../context/AuthContext';
+import { itineraiesContext } from '../context/ItinerariesContext';
+import { authContext } from '../context/AuthContext';
 
-import { commentsContext } from '../../context/CommentsContext';
+import { commentsContext } from '../context/CommentsContext';
 
 
 // MATERIAL UI =======================================================
@@ -18,10 +18,10 @@ import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 // COMPONENTS =======================================================
-import Loader from '../../components/Loader';
-import MenuAppbar from '../../components/MenuAppbar';
-import ScrollTop from '../../components/ScrollTop';
-import ItineraryCard from '../../components/ItineraryCard'
+import Loader from '../components/Loader';
+import MenuAppbar from '../components/MenuAppbar';
+import ScrollTop from '../components/ScrollTop';
+import ItineraryCard from '../components/ItineraryCard'
 
 
 // STYLES ===========================================================
@@ -47,13 +47,7 @@ const Itineraries = props => {
 
 
   const [favorites, setFavorites] = useState([]);
-  const [socket, setSocket] = useState('');
-
-  // open live connection between client and server for comments
-  useEffect(() => {
-    setSocket(OpenSocket('http://localhost:5000'));
-    getComments();
-  }, [])
+  // const [socket, setSocket] = useState('');
 
   const cityName = props.match.params.name;
   const { itineraries } = itinerariesState.data;
@@ -63,6 +57,12 @@ const Itineraries = props => {
   useEffect(() => {
     fetchItineraries(cityName)
   }, [cityName, fetchItineraries]);
+
+  // get all comments --------------------------------------------
+  useEffect(() => {
+    // setSocket(OpenSocket('http://localhost:5000'));
+    getComments();
+  }, [getComments])
 
   // fetches favoriteItineraries[] for the logged in user when the component mounts
   // sets the favorites[] equal to favoriteItineraries[] on every page reload/re-render
@@ -150,7 +150,7 @@ const Itineraries = props => {
                     itinerary={itinerary}
                     favorites={favorites}
                     handleToggleFav={handleToggleFav}
-                    socket={socket}
+                  // socket={socket}
                   />
                 </Grid>
               ))}

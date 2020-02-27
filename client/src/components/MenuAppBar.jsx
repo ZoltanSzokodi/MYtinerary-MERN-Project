@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
+import { useHistory } from "react-router-dom";
 
 // CONTEXT ================================================
 import { citiesContext } from '../context/CitiesContext';
@@ -21,6 +22,7 @@ import Slide from '@material-ui/core/Slide';
 // COMPONENTS =============================================
 import LoginDialog from '../screen/authentication/LoginDialog';
 import LogoutDialog from '../screen/authentication/LogoutDialog';
+import SignupDialog from '../screen/authentication/SignupDialog';
 
 
 // STYLES =================================================
@@ -91,6 +93,9 @@ const HideOnScroll = props => {
 const MenuAppbar = props => {
   const classes = useStyles();
 
+  // to enable go back button;
+  let history = useHistory();
+
   const { handleFilter } = useContext(citiesContext);
   const { authState } = useContext(authContext);
 
@@ -107,16 +112,10 @@ const MenuAppbar = props => {
     setAnchorEl(null);
   };
 
-  const handleClick = e => {
-    // const innerText = e.target.innerText;
-    // console.log(innerText)
-
-  };
-
 
   // RENDER =====================================================
   return (
-    <React.Fragment>
+    <Fragment>
       <HideOnScroll {...props}>
         <AppBar>
           <Toolbar
@@ -124,7 +123,13 @@ const MenuAppbar = props => {
               root: classes.toolBarRoot
             }}
           >
-            <IconButton edge="start" className={classes.backButton} color="inherit" aria-label="go back">
+            <IconButton
+              edge="start"
+              className={classes.backButton}
+              color="inherit"
+              aria-label="go back"
+              onClick={history.goBack}
+            >
               <ArrowBackIosIcon />
             </IconButton>
             <div className={classes.search}
@@ -170,17 +175,19 @@ const MenuAppbar = props => {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClick}>
+                <MenuItem onClick={handleClose}>
                   {!authState.isAuthenticated ? <LoginDialog /> : <LogoutDialog />}
                 </MenuItem>
-                <MenuItem onClick={handleClose}>Create account</MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <SignupDialog />
+                </MenuItem>
               </Menu>
             </div>
           </Toolbar>
         </AppBar>
       </HideOnScroll>
       <Toolbar />
-    </React.Fragment>
+    </Fragment>
   );
 };
 

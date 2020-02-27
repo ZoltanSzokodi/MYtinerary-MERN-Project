@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, Fragment } from 'react';
 
 // CONTEXT ===============================================
-import { citiesContext } from '../../context/CitiesContext';
+import { citiesContext } from '../context/CitiesContext';
 
 // MATERIAL UI ===========================================
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,10 +12,10 @@ import Fab from '@material-ui/core/Fab';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 // COMPONENTS ============================================
-import Loader from '../../components/Loader';
-import MenuAppbar from '../../components/MenuAppbar';
-import CityCard from '../../components/CityCard';
-import ScrollTop from '../../components/ScrollTop';
+import Loader from '../components/Loader';
+import MenuAppbar from '../components/MenuAppbar';
+import CityCard from '../components/CityCard';
+import ScrollTop from '../components/ScrollTop';
 
 
 // STYLES =================================================

@@ -29,6 +29,8 @@ const LogoutDialog = () => {
       type: 'LOGOUT',
       payload: authState.token
     });
+
+    window.location.reload();
   };
 
   const handleClose = () => {
@@ -40,7 +42,7 @@ const LogoutDialog = () => {
   return (
     <Fragment>
       <div onClick={handleClickOpen}>
-        Log out
+        Logout
       </div>
       <Dialog
         open={open}
@@ -48,13 +50,13 @@ const LogoutDialog = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Are you sure?"}</DialogTitle>
+        <DialogTitle align="center" id="alert-dialog-title">{"Are you sure?"}</DialogTitle>
         <Divider />
-        {/* <DialogContent>
+        <DialogContent>
           <DialogContentText id="alert-dialog-description" align="center">
-            We hope to see you back soon!
+            Please confirm logout request
           </DialogContentText>
-        </DialogContent> */}
+        </DialogContent>
         <DialogActions>
           <Button onClick={handleLogout} color="primary" autoFocus>log out</Button>
           <Button onClick={handleClose} color="primary" autoFocus>cancel</Button>
