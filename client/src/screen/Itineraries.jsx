@@ -5,7 +5,6 @@ import axios from 'axios';
 // CONTEXT ===========================================================
 import { itineraiesContext } from '../context/ItinerariesContext';
 import { authContext } from '../context/AuthContext';
-
 import { commentsContext } from '../context/CommentsContext';
 
 
@@ -31,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   },
   innerGridRoot: {
     marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(10)
 
   },
 }));

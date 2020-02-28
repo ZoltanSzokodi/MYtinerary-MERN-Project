@@ -20,7 +20,7 @@ router.delete('/',
   ItinerariesController.deleteItinerary);
 
 // UPDATE an itinerary ==========================================
-router.patch('/',
+router.patch('/:itineraryId',
   passport.authenticate('jwt', { session: false }),
   ItinerariesController.updateItinerary);
 

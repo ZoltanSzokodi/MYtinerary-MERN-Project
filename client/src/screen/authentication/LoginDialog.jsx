@@ -94,6 +94,12 @@ const LoginDialog = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setValues({
+      email: '',
+      password: '',
+      isSubmiting: false,
+      errorMessage: null
+    });
   };
 
   const handleChange = prop => event => {

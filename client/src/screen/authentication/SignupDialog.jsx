@@ -105,6 +105,17 @@ const SignupDialog = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setValues({
+      username: '',
+      password: '',
+      passwordConfirm: '',
+      email: '',
+      firstName: '',
+      lastName: '',
+      userImg: '',
+      isSubmiting: false,
+      errorMessage: null
+    });
   };
 
   const handleChange = prop => event => {

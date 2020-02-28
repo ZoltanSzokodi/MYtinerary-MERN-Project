@@ -100,16 +100,23 @@ exports.deleteItinerary = async (req, res) => {
 exports.updateItinerary = async (req, res) => {
   try {
     !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
-    !req.user.isAdmin && appError('You are not authorized to update itineraries', 403);
+    // !req.user.isAdmin && appError('You are not authorized to update itineraries', 403);
 
-    const itinerary = await Itinerary.findByIdAndUpdate(req.body.id, req.body, {
-      new: true,
-      omitUndefined: true,
-      runValidators: true,
-      useFindAndModify: false
-    });
+    let itinerary = await Itinerary.findOne({ _id: req.params.itineraryId });
 
     !itinerary && appError('Invalid id number', 400);
+
+    if (itinerary.userId == req.user._id) {
+      itinerary = await Itinerary.findByIdAndUpdate(req.params.itineraryId, req.body, {
+        new: true,
+        omitUndefined: true,
+        runValidators: true,
+        useFindAndModify: false
+      });
+    }
+    else {
+      appError('Unauthorized', 403);
+    }
 
     const response = {
       message: 'Itinerary successfuly updated',
@@ -119,5 +126,6 @@ exports.updateItinerary = async (req, res) => {
   }
   catch (error) {
     res.status(error.status || 500).json(error);
+    console.log(error)
   }
 };
