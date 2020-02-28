@@ -20,7 +20,8 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import Loader from '../components/Loader';
 import MenuAppbar from '../components/MenuAppbar';
 import ScrollTop from '../components/ScrollTop';
-import ItineraryCard from '../components/ItineraryCard'
+import ItineraryCard from '../components/ItineraryCard';
+import PostItineraryDialog from './PostItineraryDialog';
 
 
 // STYLES ===========================================================
@@ -51,7 +52,6 @@ const Itineraries = props => {
 
   const cityName = props.match.params.name;
   const { itineraries } = itinerariesState.data;
-
 
   // fetch itineraries for the selected city -------------------
   useEffect(() => {
@@ -184,6 +184,7 @@ const Itineraries = props => {
               <KeyboardArrowUpIcon />
             </Fab>
           </ScrollTop>
+          <PostItineraryDialog cityName={cityName} />
         </Fragment>
       )}
     </Grid>

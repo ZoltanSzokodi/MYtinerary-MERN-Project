@@ -17,7 +17,7 @@ const itinerarySchema = new mongoose.Schema({
     trim: true,
     required: [true, 'required, between 10 and 250 characters'],
     maxlength: [250, 'max 250 characters'],
-    minlength: [10, 'min 50 characters']
+    minlength: [50, 'min 50 characters']
   },
   username: {
     type: String,
@@ -34,9 +34,9 @@ const itinerarySchema = new mongoose.Schema({
   },
   duration: {
     type: Number,
-    require: [true, 'An itinerary must have a duration'],
+    required: [true, 'required'],
     min: [1, 'Minimum 1'],
-    max: [24, 'Max 24']
+    max: [24, 'Max 24'],
   },
   price: {
     type: Number,
@@ -44,7 +44,8 @@ const itinerarySchema = new mongoose.Schema({
   },
   hashTags: {
     type: Array,
-    trim: true
+    trim: true,
+    required: [true, 'required'],
   },
   date: {
     type: Number,

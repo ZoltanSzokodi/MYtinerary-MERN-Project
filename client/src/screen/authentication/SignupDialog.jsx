@@ -289,7 +289,7 @@ const SignupDialog = () => {
             </FormControl>
 
             <FormControl className={classes.textField} variant="outlined">
-              <InputLabel htmlFor="username">First name</InputLabel>
+              <InputLabel htmlFor="firstName">First name</InputLabel>
               <OutlinedInput
                 id="firstName"
                 value={values.firstName}
@@ -299,7 +299,7 @@ const SignupDialog = () => {
             </FormControl>
 
             <FormControl className={classes.textField} variant="outlined">
-              <InputLabel htmlFor="username">Last name</InputLabel>
+              <InputLabel htmlFor="lastName">Last name</InputLabel>
               <OutlinedInput
                 id="lastName"
                 value={values.lastName}
@@ -309,7 +309,7 @@ const SignupDialog = () => {
             </FormControl>
 
             <FormControl className={classes.textField} variant="outlined">
-              <InputLabel htmlFor="username">Picture url</InputLabel>
+              <InputLabel htmlFor="userImg">Picture url</InputLabel>
               <OutlinedInput
                 id="userImg"
                 value={values.userImg}

@@ -29,6 +29,7 @@ exports.postItinerary = async (req, res) => {
   try {
     !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
     // !req.user.isAdmin && appError('You are not authorized to add itineraries', 403);
+
     const {
       title,
       description,
@@ -47,8 +48,11 @@ exports.postItinerary = async (req, res) => {
     const city = await City.findOne({ name: req.params.city });
 
     !city && appError('City not found', 400);
+    // hashTags.length < 5 && appError('Hashtags min length is 5 characters', 400);
 
     const itinerary = await Itinerary.findOne({ title: req.body.title });
+
+    const hashTagsArr = [...hashTags.split(' ')];
 
     itinerary && appError('This itinerary title is already taken');
 
@@ -61,7 +65,7 @@ exports.postItinerary = async (req, res) => {
       description,
       duration,
       price,
-      hashTags
+      hashTags: hashTagsArr
     });
 
     await newItinerary.save();
@@ -74,6 +78,7 @@ exports.postItinerary = async (req, res) => {
   }
   catch (error) {
     res.status(error.status || 500).json(error);
+    console.log(error)
   }
 };
 
@@ -104,18 +109,38 @@ exports.updateItinerary = async (req, res) => {
   try {
     !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
     // !req.user.isAdmin && appError('You are not authorized to update itineraries', 403);
+    const {
+      title,
+      description,
+      duration,
+      price,
+      hashTags
+    } = req.body;
+
+    // hashTags.length < 5 && appError('Hashtags min length is 5 characters', 400);
+
+    const hashTagsArr = [...hashTags.split(' ')];
 
     let itinerary = await Itinerary.findOne({ _id: req.params.itineraryId });
 
     !itinerary && appError('Invalid id number', 400);
     itinerary.userId != req.user._id && appError('Unauthorized', 403);
 
-    itinerary = await Itinerary.findByIdAndUpdate(req.params.itineraryId, req.body, {
-      new: true,
-      omitUndefined: true,
-      runValidators: true,
-      useFindAndModify: false
-    });
+
+    itinerary = await Itinerary.findByIdAndUpdate(req.params.itineraryId,
+      {
+        title,
+        description,
+        duration,
+        price,
+        hashTags: hashTagsArr
+      },
+      {
+        new: true,
+        omitUndefined: true,
+        runValidators: true,
+        useFindAndModify: false
+      });
 
     const response = {
       message: 'Itinerary successfuly updated',
