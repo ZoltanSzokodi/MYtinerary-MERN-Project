@@ -44,9 +44,13 @@ router.patch('/',
   UsersController.updateUser);
 
 // GET FAVS ================================================
-router.get('/getFavs',
+router.get('/getUserFavs',
   passport.authenticate('jwt', { session: false }),
-  UsersController.getFavs);
+  UsersController.getUserFavs);
+
+// GET ALL FAVS ===========================================
+router.get('/getAllFavs',
+  UsersController.getAllFavs);
 
 // TOGGLE FAVS ==============================================
 // router.post('/toggleFavs',

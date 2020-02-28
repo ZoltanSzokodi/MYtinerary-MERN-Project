@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, Fragment } from 'react';
+import React, { useEffect, useState, useContext, useCallback, Fragment } from 'react';
 import axios from 'axios';
 // import OpenSocket from 'socket.io-client';
 
@@ -46,7 +46,8 @@ const Itineraries = props => {
   const { getComments } = useContext(commentsContext);
 
 
-  const [favorites, setFavorites] = useState([]);
+  const [userFavorites, setUserFavorites] = useState([]);
+  const [allFavorites, setAllFavorites] = useState([]);
   // const [socket, setSocket] = useState('');
 
   const cityName = props.match.params.name;
@@ -65,35 +66,56 @@ const Itineraries = props => {
   }, [getComments])
 
   // fetches favoriteItineraries[] for the logged in user when the component mounts
-  // sets the favorites[] equal to favoriteItineraries[] on every page reload/re-render
+  // sets the userFavorites[] equal to favoriteItineraries[] on every page reload/re-render
   useEffect(() => {
-    const fetchFavorites = async () => {
+    const fetchUserFavorites = async () => {
       try {
         const response = await axios
-          .get('http://localhost:5000/api/users/getFavs',
+          .get('http://localhost:5000/api/users/getUserFavs',
             { headers: { 'Authorization': `bearer ${authState.token}` } });
 
-        setFavorites(response.data.favoriteItineraries);
+        setUserFavorites(response.data.favoriteItineraries);
       }
       catch (error) {
         console.log(error);
       }
     }
-    authState.isAuthenticated && fetchFavorites();
+    authState.isAuthenticated && fetchUserFavorites();
   }, [authState.token, authState.isAuthenticated]);
+
+
+
+  const fetchAllFavorites = useCallback(async () => {
+    try {
+      const response = await axios
+        .get('http://localhost:5000/api/users/getAllFavs');
+
+      setAllFavorites([response.data.favorites]);
+      // console.log(response.data.favorites.length)
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+
+  useEffect(() => {
+    fetchAllFavorites();
+  }, [fetchAllFavorites]);
 
 
   // patch function for liking or unliking (favorite/un-favorite) -------------------------
   // this function is passed into the handleToggleFav event handler
   // on every change it updates the user's favoriteItineraries[] on the back-end
-  const patchFavorites = async array => {
+  const patchUserFavorites = async array => {
     try {
       await axios
         .patch('http://localhost:5000/api/users/',
           {
             favoriteItineraries: array
           },
-          { headers: { 'Authorization': `bearer ${authState.token}` } })
+          { headers: { 'Authorization': `bearer ${authState.token}` } });
+      fetchAllFavorites();
     }
     catch (error) {
       console.log(error.response);
@@ -102,30 +124,31 @@ const Itineraries = props => {
 
   // EVENT HANDLERS ===========================================
 
-  // favorites --------------------------
-  // toggles the favorites in the back-end with the patchFavorites()
-  // updates favorites[] to show changes immediately on the front-end 
-  // on page reload the favorites[] will be cleared BUT also immediately updated thanks to the fetchFavorites(), thus the changes are persistent 
+  // userFavorites --------------------------
+  // toggles the userFavorites in the back-end with the patchUserFavorites()
+  // updates userFavorites[] to show changes immediately on the front-end 
+  // on page reload the userFavorites[] will be cleared BUT also immediately updated thanks to the fetchUserFavorites(), thus the changes are persistent 
   const handleToggleFav = event => {
     const itineraryId = event.target.value;
-    let favsArray = [...favorites];
+    let favsArray = [...userFavorites];
+
+    // get request with itinerary id to a route controller on the server witch sums up the likes
 
     if (favsArray.includes(itineraryId)) {
-      // remove from favorites
+      // remove from userFavorites
       const index = favsArray.indexOf(itineraryId);
       favsArray.splice(index, 1);
-      patchFavorites(favsArray)
-      setFavorites(favsArray);
+      patchUserFavorites(favsArray)
+      setUserFavorites(favsArray);
     }
     else {
       // add to favorites
       favsArray.push(itineraryId);
-      patchFavorites(favsArray)
-      setFavorites(favsArray);
+      patchUserFavorites(favsArray)
+      setUserFavorites(favsArray);
     }
   };
 
-  // console.log(favorites);
 
   // RENDER =======================================================
   return (
@@ -148,7 +171,8 @@ const Itineraries = props => {
                   <ItineraryCard
                     key={itinerary._id}
                     itinerary={itinerary}
-                    favorites={favorites}
+                    userFavorites={userFavorites}
+                    allFavorites={allFavorites}
                     handleToggleFav={handleToggleFav}
                   // socket={socket}
                   />

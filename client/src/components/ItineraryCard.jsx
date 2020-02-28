@@ -62,6 +62,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+// function for calculating likes
+const calcLikes = (allFavs, id) => {
+  let count = 0;
+  if (allFavs !== undefined) {
+    allFavs.map(fav => fav === id && count++);
+    return count;
+  }
+};
+
 
 // COMPONENT =============================================
 const ItineraryCard = props => {
@@ -85,11 +94,11 @@ const ItineraryCard = props => {
   } = props.itinerary;
 
   const {
-    favorites,
+    userFavorites,
+    allFavorites,
     handleToggleFav,
     // socket
   } = props;
-
 
   // EVENT HANDLERS ===============================================
   // useEffect(() => {
@@ -147,7 +156,7 @@ const ItineraryCard = props => {
           </Grid>
           <Grid item sm={4}>
             <Typography variant="body1" color="textSecondary" component="p">
-              {`likes: 6`}
+              {`likes: ${calcLikes(allFavorites[0], _id)}`}
             </Typography>
           </Grid>
         </Grid>
@@ -162,7 +171,7 @@ const ItineraryCard = props => {
           disabled={!authState.isAuthenticated && true}
           checkedIcon={<Favorite />}
           value={_id}
-          checked={favorites.includes(_id) ? true : false}
+          checked={userFavorites.includes(_id) ? true : false}
           onChange={handleToggleFav}
         />
         <IconButton

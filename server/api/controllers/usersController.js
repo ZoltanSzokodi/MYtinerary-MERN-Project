@@ -244,7 +244,7 @@ exports.updateUser = async (req, res) => {
 // ==================================================================
 // FAVORITES
 
-exports.getFavs = async (req, res) => {
+exports.getUserFavs = async (req, res) => {
   try {
     !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
     // find and return all favorite itineraries of a logged in user
@@ -255,6 +255,29 @@ exports.getFavs = async (req, res) => {
     const response = {
       length: favoriteItineraries.length,
       favoriteItineraries
+    };
+
+    res.status(200).json(response);
+  }
+  catch (error) {
+    console.log(error)
+    res.status(error.status || 500).json(error.message);
+  }
+};
+
+// =========================================================
+
+exports.getAllFavs = async (req, res) => {
+  try {
+    let allFavsArray = [];
+    const usersArray = await User.find({});
+    usersArray.map(user => {
+      allFavsArray = [...allFavsArray, ...user.favoriteItineraries];
+    });
+
+    const response = {
+      length: allFavsArray.length,
+      favorites: allFavsArray
     };
 
     res.status(200).json(response);
