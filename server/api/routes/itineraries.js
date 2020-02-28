@@ -15,7 +15,7 @@ router.post('/:city',
   ItinerariesController.postItinerary);
 
 // DELETE an itinerary ==========================================
-router.delete('/',
+router.delete('/:itineraryId',
   passport.authenticate('jwt', { session: false }),
   ItinerariesController.deleteItinerary);
 

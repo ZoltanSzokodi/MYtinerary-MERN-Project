@@ -82,11 +82,14 @@ exports.postItinerary = async (req, res) => {
 exports.deleteItinerary = async (req, res) => {
   try {
     !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
-    !req.user.isAdmin && appError('You are not authorized to delete itineraries', 403);
+    // !req.user.isAdmin && appError('You are not authorized to delete itineraries', 403);
 
-    const itineraryId = await Itinerary.findByIdAndDelete(req.body.id);
+    let itinerary = await Itinerary.findOne({ _id: req.params.itineraryId });
 
-    !itineraryId && appError('Invalid id number', 400);
+    !itinerary && appError('Invalid id number', 400);
+    itinerary.userId != req.user._id && appError('unauthorized', 403);
+
+    await Itinerary.findByIdAndDelete(req.params.itineraryId);
 
     res.status(200).json({ message: `Itinerary succesfuly removed` });
   }
@@ -105,18 +108,14 @@ exports.updateItinerary = async (req, res) => {
     let itinerary = await Itinerary.findOne({ _id: req.params.itineraryId });
 
     !itinerary && appError('Invalid id number', 400);
+    itinerary.userId != req.user._id && appError('Unauthorized', 403);
 
-    if (itinerary.userId == req.user._id) {
-      itinerary = await Itinerary.findByIdAndUpdate(req.params.itineraryId, req.body, {
-        new: true,
-        omitUndefined: true,
-        runValidators: true,
-        useFindAndModify: false
-      });
-    }
-    else {
-      appError('Unauthorized', 403);
-    }
+    itinerary = await Itinerary.findByIdAndUpdate(req.params.itineraryId, req.body, {
+      new: true,
+      omitUndefined: true,
+      runValidators: true,
+      useFindAndModify: false
+    });
 
     const response = {
       message: 'Itinerary successfuly updated',
@@ -126,6 +125,5 @@ exports.updateItinerary = async (req, res) => {
   }
   catch (error) {
     res.status(error.status || 500).json(error);
-    console.log(error)
   }
 };
