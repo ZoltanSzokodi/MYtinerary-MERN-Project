@@ -23,6 +23,7 @@ import Slide from '@material-ui/core/Slide';
 import LoginDialog from '../screen/authentication/LoginDialog';
 import LogoutDialog from '../screen/authentication/LogoutDialog';
 import SignupDialog from '../screen/authentication/SignupDialog';
+import DeleteDialog from '../screen/authentication/DeleteDialog';
 
 
 // STYLES =================================================
@@ -70,7 +71,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('md')]: {
       width: 200,
     },
-  },
+  }
 }));
 
 
@@ -181,6 +182,10 @@ const MenuAppbar = props => {
                 <MenuItem onClick={handleClose}>
                   <SignupDialog />
                 </MenuItem>
+                {authState.isAuthenticated &&
+                  <MenuItem>
+                    <DeleteDialog />
+                  </MenuItem>}
               </Menu>
             </div>
           </Toolbar>

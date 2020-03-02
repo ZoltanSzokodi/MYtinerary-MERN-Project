@@ -9,8 +9,8 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+// import IconButton from '@material-ui/core/IconButton';
+// import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
@@ -28,7 +28,8 @@ const useStyles = makeStyles(theme => ({
   },
   link: {
     textDecoration: 'none',
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(1),
+    marginBottom: theme.spacing(2)
   }
 }));
 
@@ -67,9 +68,9 @@ const CityCard = props => {
           <Link to={`/itineraries/${name}`} className={classes.link}>
             <Button variant="contained" color="primary">Go to itineraries</Button>
           </Link>
-          <IconButton aria-label="settings">
+          {/* <IconButton aria-label="settings">
             <MoreVertIcon />
-          </IconButton>
+          </IconButton> */}
         </Grid>
       </CardActions>
     </Card>

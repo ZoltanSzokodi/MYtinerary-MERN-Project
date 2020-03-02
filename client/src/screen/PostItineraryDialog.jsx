@@ -27,7 +27,9 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     flexDirection: 'column',
     marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(4),
+  },
+  cityname: {
+    textTransform: 'capitalize'
   },
   form: {
     width: '100%',
@@ -53,7 +55,6 @@ const useStyles = makeStyles(theme => ({
   submit: {
     marginTop: theme.spacing(2)
   },
-
   appBar: {
     position: 'relative',
   },
@@ -67,7 +68,10 @@ const useStyles = makeStyles(theme => ({
   },
   buttonsContainer: {
     marginTop: theme.spacing(4)
-  }
+  },
+  addBtn: {
+    margin: 'auto auto 100px'
+  },
 }));
 
 // COMPONENT ====================================================
@@ -87,7 +91,7 @@ const PostInineraryDialog = ({ cityName }) => {
     description: '',
     duration: '',
     price: '',
-    hashTags: ''
+    hashTags: '#awesome #fun #holiday'
   });
 
 
@@ -149,9 +153,14 @@ const PostInineraryDialog = ({ cityName }) => {
   // RENDER =======================================================
   return (
     <Fragment>
-      <div onClick={handleClickOpen}>
-        Post itinerary
-      </div>
+      <Button
+        className={classes.addBtn}
+        variant="contained"
+        color="primary"
+        disabled={!authState.isAuthenticated && true}
+        onClick={handleClickOpen}>
+        Post your itinerary
+      </Button>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>
@@ -166,7 +175,11 @@ const PostInineraryDialog = ({ cityName }) => {
 
         <div className={classes.formContainer}>
           <form className={classes.form} noValidate autoComplete="off">
-            <Typography variant='h5' align='center'>{cityName}</Typography>
+            <Typography
+              className={classes.cityname}
+              variant='h5'
+              align='center'>
+              {cityName}</Typography>
 
             {values.errorMessage &&
               <div className={classes.formError}>

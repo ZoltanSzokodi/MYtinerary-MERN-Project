@@ -1,6 +1,9 @@
-import React, { createContext, useReducer, useCallback } from 'react';
+import React, { createContext, useContext, useReducer, useCallback, useState } from 'react';
 import fetchDataReducer from './reducers/fetchDataReducer';
 import axios from 'axios';
+
+// CONTEXT ===========================================================
+import { authContext } from '../context/AuthContext';
 
 export const itineraiesContext = createContext();
 
@@ -12,11 +15,14 @@ const ItinerariesContext = props => {
     data: [],
     error: ''
   };
+  const [allFavorites, setAllFavorites] = useState([]);
+  const [userFavorites, setUserFavorites] = useState([]);
 
   const [itinerariesState, itinerariesDispatch] = useReducer(fetchDataReducer, initialState);
 
+  const { authState } = useContext(authContext);
 
-  // GET ALL CITIES FROM DB ============================================
+  // get all cities -------------------------------------------
   const fetchItineraries = useCallback(async name => {
     try {
       const res = await axios.get(`http://localhost:5000/api/itineraries/${name}`);
@@ -39,10 +45,65 @@ const ItinerariesContext = props => {
     }
   }, []);
 
+  // get all favs regardless of signed in user (to calculate likes for each itinerary) -----------------------------------------
+  const fetchAllFavorites = useCallback(async () => {
+    try {
+      const response = await axios
+        .get('http://localhost:5000/api/users/getAllFavs');
+
+      setAllFavorites([response.data.favorites]);
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  // get user's favorites (to determin which itineraries are liked) -------------------------------------------
+  const fetchUserFavorites = useCallback(async () => {
+    try {
+      const response = await axios
+        .get('http://localhost:5000/api/users/getUserFavs',
+          { headers: { 'Authorization': `bearer ${authState.token}` } });
+
+      setUserFavorites(response.data.favoriteItineraries);
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }, [authState.token]);
+
+  // patch function for liking or unliking (favorite/un-favorite) -------------------------
+  // this function is passed into the handleToggleFav event handler
+  // on every change it updates the user's favoriteItineraries[] on the back-end
+  const patchUserFavorites = async array => {
+    try {
+      await axios
+        .patch('http://localhost:5000/api/users/',
+          {
+            favoriteItineraries: array
+          },
+          { headers: { 'Authorization': `bearer ${authState.token}` } });
+      fetchAllFavorites();
+    }
+    catch (error) {
+      console.log(error.response);
+    }
+  };
+
 
   // RENDER =============================================================
   return (
-    <itineraiesContext.Provider value={{ itinerariesState, fetchItineraries }}>
+    <itineraiesContext.Provider
+      value={{
+        itinerariesState,
+        fetchItineraries,
+        fetchAllFavorites,
+        fetchUserFavorites,
+        allFavorites,
+        userFavorites,
+        setUserFavorites,
+        patchUserFavorites
+      }}>
       {props.children}
     </itineraiesContext.Provider>
   );

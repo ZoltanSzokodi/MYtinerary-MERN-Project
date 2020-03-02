@@ -1,12 +1,9 @@
-import React, { useEffect, useState, useContext, useCallback, Fragment } from 'react';
-import axios from 'axios';
-// import OpenSocket from 'socket.io-client';
+import React, { useEffect, useContext, Fragment } from 'react';
 
 // CONTEXT ===========================================================
 import { itineraiesContext } from '../context/ItinerariesContext';
 import { authContext } from '../context/AuthContext';
 import { commentsContext } from '../context/CommentsContext';
-
 
 // MATERIAL UI =======================================================
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   },
   innerGridRoot: {
     marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(10)
+    marginBottom: theme.spacing(2)
 
   },
 }));
@@ -41,14 +38,17 @@ const useStyles = makeStyles(theme => ({
 const Itineraries = props => {
   const classes = useStyles();
 
-  const { itinerariesState, fetchItineraries } = useContext(itineraiesContext);
+  const {
+    itinerariesState,
+    fetchItineraries,
+    fetchAllFavorites,
+    fetchUserFavorites,
+    allFavorites,
+    userFavorites,
+    setUserFavorites,
+    patchUserFavorites } = useContext(itineraiesContext);
   const { authState } = useContext(authContext);
   const { getComments } = useContext(commentsContext);
-
-
-  const [userFavorites, setUserFavorites] = useState([]);
-  const [allFavorites, setAllFavorites] = useState([]);
-  // const [socket, setSocket] = useState('');
 
   const cityName = props.match.params.name;
   const { itineraries } = itinerariesState.data;
@@ -60,66 +60,19 @@ const Itineraries = props => {
 
   // get all comments --------------------------------------------
   useEffect(() => {
-    // setSocket(OpenSocket('http://localhost:5000'));
     getComments();
   }, [getComments])
 
   // fetches favoriteItineraries[] for the logged in user when the component mounts
   // sets the userFavorites[] equal to favoriteItineraries[] on every page reload/re-render
   useEffect(() => {
-    const fetchUserFavorites = async () => {
-      try {
-        const response = await axios
-          .get('http://localhost:5000/api/users/getUserFavs',
-            { headers: { 'Authorization': `bearer ${authState.token}` } });
-
-        setUserFavorites(response.data.favoriteItineraries);
-      }
-      catch (error) {
-        console.log(error);
-      }
-    }
     authState.isAuthenticated && fetchUserFavorites();
-  }, [authState.token, authState.isAuthenticated]);
-
-
-
-  const fetchAllFavorites = useCallback(async () => {
-    try {
-      const response = await axios
-        .get('http://localhost:5000/api/users/getAllFavs');
-
-      setAllFavorites([response.data.favorites]);
-      // console.log(response.data.favorites.length)
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }, []);
-
+  }, [authState.token, authState.isAuthenticated, fetchUserFavorites]);
 
   useEffect(() => {
     fetchAllFavorites();
   }, [fetchAllFavorites]);
 
-
-  // patch function for liking or unliking (favorite/un-favorite) -------------------------
-  // this function is passed into the handleToggleFav event handler
-  // on every change it updates the user's favoriteItineraries[] on the back-end
-  const patchUserFavorites = async array => {
-    try {
-      await axios
-        .patch('http://localhost:5000/api/users/',
-          {
-            favoriteItineraries: array
-          },
-          { headers: { 'Authorization': `bearer ${authState.token}` } });
-      fetchAllFavorites();
-    }
-    catch (error) {
-      console.log(error.response);
-    }
-  };
 
   // EVENT HANDLERS ===========================================
 
@@ -173,7 +126,6 @@ const Itineraries = props => {
                     userFavorites={userFavorites}
                     allFavorites={allFavorites}
                     handleToggleFav={handleToggleFav}
-                  // socket={socket}
                   />
                 </Grid>
               ))}
