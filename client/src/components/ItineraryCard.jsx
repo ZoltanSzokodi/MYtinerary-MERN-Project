@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, Fragment } from 'react';
 import clsx from 'clsx';
 
 // CONTEXT =============================================
@@ -22,10 +22,15 @@ import Grid from '@material-ui/core/Grid';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Chip from '@material-ui/core/Chip';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
 
 // COMPONENTS ==========================================
 import CommentOutput from '../components/CommentOutput';
 import CommentInput from '../components/CommentInput';
+import UpdateItineraryDialog from '../screen/UpdateItineraryDialog';
+import DeleteItineraryDialog from '../screen/DeleteItineraryDialog';
 
 
 // STYLES ==============================================
@@ -81,6 +86,9 @@ const ItineraryCard = props => {
 
   const [expanded, setExpanded] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
 
   const {
     title,
@@ -89,6 +97,7 @@ const ItineraryCard = props => {
     duration,
     price,
     username,
+    userId,
     hashTags,
     _id
   } = props.itinerary;
@@ -101,10 +110,6 @@ const ItineraryCard = props => {
   } = props;
 
   // EVENT HANDLERS ===============================================
-  // useEffect(() => {
-  //   getComments();
-  // }, []);
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -117,6 +122,14 @@ const ItineraryCard = props => {
     setInputValue('');
   };
 
+  const handleMenu = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   // RENDER =======================================================
   return (
     <Card className={classes.root}>
@@ -125,9 +138,41 @@ const ItineraryCard = props => {
           <Avatar src={userImg} alt='user' className={classes.avatarLarge} />
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          (authState.isAuthenticated && authState.user.id === userId) &&
+          (
+            <Fragment>
+              < IconButton
+                aria-label="itinerary"
+                aria-controls="itinerary-ops"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit">
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                id="itinerary-ops"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>
+                  <UpdateItineraryDialog itinerary={props.itinerary} />
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <DeleteItineraryDialog itineraryId={_id} />
+                </MenuItem>
+              </Menu>
+            </Fragment>
+          )
         }
         title={title}
         subheader={`posted by: ${username}`}

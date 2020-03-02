@@ -117,8 +117,6 @@ exports.updateItinerary = async (req, res) => {
       hashTags
     } = req.body;
 
-    // hashTags.length < 5 && appError('Hashtags min length is 5 characters', 400);
-
     const hashTagsArr = [...hashTags.split(' ')];
 
     let itinerary = await Itinerary.findOne({ _id: req.params.itineraryId });
@@ -126,6 +124,9 @@ exports.updateItinerary = async (req, res) => {
     !itinerary && appError('Invalid id number', 400);
     itinerary.userId != req.user._id && appError('Unauthorized', 403);
 
+    // let itineraryTitle = await Itinerary.findOne({ title });
+
+    // itineraryTitle && appError('This title is already taken', 403);
 
     itinerary = await Itinerary.findByIdAndUpdate(req.params.itineraryId,
       {

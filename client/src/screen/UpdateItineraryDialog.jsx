@@ -68,10 +68,7 @@ const useStyles = makeStyles(theme => ({
   },
   buttonsContainer: {
     marginTop: theme.spacing(4)
-  },
-  addBtn: {
-    margin: 'auto auto 100px'
-  },
+  }
 }));
 
 // COMPONENT ====================================================
@@ -80,18 +77,21 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 // COMPONENT ======================================================
-const PostInineraryDialog = ({ cityName }) => {
+const UpdateItineraryDialog = ({ itinerary }) => {
   const classes = useStyles();
 
   const { authState } = useContext(authContext);
   const [open, setOpen] = useState(false);
 
+  // converting the hashTags array to a string
+  let hashtags = itinerary.hashTags.join(' ');
+
   const [values, setValues] = useState({
-    title: '',
-    description: '',
-    duration: '',
-    price: '',
-    hashTags: '#awesome #fun #holiday',
+    title: itinerary.title,
+    description: itinerary.description,
+    duration: itinerary.duration,
+    price: itinerary.price,
+    hashTags: hashtags,
     isSubmiting: false,
     errorMessage: null
   });
@@ -105,11 +105,11 @@ const PostInineraryDialog = ({ cityName }) => {
   const handleClose = () => {
     setOpen(false);
     setValues({
-      title: '',
-      description: '',
-      duration: '',
-      price: '',
-      hashTags: ''
+      title: itinerary.title,
+      description: itinerary.description,
+      duration: itinerary.duration,
+      price: itinerary.price,
+      hashTags: hashtags,
     });
   };
 
@@ -129,7 +129,7 @@ const PostInineraryDialog = ({ cityName }) => {
     });
     try {
       const response = await axios
-        .post(`http://localhost:5000/api/itineraries/${cityName}`,
+        .patch(`http://localhost:5000/api/itineraries/${itinerary._id}`,
           {
             title: values.title,
             description: values.description,
@@ -155,14 +155,10 @@ const PostInineraryDialog = ({ cityName }) => {
   // RENDER =======================================================
   return (
     <Fragment>
-      <Button
-        className={classes.addBtn}
-        variant="contained"
-        color="primary"
-        disabled={!authState.isAuthenticated && true}
+      <div
         onClick={handleClickOpen}>
-        Post your itinerary
-      </Button>
+        Update your itinerary
+      </div>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>
@@ -170,7 +166,7 @@ const PostInineraryDialog = ({ cityName }) => {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" align="center" className={classes.title}>
-              Post itinerary
+              Update your itinerary
             </Typography>
           </Toolbar>
         </AppBar>
@@ -181,7 +177,7 @@ const PostInineraryDialog = ({ cityName }) => {
               className={classes.cityname}
               variant='h5'
               align='center'>
-              {cityName}</Typography>
+              {itinerary.title}</Typography>
 
             {values.errorMessage &&
               <div className={classes.formError}>
@@ -245,7 +241,7 @@ const PostInineraryDialog = ({ cityName }) => {
               className={classes.submit}
               onClick={handleSubmit}
               disabled={values.isSubmiting}
-            >{values.isSubmiting ? 'Loading...' : 'Add itinerary'}</Button>
+            >{values.isSubmiting ? 'Loading...' : 'Confirm'}</Button>
           </form>
         </div>
       </Dialog>
@@ -253,4 +249,4 @@ const PostInineraryDialog = ({ cityName }) => {
   );
 };
 
-export default PostInineraryDialog;
+export default UpdateItineraryDialog;
