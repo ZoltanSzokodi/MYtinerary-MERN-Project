@@ -92,7 +92,7 @@ exports.deleteItinerary = async (req, res) => {
     let itinerary = await Itinerary.findOne({ _id: req.params.itineraryId });
 
     !itinerary && appError('Invalid id number', 400);
-    itinerary.userId != req.user._id && appError('unauthorized', 403);
+    itinerary.userId != req.user.id && appError('unauthorized', 403);
 
     await Itinerary.findByIdAndDelete(req.params.itineraryId);
 
@@ -122,7 +122,7 @@ exports.updateItinerary = async (req, res) => {
     let itinerary = await Itinerary.findOne({ _id: req.params.itineraryId });
 
     !itinerary && appError('Invalid id number', 400);
-    itinerary.userId != req.user._id && appError('Unauthorized', 403);
+    itinerary.userId != req.user.id && appError('Unauthorized', 403);
 
     // let itineraryTitle = await Itinerary.findOne({ title });
 

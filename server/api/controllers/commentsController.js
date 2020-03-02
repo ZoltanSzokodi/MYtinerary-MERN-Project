@@ -85,3 +85,23 @@ exports.getComments = async (req, res) => {
     res.status(error.status || 500).json(error);
   }
 };
+
+exports.deleteComment = async (req, res) => {
+  try {
+    !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
+    // !req.user.isAdmin && appError('You are not authorized to delete itineraries', 403);
+
+    let comment = await Comment.findOne({ _id: req.params.commentId });
+
+    !comment && appError('Invalid id number', 400);
+    comment.userId != req.user.id && appError('unauthorized', 403);
+
+    await Comment.findByIdAndDelete(req.params.commentId);
+
+    res.status(200).json({ message: `Comment succesfuly removed` });
+  }
+  catch (error) {
+    res.status(error.status || 500).json(error);
+    console.log(error)
+  }
+};

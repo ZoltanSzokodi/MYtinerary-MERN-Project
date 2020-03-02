@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
-import OpenSocket from 'socket.io-client';
+// import OpenSocket from 'socket.io-client';
 
 
 // CONTEXT =============================================
@@ -47,11 +47,11 @@ const CommentInput = props => {
     handleInputCancel,
     itineraryId,
     itineraryTitle,
-    // socket
+    socket
   } = props;
 
   // open socket between client and server for comments -----------------
-  const socket = OpenSocket('http://localhost:5000');
+  // const socket = OpenSocket('http://localhost:5000');
 
   // EVENET LISTENERS ===========================================
   const handleCommentSubmit = async () => {

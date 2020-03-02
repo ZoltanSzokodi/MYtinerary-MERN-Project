@@ -71,6 +71,10 @@ io.on('connection', socket => {
     io.sockets.emit('new-comment', data);
   });
 
+  socket.on('delete-comment', () => {
+    io.sockets.emit('delete-comment', data);
+  });
+
   // socket.on('disconnect', () => {
   //   console.log('user disconnected');
   // });

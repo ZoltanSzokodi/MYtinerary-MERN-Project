@@ -13,6 +13,11 @@ router.post('/:itineraryId',
   passport.authenticate('jwt', { session: false }),
   CommentsController.postComment);
 
+// DELETE comment ================================================
+router.delete('/:commentId',
+  passport.authenticate('jwt', { session: false }),
+  CommentsController.deleteComment);
+
 // GET comments for a specific itinerary =========================
 // OUT OF USE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 // I am using getAllComments instead and handling them on the client side

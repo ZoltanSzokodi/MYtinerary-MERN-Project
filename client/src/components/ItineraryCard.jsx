@@ -1,5 +1,6 @@
 import React, { useState, useContext, Fragment } from 'react';
 import clsx from 'clsx';
+import OpenSocket from 'socket.io-client';
 
 // CONTEXT =============================================
 import { authContext } from '../context/AuthContext';
@@ -89,6 +90,7 @@ const ItineraryCard = props => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
+  const socket = OpenSocket('http://localhost:5000');
 
   const {
     title,
@@ -243,7 +245,7 @@ const ItineraryCard = props => {
               handleInputCancel={handleInputCancel}
               itineraryId={_id}
               itineraryTitle={title}
-            // socket={socket} 
+              socket={socket}
             />
           }
 
@@ -252,6 +254,7 @@ const ItineraryCard = props => {
             <CommentOutput
               key={commentObj._id}
               commentObj={commentObj}
+              socket={socket}
             />
           ))}
 
