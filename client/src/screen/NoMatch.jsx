@@ -1,9 +1,12 @@
 import React from 'react';
-import closed from '../static/404.png';
 
 // MATERIAL UI ==========================================
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+
+// STATIC ===============================================
+import closed from '../static/404.png';
+
 
 // STYLES ===============================================
 const useStyles = makeStyles(theme => ({

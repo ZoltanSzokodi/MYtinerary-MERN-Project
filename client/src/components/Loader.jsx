@@ -39,6 +39,7 @@ const styles = {
       top: '10%',
       left: '10%',
       boxShadow: '5px -8px 0 rgba(235,6,117,0.8), 8px 5px 0 rgba(26,170,172,0.8),-3px 8px 0 rgba(18,119,189,0.8), -8px -5px 0 rgba(255,203,49,0.9)',
+      // boxShadow: '5px -8px 0 rgba(18,119,189,0.8), 8px 5px 0 rgba(18,119,189,0.8),-3px 8px 0 rgba(18,119,189,0.8), -8px -5px 0 rgba(18,119,189,0.8)',
     },
   },
   '@keyframes loader-anim': {

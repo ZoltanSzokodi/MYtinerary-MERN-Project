@@ -31,6 +31,8 @@ const DeleteDialog = () => {
 
   const { authState, authDispatch } = useContext(authContext);
 
+  const { token } = authState;
+
   // EVENT HANDLERS ==========================================
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,11 +46,11 @@ const DeleteDialog = () => {
     try {
       authDispatch({
         type: 'LOGOUT',
-        payload: authState.token
+        payload: token
       });
 
       const response = axios.delete('http://localhost:5000/api/users/',
-        { headers: { 'Authorization': `bearer ${authState.token}` } });
+        { headers: { 'Authorization': `bearer ${token}` } });
 
       console.log(response);
       window.location.reload();
