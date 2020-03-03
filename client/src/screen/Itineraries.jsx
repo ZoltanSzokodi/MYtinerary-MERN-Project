@@ -19,6 +19,7 @@ import MenuAppbar from '../components/MenuAppbar';
 import ScrollTop from '../components/ScrollTop';
 import ItineraryCard from '../components/ItineraryCard';
 import PostItineraryDialog from './PostItineraryDialog';
+import NoMatch from './NoMatch';
 
 
 // STYLES ===========================================================
@@ -106,10 +107,10 @@ const Itineraries = props => {
   return (
     <Grid container classes={{ root: classes.outerGridRoot }}>
       {itinerariesState.loading && <Loader />}
-      {itinerariesState.error && itinerariesState.error}
-      {!itinerariesState.loading && (
+      {itinerariesState.error && <div><NoMatch /></div>}
+      {(!itinerariesState.loading && itinerariesState.error === '') && (
         <Fragment>
-          <MenuAppbar type="itineraries" />
+          <MenuAppbar />
           <Toolbar id="back-to-top-anchor" />
           <Grow in timeout={500}>
             <Grid

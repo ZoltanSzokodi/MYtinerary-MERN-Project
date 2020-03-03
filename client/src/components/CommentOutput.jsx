@@ -42,40 +42,45 @@ const CommentOutput = props => {
   const classes = useStyles();
 
   const { authState } = useContext(authContext);
-  const { comments, setComments, getComments } = useContext(commentsContext);
+  const { getComments } = useContext(commentsContext);
+  // const { comments, setComments, getComments } = useContext(commentsContext);
+
 
   const {
     commentObj,
-    socket
+    // socket
   } = props;
 
   const commentId = commentObj._id;
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`http://localhost:5000/api/comments/${commentId}`,
-        { headers: { 'Authorization': `bearer ${authState.token}` } });
+      const response = await axios
+        .delete(`http://localhost:5000/api/comments/${commentId}`,
+          { headers: { 'Authorization': `bearer ${authState.token}` } });
       console.log(response);
 
       // emitting event for socket.io ---------------------------
       // delete
-      socket.emit('delte-comment', commentId);
-      socket.on('delete-comment', commentI => {
-        let currentComments = comments;
-        currentComments.map((comment, index) => {
-          if (comment._id === commentI) {
-            return currentComments.splice(index, 1);
-          }
-          return null;
-        });
-        setComments([...currentComments])
-      });
+      // socket.emit('delete-comment', commentId);
+      // socket.on('delete-comment', commentI => {
+      //   let currentComments = comments;
+      //   currentComments.map((comment, index) => {
+      //     if (comment._id === commentI) {
+      //       return currentComments.splice(index, 1);
+      //     }
+      //     return null;
+      //   });
+      //   setComments([...currentComments])
+      // });
     }
     catch (error) {
       console.log(error.response)
     };
     getComments();
   };
+
+  // console.log(comments)
 
   // RENDER =======================================================
   return (

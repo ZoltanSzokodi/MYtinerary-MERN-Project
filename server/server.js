@@ -62,20 +62,22 @@ let server = app.listen(port, () => {
 });
 
 // SET UP LIVE CONNECTION BETWEEN THE SERVER AND THE CLIENT FOR LIVE COMMENTING
-let io = socket(server);
+// let io = socket(server);
 
-io.on('connection', socket => {
-  // console.log('a user is connected')
+// io.on('connection', socket => {
+//   // console.log('a user is connected')
 
-  socket.on('new-comment', data => {
-    io.sockets.emit('new-comment', data);
-  });
+//   socket.on('new-comment', data => {
+//     io.sockets.emit('new-comment', data);
+//     console.log(data)
+//   });
 
-  socket.on('delete-comment', () => {
-    io.sockets.emit('delete-comment', data);
-  });
+//   socket.on('delete-comment', commentId => {
+//     io.sockets.emit('delete-comment', commentId);
+//     console.log(commentId)
+//   });
 
-  // socket.on('disconnect', () => {
-  //   console.log('user disconnected');
-  // });
-});
+//   // socket.on('disconnect', () => {
+//   //   console.log('user disconnected');
+//   // });
+// });

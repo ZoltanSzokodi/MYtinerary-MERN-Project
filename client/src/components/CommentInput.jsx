@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
 // import OpenSocket from 'socket.io-client';
 
@@ -39,7 +39,9 @@ const CommentInput = props => {
   const classes = useStyles();
 
   const { authState } = useContext(authContext);
-  const { comments, setComments, getComments } = useContext(commentsContext);
+  const { getComments } = useContext(commentsContext);
+  // const { comments, setComments, getComments } = useContext(commentsContext);
+
 
   const {
     inputValue,
@@ -47,7 +49,7 @@ const CommentInput = props => {
     handleInputCancel,
     itineraryId,
     itineraryTitle,
-    socket
+    // socket
   } = props;
 
   // open socket between client and server for comments -----------------
@@ -64,13 +66,13 @@ const CommentInput = props => {
         { headers: { 'Authorization': `bearer ${authState.token}` } });
       console.log(response);
 
-      // emitting event for socket.io ---------------------------
-      socket.emit('new-comment', response.data.newComment);
-      socket.on('new-comment', comment => {
-        let currentComments = comments;
-        comments.push(comment);
-        setComments([...currentComments])
-      });
+      // // emitting event for socket.io ---------------------------
+      // socket.emit('new-comment', response.data.newComment);
+      // socket.on('new-comment', comment => {
+      //   let currentComments = comments;
+      //   comments.push(comment);
+      //   setComments([...currentComments])
+      // });
     }
     catch (error) {
       console.log(error)

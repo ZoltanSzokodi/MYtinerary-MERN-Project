@@ -7,6 +7,8 @@ import Container from '@material-ui/core/Container';
 import Landing from './screen/Landing';
 import Cities from './screen/Cities';
 import Itineraries from './screen/Itineraries';
+import Users from './screen/Users';
+import NoMatch from './screen/NoMatch';
 
 import HomeButton from './components/HomeButton';
 
@@ -21,22 +23,24 @@ const App = () => {
     <Fragment>
       <CssBaseline />
       <Container maxWidth={'md'} disableGutters>
-        <BrowserRouter>
-          <Switch>
-            <AuthContext>
-              <Route exact path='/' component={Landing} />
-              <CitiesContext>
-                <Route exact path='/cities' component={Cities} />
-                <ItinerariesContext>
-                  <CommentsContext>
-                    <Route exact path='/itineraries/:name' component={Itineraries} />
-                  </CommentsContext>
-                </ItinerariesContext>
-              </CitiesContext>
-            </AuthContext>
-          </Switch>
-          <HomeButton />
-        </BrowserRouter>
+        <AuthContext>
+          <CitiesContext>
+            <ItinerariesContext>
+              <CommentsContext>
+                <BrowserRouter>
+                  <Switch>
+                    <Route exact path='/' component={Landing} />
+                    <Route path='/users' component={Users} />
+                    <Route path='/cities' component={Cities} />
+                    <Route path='/itineraries/:name' component={Itineraries} />
+                    <Route component={NoMatch} />
+                  </Switch>
+                  <HomeButton />
+                </BrowserRouter>
+              </CommentsContext>
+            </ItinerariesContext>
+          </CitiesContext>
+        </AuthContext>
       </Container>
     </Fragment >
   );

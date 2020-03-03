@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useContext } from 'react';
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 // CONTEXT ================================================
 import { citiesContext } from '../context/CitiesContext';
@@ -71,6 +71,10 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('md')]: {
       width: 200,
     },
+  },
+  usersList: {
+    textDecoration: 'none',
+    color: 'inherit'
   }
 }));
 
@@ -134,9 +138,9 @@ const MenuAppbar = props => {
               <ArrowBackIosIcon />
             </IconButton>
             <div className={classes.search}
-              style={props.type === 'itineraries' ?
-                { display: 'none' } :
-                { display: 'block' }}>
+              style={props.type === 'cities' ?
+                { display: 'block' } :
+                { display: 'none' }}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
@@ -183,9 +187,14 @@ const MenuAppbar = props => {
                   <SignupDialog />
                 </MenuItem>
                 {authState.isAuthenticated &&
-                  <MenuItem>
-                    <DeleteDialog />
-                  </MenuItem>}
+                  <div>
+                    <MenuItem>
+                      <DeleteDialog />
+                    </MenuItem>
+                    <MenuItem>
+                      <Link className={classes.usersList} to="/users">Users list</Link>
+                    </MenuItem>
+                  </div>}
               </Menu>
             </div>
           </Toolbar>

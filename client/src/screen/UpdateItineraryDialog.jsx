@@ -41,6 +41,10 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     marginTop: theme.spacing(2),
   },
+  formError: {
+    textAlign: 'center',
+    color: 'red'
+  },
   textField: {
     width: '80%',
     marginTop: theme.spacing(2)

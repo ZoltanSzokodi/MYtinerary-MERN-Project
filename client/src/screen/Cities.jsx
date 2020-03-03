@@ -47,7 +47,7 @@ const Cities = props => {
       {citiesState.error && citiesState.error}
       {!citiesState.loading && (
         <Fragment>
-          <MenuAppbar />
+          <MenuAppbar type="cities" />
           <Toolbar id="back-to-top-anchor" />
           <Grow in timeout={500}>
             <Grid
