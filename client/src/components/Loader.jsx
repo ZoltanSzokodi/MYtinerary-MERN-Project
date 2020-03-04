@@ -1,12 +1,12 @@
 import React from 'react';
 
 // MATERIAL UI ==================================================
-import { withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Grow from '@material-ui/core/Grow';
 
 
 // STYLES =======================================================
-const styles = {
+const useStyles = makeStyles(theme => ({
   container: {
     width: '100%',
     height: '100vh',
@@ -14,7 +14,12 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundImage: 'linear-gradient(to bottom, #ffffff 50%, #f2f1fb 75%)',
+    backgroundColor: theme.palette.background.default,
+  },
+  appTitle: {
+    color: theme.palette.primary.dark,
+    fontFamily: 'Thasadith, sans-serif',
+    fontSize: '26px',
   },
   loader: {
     width: '70px',
@@ -46,22 +51,23 @@ const styles = {
     '0%': { transform: 'rotate(0deg)' },
     '100%': { transform: 'rotate(360deg)' }
   }
-};
+}));
 
 
 // COMPONENT ===============================================================
-const Loader = ({ classes }) => {
+const Loader = () => {
+  const classes = useStyles();
 
 
   // RENDER ================================================================
   return (
     <Grow in timeout={500}>
       <div className={classes.container}>
-        <h2>L o a d i n g</h2>
+        <h2 className={classes.appTitle}>MYtinerary</h2>
         <div className={`${classes.loader} ${classes.loader9}`}></div>
       </div>
     </Grow>
   );
 };
 
-export default withStyles(styles)(Loader);
+export default Loader;

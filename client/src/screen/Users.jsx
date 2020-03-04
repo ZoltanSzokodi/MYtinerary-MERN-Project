@@ -18,6 +18,7 @@ import UserListItem from '../components/UserListItem';
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
+    minHeight: '85vh',
     maxWidth: 700,
     backgroundColor: theme.palette.background.paper,
     margin: 'auto'

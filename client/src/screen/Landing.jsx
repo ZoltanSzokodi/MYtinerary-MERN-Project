@@ -1,20 +1,19 @@
 import React, { useState, useEffect, useContext, Fragment } from 'react';
-import { Link } from 'react-router-dom';
 
 // CONTEXT ===================================================
 import { authContext } from '../context/AuthContext';
 
 // MATERIAL UI ===============================================
 import { makeStyles } from '@material-ui/core/styles';
-
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Grow from '@material-ui/core/Grow';
 
 // STATIC ====================================================
-import RoundArrow from '../static/round-pink-arrow3.png';
-import backgroundImg from '../static/travel.jpg';
+import globe from '../static/globe.png'
+import beach from '../static/beach.png'
+import liberty from '../static/liberty.png'
+import music from '../static/music.png'
+
 
 
 // COMPONENTS ================================================
@@ -32,42 +31,53 @@ const useStyles = makeStyles(theme => ({
     overflow: 'hidden',
     display: 'flex',
     flexDirection: 'column',
+    backgroundColor: theme.palette.background.default,
+    boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
   },
   top: {
     height: '50%',
-    // backgroundImage: `url(${backgroundImg})`,
-    // backgroundSize: 'cover',
-    // backgroundPosition: 'center',
-    clipPath: 'polygon(100% 0, 100% 85%, 0 100%, 0 0)',
-    filter: 'grayscale(100%)',
-    // opacity: '.1',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    textAlign: 'center',
+    // clipPath: 'polygon(100% 0, 100% 85%, 0 100%, 0 0)',
   },
   bottom: {
     height: '50%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
     backgroundColor: theme.palette.primary.main,
     clipPath: 'polygon(100% 0, 100% 100%, 0 100%, 0 15%)',
-    // zIndex: 10,
   },
-  '@keyframes globePulse': {
-    '0%': {
-      transform: 'scale(.98)',
-      boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
-    },
-    '100%': {
-      transform: 'scale(1.05)',
-      boxShadow: '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)'
-    }
+  appTitle: {
+    fontFamily: 'Thasadith, sans-serif',
+    fontSize: '50px',
+    color: theme.palette.primary.dark,
+    margin: 0,
+  },
+  iconsContainer: {
+    marginBottom: theme.spacing(3),
+  },
+  icon: {
+    width: '70px',
+  },
+  subTitle: {
+    fontSize: '16px',
+    color: theme.palette.primary.dark,
   },
   browseBtn: {
     position: 'absolute',
-    top: '51%',
+    top: '50%',
     left: '50%',
     transform: 'translateX(-50%)',
     width: '200px',
     padding: '15px',
     border: 'none',
-    borderRadius: '50px',
-    backgroundColor: theme.palette.primary.light,
+    borderRadius: '100px',
+    backgroundColor: theme.palette.primary.dark,
     color: 'white',
     outline: 'none',
     cursor: 'pointer',
@@ -77,13 +87,20 @@ const useStyles = makeStyles(theme => ({
     boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
     textTransform: 'uppercase',
     zIndex: 10,
+    // animation: '$globePulse 1s alternate infinite ease-in'
+    '&:hover': {
+      color: theme.palette.primary.dark,
+      backgroundColor: theme.palette.background.default,
+    }
+  },
+  question: {
+    color: theme.palette.background.paper,
+  },
+  button: {
+    color: 'white',
+    fontSize: '16px',
+    margin: theme.spacing(2),
   }
-  // startBrowsing: {
-  //   maxWidth: '20%',
-  //   borderRadius: '50%',
-  //   cursor: 'pointer',
-  //   animation: '$globePulse 1s alternate infinite ease-in'
-  // }
 }));
 
 
@@ -126,55 +143,41 @@ const Landing = () => {
 
       {loading && <Loader />}
       {!loading && (
-        <div className={classes.root}>
-          {/* <Grow in timeout={500}>
-            <Grid container spacing={5} >
-              <Grid item container justify='space-between' spacing={6}>
-                <Grid item sm={12}>
-                  <Typography variant='h6' align='center'>
-                    Find your perfect trip, designed by insiders who know and love their cities.
-                 </Typography>
-                </Grid>
+        <Grow in timeout={500}>
+          <div className={classes.root}>
 
-                <Grid item container sm={12} justify='center' spacing={2}>
-                  <Grid item sm={12}>
-                    <Typography variant='h5' align='center'>
-                      START BROWSING
-                   </Typography>
-                  </Grid>
-                  <Grid item sm={12} align='center'>
-                    <Link to='/cities'>
-                      <img className={classes.startBrowsing} src={RoundArrow} alt='go to itineraries'></img>
-                    </Link>
-                  </Grid>
-                </Grid>
+            <div className={classes.top}>
+              <h1 className={classes.appTitle}>MYtinerary</h1>
+              <div className={classes.iconsContainer}>
+                <img className={classes.icon} src={globe} alt="globe icon" />
+                <img className={classes.icon} src={music} alt="music icon" />
+                <img className={classes.icon} src={liberty} alt="liberty icon" />
+                <img className={classes.icon} src={beach} alt="beach icon" />
 
-                <Grid item container sm={12} justify='center' spacing={2}>
-                  <Grid item sm={12}>
-                    <Typography variant='h5' align='center'>
-                      Share your itineraries!
-                   </Typography>
-                  </Grid>
+              </div>
+              <h2 className={classes.subTitle}>
+                Find your perfect trip, designed by insiders who know and love their cities
+              </h2>
+            </div>
 
-                  <Grid item container sm={12} align='center' direction='column'>
-                    <div style={!authState.isAuthenticated ? { display: 'block' } : { display: 'none' }}>
-                      <Button><LoginDialog /></Button>
-                      <Button><SignupDialog /></Button>
-                    </div>
-                    <div style={authState.isAuthenticated ? { display: 'block' } : { display: 'none' }}>
-                      <Button><LogoutDialog /></Button>
-                    </div>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grow> */}
-          <button className={classes.browseBtn}>start browsing</button>
-          <div className={classes.top}>
-            <h3>MYtinerary</h3>
+            <Button
+              href="/cities"
+              className={classes.browseBtn}>start browsing</Button>
+
+            <div className={classes.bottom}>
+              <h3 className={classes.question}>Want to add your own itinerary?</h3>
+              <div className={classes.buttonsContainer}>
+                <div style={!authState.isAuthenticated ? { display: 'block' } : { display: 'none' }}>
+                  <Button variant="outlined" className={classes.button}><LoginDialog /></Button>
+                  <Button variant="outlined" className={classes.button}><SignupDialog /></Button>
+                </div>
+                <div style={authState.isAuthenticated ? { display: 'block' } : { display: 'none' }}>
+                  <Button variant="outlined" className={classes.button}><LogoutDialog /></Button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className={classes.bottom}>2</div>
-        </div>
+        </Grow>
       )}
     </Fragment>
   );
