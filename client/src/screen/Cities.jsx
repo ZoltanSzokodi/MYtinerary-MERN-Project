@@ -22,11 +22,18 @@ import ScrollTop from '../components/ScrollTop';
 const useStyles = makeStyles(theme => ({
   outerGridRoot: {
     overflow: 'hidden',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh'
   },
   innerGridRoot: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(4)
   },
+  errorMsg: {
+    height: '200px',
+  }
 }));
 
 
@@ -39,12 +46,13 @@ const Cities = props => {
     fetchCities()
   }, [fetchCities]);
 
+  console.log(citiesState)
 
   // RENDER ======================================================
   return (
     <Grid container classes={{ root: classes.outerGridRoot }}>
       {citiesState.loading && <Loader />}
-      {citiesState.error && citiesState.error}
+      {citiesState.error && <div className={classes.errorMsg}>{citiesState.error}</div>}
       {!citiesState.loading && (
         <Fragment>
           <MenuAppbar type="cities" />

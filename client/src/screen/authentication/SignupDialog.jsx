@@ -170,7 +170,6 @@ const SignupDialog = () => {
       });
 
       window.location.reload();
-      // setOpen(false);
     }
     catch (error) {
       console.log(error.response);

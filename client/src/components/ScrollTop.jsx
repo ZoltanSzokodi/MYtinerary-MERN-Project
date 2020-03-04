@@ -43,8 +43,7 @@ const ScrollTop = props => {
     <Zoom in={trigger}>
       <div onClick={handleClick}
         role="presentation"
-        className={classes.root}
-      >
+        className={classes.root}>
         {children}
       </div>
     </Zoom>

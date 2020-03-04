@@ -90,8 +90,6 @@ const ItineraryCard = props => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  // const socket = OpenSocket('http://localhost:5000');
-
   const {
     title,
     description,
@@ -108,7 +106,6 @@ const ItineraryCard = props => {
     userFavorites,
     allFavorites,
     handleToggleFav,
-    // socket
   } = props;
 
   // EVENT HANDLERS ===============================================
@@ -245,7 +242,6 @@ const ItineraryCard = props => {
               handleInputCancel={handleInputCancel}
               itineraryId={_id}
               itineraryTitle={title}
-            // socket={socket}
             />
           }
 
@@ -254,7 +250,6 @@ const ItineraryCard = props => {
             <CommentOutput
               key={commentObj._id}
               commentObj={commentObj}
-            // socket={socket}
             />
           ))}
 

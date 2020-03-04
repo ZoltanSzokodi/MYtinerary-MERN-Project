@@ -25,8 +25,8 @@ const ItinerariesContext = props => {
   // get all cities -------------------------------------------
   const fetchItineraries = useCallback(async name => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/itineraries/${name}`);
-      // console.log(response.data);
+      const response = await axios
+        .get(`http://localhost:5000/api/itineraries/${name}`);
 
       setTimeout(() => {
         itinerariesDispatch({

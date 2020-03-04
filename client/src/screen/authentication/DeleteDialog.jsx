@@ -49,8 +49,9 @@ const DeleteDialog = () => {
         payload: token
       });
 
-      const response = axios.delete('http://localhost:5000/api/users/',
-        { headers: { 'Authorization': `bearer ${token}` } });
+      const response = await axios
+        .delete('http://localhost:5000/api/users/',
+          { headers: { 'Authorization': `bearer ${token}` } });
 
       console.log(response);
       window.location.reload();

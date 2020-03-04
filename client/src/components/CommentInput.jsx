@@ -1,7 +1,5 @@
 import React, { useContext } from 'react';
 import axios from 'axios';
-// import OpenSocket from 'socket.io-client';
-
 
 // CONTEXT =============================================
 import { authContext } from '../context/AuthContext';
@@ -40,8 +38,6 @@ const CommentInput = props => {
 
   const { authState } = useContext(authContext);
   const { getComments } = useContext(commentsContext);
-  // const { comments, setComments, getComments } = useContext(commentsContext);
-
 
   const {
     inputValue,
@@ -49,30 +45,20 @@ const CommentInput = props => {
     handleInputCancel,
     itineraryId,
     itineraryTitle,
-    // socket
   } = props;
 
-  // open socket between client and server for comments -----------------
-  // const socket = OpenSocket('http://localhost:5000');
 
   // EVENET LISTENERS ===========================================
   const handleCommentSubmit = async () => {
     try {
-      const response = await axios.post(`http://localhost:5000/api/comments/${itineraryId}`,
-        {
-          itineraryTitle,
-          comment: inputValue
-        },
-        { headers: { 'Authorization': `bearer ${authState.token}` } });
+      const response = await axios
+        .post(`http://localhost:5000/api/comments/${itineraryId}`,
+          {
+            itineraryTitle,
+            comment: inputValue
+          },
+          { headers: { 'Authorization': `bearer ${authState.token}` } });
       console.log(response);
-
-      // // emitting event for socket.io ---------------------------
-      // socket.emit('new-comment', response.data.newComment);
-      // socket.on('new-comment', comment => {
-      //   let currentComments = comments;
-      //   comments.push(comment);
-      //   setComments([...currentComments])
-      // });
     }
     catch (error) {
       console.log(error)

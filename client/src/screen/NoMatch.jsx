@@ -18,6 +18,8 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     flexDirection: 'column',
     textAlign: 'center',
+    backgroundColor: theme.palette.background.default,
+    boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
   },
   message: {
     fontSize: '20px',
@@ -35,17 +37,15 @@ const useStyles = makeStyles(theme => ({
 const NoMatch = () => {
   const classes = useStyles();
 
+
   // RENDER =============================================
   return (
     <div className={classes.container}>
-
-      {/* <h1 className={classes.fourOfour}>ERROR #404</h1> */}
       <img className={classes.img} src={closed} alt="404" />
       <Typography variant="h3">
         404
       </Typography>
       <span className={classes.message}>Sorry this didn't work out for you Chief!</span>
-
     </div>
   );
 };

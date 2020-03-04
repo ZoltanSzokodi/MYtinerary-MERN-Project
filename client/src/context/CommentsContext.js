@@ -19,19 +19,6 @@ const CommentsContext = props => {
       console.log(error.response);
     }
   }, []);
-  // useEffect(() => {
-  //   const getComments = async () => {
-  //     try {
-  //       const response = await axios
-  //         .get(`http://localhost:5000/api/comments/all`);
-  //       setComments([...response.data.comments]);
-  //     }
-  //     catch (error) {
-  //       console.log(error.response.statusText);
-  //     }
-  //   };
-  //   getComments();
-  // }, []);
 
 
   // RENDER =============================================================
