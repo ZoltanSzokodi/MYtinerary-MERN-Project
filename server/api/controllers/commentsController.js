@@ -6,8 +6,6 @@ const appError = require('../../utils/appError');
 
 exports.getAllComments = async (req, res) => {
   try {
-    // !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
-
     const comments = await Comment.find({});
     const response = {
       length: comments.length,
@@ -26,8 +24,6 @@ exports.postComment = async (req, res) => {
   try {
     !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
 
-    // console.log(req.body)
-    // console.log(req.user)
     const {
       itineraryTitle,
       comment
@@ -89,7 +85,6 @@ exports.getComments = async (req, res) => {
 exports.deleteComment = async (req, res) => {
   try {
     !req.user.isLoggedin && appError('You need to log in to perform this action', 401);
-    // !req.user.isAdmin && appError('You are not authorized to delete itineraries', 403);
 
     let comment = await Comment.findOne({ _id: req.params.commentId });
 

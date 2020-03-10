@@ -44,11 +44,9 @@ exports.postItinerary = async (req, res) => {
       id
     } = req.user;
 
-    // const city = await City.findOne({ name: req.body.name });
     const city = await City.findOne({ name: req.params.city });
 
     !city && appError('City not found', 400);
-    // hashTags.length < 5 && appError('Hashtags min length is 5 characters', 400);
 
     const itinerary = await Itinerary.findOne({ title: req.body.title });
 
@@ -123,10 +121,6 @@ exports.updateItinerary = async (req, res) => {
 
     !itinerary && appError('Invalid id number', 400);
     itinerary.userId != req.user.id && appError('Unauthorized', 403);
-
-    // let itineraryTitle = await Itinerary.findOne({ title });
-
-    // itineraryTitle && appError('This title is already taken', 403);
 
     itinerary = await Itinerary.findByIdAndUpdate(req.params.itineraryId,
       {

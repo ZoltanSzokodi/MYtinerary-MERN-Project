@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 // STATIC ===============================================
-import closed from '../static/404.png';
+import danger from '../static/danger404.png';
 
 
 // STYLES ===============================================
@@ -26,8 +26,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2)
   },
   img: {
-    width: '40%',
-    minWidth: '200px',
+    width: '100px',
     margin: theme.spacing(2)
   }
 }));
@@ -41,7 +40,7 @@ const NoMatch = () => {
   // RENDER =============================================
   return (
     <div className={classes.container}>
-      <img className={classes.img} src={closed} alt="404" />
+      <img className={classes.img} src={danger} alt="page not found" />
       <Typography variant="h3">
         404
       </Typography>

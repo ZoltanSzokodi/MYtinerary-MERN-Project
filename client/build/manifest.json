@@ -1,0 +1,30 @@
+{
+  "short_name": "MYtinerary",
+  "name": "MYtinerary Travel Guide",
+  "icons": [
+    {
+      "src": "icon64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "icon128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "icon256.png",
+      "type": "image/png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "icon512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#3F51B5",
+  "background_color": "#ffffff"
+}

@@ -26,7 +26,7 @@ const ItinerariesContext = props => {
   const fetchItineraries = useCallback(async name => {
     try {
       const response = await axios
-        .get(`http://localhost:5000/api/itineraries/${name}`);
+        .get(`/api/itineraries/${name}`);
 
       setTimeout(() => {
         itinerariesDispatch({
@@ -49,7 +49,7 @@ const ItinerariesContext = props => {
   const fetchAllFavorites = useCallback(async () => {
     try {
       const response = await axios
-        .get('http://localhost:5000/api/users/getAllFavs');
+        .get('/api/users/getAllFavs');
 
       setAllFavorites([response.data.favorites]);
     }
@@ -62,7 +62,7 @@ const ItinerariesContext = props => {
   const fetchUserFavorites = useCallback(async () => {
     try {
       const response = await axios
-        .get('http://localhost:5000/api/users/getUserFavs',
+        .get('/api/users/getUserFavs',
           { headers: { 'Authorization': `bearer ${authState.token}` } });
 
       setUserFavorites(response.data.favoriteItineraries);
@@ -78,7 +78,7 @@ const ItinerariesContext = props => {
   const patchUserFavorites = async array => {
     try {
       await axios
-        .patch('http://localhost:5000/api/users/',
+        .patch('/api/users/',
           {
             favoriteItineraries: array
           },

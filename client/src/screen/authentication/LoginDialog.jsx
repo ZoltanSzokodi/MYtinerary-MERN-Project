@@ -127,7 +127,7 @@ const LoginDialog = () => {
     });
     try {
       const response = await axios
-        .post('http://localhost:5000/api/users/login',
+        .post('/api/users/login',
           {
             email: values.email,
             password: values.password
@@ -150,6 +150,12 @@ const LoginDialog = () => {
       });
     }
   };
+
+  // const handleGoogleLogin = () => {
+  //   axios.get('http://localhost:5000/api/users/google')
+  //     .then(res => console.log(res))
+  //     .catch(err => console.log(err));
+  // };
 
 
   // RENDER =======================================================
@@ -226,7 +232,9 @@ const LoginDialog = () => {
                 className={classes.loginButton}
                 variant="contained"
                 color="secondary"
-                href="http://localhost:5000/api/users/google">GOOGLE</Button>
+                // onClick={handleGoogleLogin}
+                href="http://localhost:5000/api/users/google"
+              >GOOGLE</Button>
             </Grid>
 
           </form>

@@ -38,7 +38,7 @@ const Users = () => {
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/users/all',
+    axios.get('/api/users/all',
       { headers: { 'Authorization': `bearer ${authState.token}` } })
       .then(res => setUserList(res.data.users))
       .catch(err => console.log(err))

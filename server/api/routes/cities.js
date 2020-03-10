@@ -3,6 +3,7 @@ const passport = require('passport');
 
 const router = express.Router();
 
+
 const CitiesController = require('../controllers/citiesController');
 
 // GET all cities =====================================

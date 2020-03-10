@@ -50,7 +50,7 @@ const DeleteDialog = () => {
       });
 
       const response = await axios
-        .delete('http://localhost:5000/api/users/',
+        .delete('/api/users/',
           { headers: { 'Authorization': `bearer ${token}` } });
 
       console.log(response);

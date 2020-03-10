@@ -133,7 +133,7 @@ const PostInineraryDialog = ({ cityName }) => {
     });
     try {
       const response = await axios
-        .post(`http://localhost:5000/api/itineraries/${cityName}`,
+        .post(`/api/itineraries/${cityName}`,
           {
             title: values.title,
             description: values.description,

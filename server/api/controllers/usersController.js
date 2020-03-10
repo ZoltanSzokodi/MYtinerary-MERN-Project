@@ -1,5 +1,4 @@
 const User = require('../models/userModel');
-// const Itinerary = require('../models/itineraryModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
@@ -42,12 +41,12 @@ exports.googleAuth = (req, res) => {
       userImg
     }
     const options = {
-      // expiresIn: 86400
       expiresIn: 2592000
     };
     const token = jwt.sign(payload, secret, options);
 
     const resToken = "?code=" + token;
+    // res.redirect('http://localhost:3000/' + resToken);
     res.redirect('http://localhost:3000/' + resToken);
   }
   catch (error) {
@@ -90,7 +89,6 @@ exports.signupUser = async (req, res) => {
         err && appError('bcrypt error', 500);
 
         const user = new User({
-          // isAdmin,
           isLoggedin: true,
           username,
           password: hash,
