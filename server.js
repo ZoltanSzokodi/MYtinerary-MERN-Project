@@ -7,14 +7,21 @@ const cors = require('cors');
 const path = require('path');
 const db = require('./keys').mongoURI;
 
+// EXPRESS & PORT CONFIG =======================
+const app = express();
+
+// SET UP SERVER =======================================
+const port = process.env.PORT || 5000;
+
+app.listen(port, () => {
+  console.log(`Server is running on ${port} port`);
+});
+
 // ROUTES ======================================
 const cityRoutes = require('./api/routes/cities');
 const itineraryRoutes = require('./api/routes/itineraries');
 const userRoutes = require('./api/routes/users');
 const commentRoutes = require('./api/routes/comments');
-
-// EXPRESS & PORT CONFIG =======================
-const app = express();
 
 // MIDDLEWARES ==================================
 app.use(cors());
@@ -36,9 +43,9 @@ app.use('/api/comments', commentRoutes);
 if (process.env.NODE_ENV === 'production') {
   // set static folder 
   app.use(express.static('client/build'));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
+  // app.get('*', (req, res) => {
+  //   res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  // });
 }
 
 // router.use(function (req, res) {
@@ -60,18 +67,10 @@ app.use((error, req, res, next) => {
 
 // CONNECT TO MONGO DB ==================================
 mongoose
-  .connect(db, {
+  .connect(process.env.MONGODB_URI || db, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
   })
   .then(() => console.log('Connection to Mongo DB established'))
   .catch(err => console.log(`DB connection error - ${err}`));
-
-
-// SET UP SERVER =======================================
-const port = process.env.PORT || 5000;
-
-app.listen(port, () => {
-  console.log(`Server is running on ${port} port`);
-});
