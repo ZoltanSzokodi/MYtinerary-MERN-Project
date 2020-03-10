@@ -17,7 +17,7 @@ const authReducer = (state, action) => {
 
     case 'LOGOUT':
       // BACK-END LOG OUT ============================================
-      axios.get('/api/users/logout',
+      axios.get('/http://localhost:5000/api/users/logout',
         { headers: { 'Authorization': `bearer ${action.payload}` } })
         .then(res => console.log(res))
         .catch(err => console.log(err));

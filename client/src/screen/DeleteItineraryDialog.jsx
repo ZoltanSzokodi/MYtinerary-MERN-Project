@@ -43,7 +43,7 @@ const DeleteItineraryDialog = ({ itineraryId }) => {
   const handleDelete = async () => {
     try {
       const response = await axios
-        .delete(`/api/itineraries/${itineraryId}`,
+        .delete(`http://localhost:5000/api/itineraries/${itineraryId}`,
           { headers: { 'Authorization': `bearer ${authState.token}` } });
 
       console.log(response);

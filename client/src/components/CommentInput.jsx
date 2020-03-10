@@ -52,7 +52,7 @@ const CommentInput = props => {
   const handleCommentSubmit = async () => {
     try {
       const response = await axios
-        .post(`/api/comments/${itineraryId}`,
+        .post(`http://localhost:5000/api/comments/${itineraryId}`,
           {
             itineraryTitle,
             comment: inputValue

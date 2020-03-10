@@ -51,7 +51,7 @@ const CommentOutput = props => {
   const handleDelete = async () => {
     try {
       const response = await axios
-        .delete(`/api/comments/${commentId}`,
+        .delete(`http://localhost:5000/api/comments/${commentId}`,
           { headers: { 'Authorization': `bearer ${authState.token}` } });
       console.log(response);
     }

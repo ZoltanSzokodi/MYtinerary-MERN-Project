@@ -151,7 +151,7 @@ const SignupDialog = () => {
     });
     try {
       const response = await axios
-        .post('/api/users/signup',
+        .post('http://localhost:5000/api/users/signup',
           {
             username: values.username,
             password: values.password,

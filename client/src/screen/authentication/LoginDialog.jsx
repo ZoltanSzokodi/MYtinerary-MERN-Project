@@ -127,7 +127,7 @@ const LoginDialog = () => {
     });
     try {
       const response = await axios
-        .post('/api/users/login',
+        .post('http://localhost:5000/api/users/login',
           {
             email: values.email,
             password: values.password

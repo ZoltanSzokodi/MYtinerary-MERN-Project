@@ -4,9 +4,8 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const morgan = require('morgan');
 const cors = require('cors');
+const path = require('path');
 const db = require('./keys').mongoURI;
-
-const router = express.Router();
 
 // ROUTES ======================================
 const cityRoutes = require('./api/routes/cities');
@@ -21,7 +20,6 @@ const app = express();
 app.use(cors());
 app.use(morgan('dev'));
 // app.use(express.static('public'));
-app.use(express.static('client/build'));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -34,9 +32,18 @@ app.use('/api/itineraries', itineraryRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/comments', commentRoutes);
 
-router.use(function (req, res) {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
-});
+// SERVE STATIC ASSESTS IF IN PRODUCTION ========
+if (process.env.NODE_ENV === 'production') {
+  // set static folder 
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
+// router.use(function (req, res) {
+//   res.sendFile(path.join(__dirname, '../client/build/index.html'));
+// });
 
 // GLOBAL ERROR HANDLING ========================
 // if a request reaches this point it will be handled as an error
@@ -64,6 +71,7 @@ mongoose
 
 // SET UP SERVER =======================================
 const port = process.env.PORT || 5000;
-let server = app.listen(port, () => {
+
+app.listen(port, () => {
   console.log(`Server is running on ${port} port`);
 });

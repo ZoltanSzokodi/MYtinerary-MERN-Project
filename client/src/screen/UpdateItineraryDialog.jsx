@@ -133,7 +133,7 @@ const UpdateItineraryDialog = ({ itinerary }) => {
     });
     try {
       const response = await axios
-        .patch(`/api/itineraries/${itinerary._id}`,
+        .patch(`http://localhost:5000/api/itineraries/${itinerary._id}`,
           {
             title: values.title,
             description: values.description,

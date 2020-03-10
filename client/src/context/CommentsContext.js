@@ -12,7 +12,7 @@ const CommentsContext = props => {
   const getComments = useCallback(async () => {
     try {
       const response = await axios
-        .get(`/api/comments/all`);
+        .get(`http://localhost:5000/api/comments/all`);
       setComments([...response.data.comments]);
     }
     catch (error) {
