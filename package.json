@@ -1,0 +1,19 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "npm install --prefix server && npm install --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZoltanSzokodi/MYtinerary-MERN-Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZoltanSzokodi/MYtinerary-MERN-Project/issues"
+  },
+  "homepage": "https://github.com/ZoltanSzokodi/MYtinerary-MERN-Project#readme"
+}
