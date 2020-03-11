@@ -29,15 +29,7 @@ Techs and Frameworks:
   - MongoDB Compass and Atlas
   
 # How to fire up
-1. Download the zip file or issue a pull request.
-2. Right click on the root folder and open with your console.
-3. Tipe the following commands to install node_modules (both on the root folder):
-   - npm install
-   - npm run install-client
-4. After you can either run $ npm start to fire up both localhost:5000 (server) and localhost:3000 (client) or if you want to change the code and see live changes in the browser type $ npm run dev
-5. Yes the keys.js is included but this is not a production app. Don't be evil.
-   
-OR SIMPLY VISIT THE DEPLOYED VERSION: http://mytinerary-zszokodi.herokuapp.com/
+SIMPLY VISIT THE DEPLOYED VERSION: http://mytinerary-zszokodi.herokuapp.com/
    
   
 
